@@ -1,0 +1,9 @@
+.app_background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 90%;
+    background: url("../img/login_background.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
