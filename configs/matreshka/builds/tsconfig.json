@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "allowJs": true,
+    "moduleResolution": "node",
+    "module": "es2015",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "typeRoots": [
+      "../../../node_modules/@types"
+    ],
+    "lib": [
+      "es2016",
+      "dom"
+    ]
+  },
+  "include": [
+    "../../../main/src/**/*.ts"
+  ],
+  "exclude": [
+    "../../../main/src/**/*.spec.ts",
+    "../../../node_modules",
+    "../../../configs/**/*.*",
+    "../../../main/builds/**/*.*",
+    "../../../main/src/main*.ts",
+    "../../../main/src/vendors/**/*.*",
+    "../../../**/*.ngfactory.ts",
+    "../../../**/*.shim.ts"
+  ]
+}
