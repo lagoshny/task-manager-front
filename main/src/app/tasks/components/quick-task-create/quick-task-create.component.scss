@@ -1,0 +1,30 @@
+.quick_task_create {
+  margin-bottom: 6px;
+}
+
+.quick_task_create_input {
+  width: 100%;
+  height: 40px;
+  padding-left: 15px;
+  color: rgba(255, 255, 255, 1);
+  background-color: rgba(70, 166, 201, 1);
+  border-radius: .25em 0 0 .25em;
+  border: none;
+  outline: none;
+}
+
+.quick_task_create_input_button {
+  display: inline-block;
+  width: 100%;
+  height: 40px;
+  text-align: center;
+  color: rgba(255, 255, 255, 1);
+  font-size: 1.8em;
+  background-color: rgba(70, 166, 201, 1);
+  border-radius: 0 .25em .25em 0;
+  cursor: pointer;
+}
+
+.quick_task_create_input_button:hover {
+  background-color: rgba(57, 142, 173, 1);
+}
