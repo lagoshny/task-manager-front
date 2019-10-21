@@ -1,0 +1,28 @@
+<form [formGroup]="quickTaskForm">
+    <div class="quick_task_create">
+        <div class="row">
+            <div class="col-12">
+                <div class="row mb-2">
+                    <div class="col-sm-11 col-10 pr-0">
+                        <input #addInput
+                               formControlName="name"
+                               class="quick_task_create_input"
+                               type="text"
+                               title="Название новой задачи"
+                               (keydown.Enter)="onEnter()"
+                               placeholder="Название новой задачи"/>
+                    </div>
+                    <div class="col-sm-1 col-2 pl-0">
+                        <div class="quick_task_create_input_button"
+                             (click)="onClick()">
+                            <i class="fa fa-plus-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                <ngx-validation-messages *ngIf="needShowError">
+                    Данное поле обязательно для заполнения!
+                </ngx-validation-messages>
+            </div>
+        </div>
+    </div>
+</form>
