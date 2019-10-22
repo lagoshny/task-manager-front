@@ -6,6 +6,7 @@ export class AuthService {
 
     public getUser(): User {
         let fakeUser = new User();
+        fakeUser.id = 1;
         fakeUser._links = {
             self: {
                 href: 'http://localhost:8080/api/v1/users/1'
