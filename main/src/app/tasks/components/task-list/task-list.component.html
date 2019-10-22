@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col-12">
+        <div class="task-list__content">
+            <div class="text_label task-list__label">
+                Список задач
+                <i [ngClass]="['task-list__minimize_button__icon', 'fa',
+                                minimizeTasks ? 'fa-eye-slash' : 'fa-eye']"
+                   (click)="onMinimizeTasks()"></i>
+            </div>
+            <ng-container *ngIf="!minimizeTasks">
+                <tm-quick-task-create (newTask)="onNewTask()"></tm-quick-task-create>
+                <div class="row">
+                    <ng-container *ngFor="let task of viewTasks; let i = index">
+                        <div class="col-12">
+                            <tm-task [task]="task"
+                                       (selectTask)="onSelectTask($event)"
+                                       (removeTask)="onRemoveTask($event)">
+                            </tm-task>
+                        </div>
+                    </ng-container>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
