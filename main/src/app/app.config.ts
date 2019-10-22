@@ -40,7 +40,17 @@ export class ServerApi {
     public static readonly BASE_API = 'http://localhost:8080/api/v1';
 
     public static readonly TASKS = {
-        resource: 'tasks'
+        resource: 'tasks',
+        allByAuthor: {
+            query: 'allByAuthor',
+            authorParam: 'userId'
+        },
+        projections: {
+            taskProjection: {
+                key: 'projection',
+                value: 'taskProjection'
+            }
+        }
     };
 
 }
