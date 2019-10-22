@@ -1,0 +1,317 @@
+.task {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: .25em;
+  padding-right: 1.2em;
+}
+
+.task:hover {
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.task:active {
+  text-decoration: none;
+}
+
+.task:link {
+  text-decoration: none;
+}
+
+.task_select {
+  cursor: pointer;
+}
+
+.task__priority_tooltip {
+  width: 0.5em;
+  height: 2.5em;
+  margin-top: -0.5em;
+}
+
+.task__priority_default {
+  box-shadow: 0 .0625em .125em rgba(0, 0, 0, .125),
+  inset 0 -.25em 0 -.125em rgba(0, 0, 0, .125),
+  inset 1.1em 0 0 -.7em rgba(0, 95, 210, .7),
+  inset -0.5em 0 0 -.3em rgba(0, 0, 0, .05);
+}
+
+.task__priority_low {
+  box-shadow: 0 .0625em .125em rgba(0, 0, 0, .125),
+  inset 0 -.25em 0 -.125em rgba(0, 0, 0, .125),
+  inset 1.1em 0 0 -.7em rgba(20, 160, 0, .7),
+  inset -0.5em 0 0 -.3em rgba(0, 0, 0, .05);
+}
+
+.task__priority_middle {
+  box-shadow: 0 .0625em .125em rgba(0, 0, 0, .125),
+  inset 0 -.25em 0 -.125em rgba(0, 0, 0, .125),
+  inset 1.1em 0 0 -.7em rgba(214, 95, 43, 0.9),
+  inset -0.5em 0 0 -.3em rgba(0, 0, 0, .05);
+}
+
+.task__priority_high {
+  box-shadow: 0 .0625em .125em rgba(0, 0, 0, .125),
+  inset 0 -.25em 0 -.125em rgba(0, 0, 0, .125),
+  inset 1.1em 0 0 -.7em rgba(146, 23, 36, 0.9),
+  inset -0.5em 0 0 -.3em rgba(0, 0, 0, .05);
+}
+
+.task__bottom {
+  font-size: 0.8em;
+}
+
+.task__name {
+  color: rgb(7, 165, 184);
+}
+
+.task__description {
+  color: rgb(112, 120, 129);
+}
+
+.task__status_name {
+  position: absolute;
+  height: 10%;
+  padding-left: 0.4em;
+  font-size: 0.7em;
+}
+
+.task__status_new {
+  color: rgb(40, 202, 212);
+}
+
+.task__status_completed {
+  color: rgb(50, 157, 3);
+}
+
+.task__status_not_completed {
+  color: rgb(159, 9, 9);
+}
+
+.task__status_in_progress {
+  color: rgb(214, 95, 43);
+}
+
+.task__status_pause {
+  color: rgb(40, 202, 212);
+}
+
+.task__total_time_icon {
+  color: rgb(50, 157, 3);
+}
+
+.task__left_time_icon {
+  color: rgb(50, 157, 3);
+}
+
+.task__action_button {
+  display: inline-block;
+  width: 50%;
+  height: 1.9em;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.task__action_button__text {
+  padding-top: 4px;
+  display: inline-block;
+}
+
+.task__action_button__start {
+  background-color: #7C7C7C;
+}
+
+.task__action_button__complete {
+  background-color: rgba(70, 166, 201, 1);
+}
+
+.task__menu {
+  position: absolute;
+  right: 10px;
+  z-index: 100;
+}
+
+.task__menu_item {
+  width: 8em;
+  height: 2em;
+  padding-top: 4px;
+  background-color: rgba(97, 97, 97, 1);
+  //background-color: #0f6674;
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+  text-align: center;
+}
+
+.task__menu_item:hover {
+  background-color: rgba(70, 166, 201, 1);
+}
+
+.task__remove_button {
+  position: absolute;
+  right: 27px;
+  top: 13px;
+  font-size: 1.3em;
+  cursor: pointer;
+  color: rgb(144, 19, 72);
+}
+
+
+/* MEDIA STYLES */
+/* Super-Puper Large Devices (additional) */
+@media only screen and (max-width: 1580px) {
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (max-width: 1200px) {
+  .task__remove_button {
+    right: 24px;
+  }
+  .task__menu {
+    right: 0;
+  }
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (max-width: 992px) {
+  .task {
+    font-size: 0.9em;
+  }
+  .task__remove_button {
+    right: 22px;
+  }
+  .task__menu {
+    right: 35px;
+  }
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width: 768px) {
+  /*Disable Animation on Mobile Devices*/
+  .animated {
+    /*CSS transitions*/
+    -o-transition-property: none !important;
+    -moz-transition-property: none !important;
+    -ms-transition-property: none !important;
+    -webkit-transition-property: none !important;
+    transition-property: none !important;
+    /*CSS transforms*/
+    -o-transform: none !important;
+    -moz-transform: none !important;
+    -ms-transform: none !important;
+    -webkit-transform: none !important;
+    transform: none !important;
+    /*CSS animations*/
+
+    animation: none !important;
+  }
+
+  .task__action_button {
+    height: 2.2em;
+  }
+
+  .task__info {
+    position: relative;
+    top: 3.2em;
+  }
+
+  .task__progress {
+    position: relative;
+  }
+
+  .task__progress_total_time {
+    position: absolute;
+    bottom: 0.6em;
+    left: 11em;
+  }
+
+  .task__progress_left_time {
+    position: absolute;
+    bottom: 0.6em;
+    left: 16.4em;
+  }
+
+  .task__menu_button {
+    position: absolute;
+    right: 1em;
+    width: 80px;
+  }
+
+  .task__remove_button {
+    top: 16px;
+  }
+
+  .task__menu {
+    right: 4px;
+  }
+
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (max-width: 480px) {
+
+  .task__action_button {
+    width: 60%;
+  }
+
+  .task__progress {
+    bottom: 2.1em;
+  }
+
+  .task__menu_button {
+    display: none;
+    //top: 0.2em;
+    //width: 65px;
+  }
+
+  .task__progress_total_time {
+    bottom: 0.65em;
+  }
+
+  .task__progress_left_time {
+    bottom: 0.65em;
+  }
+
+}
+
+/* Custom, iPhone Retina */
+@media only screen and (max-width: 320px) {
+
+  .task__menu_button {
+    width: 68px;
+    top: 0.3em;
+  }
+
+  .task__progress_total_time {
+    left: 11.3em;
+    bottom: 0.8em;
+  }
+
+  .task__progress_left_time {
+    bottom: 0.8em;
+  }
+
+}
+
+/*==========  Mobile First Method  ==========*/
+
+/* Custom, iPhone Retina */
+@media only screen and (min-width: 320px) {
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (min-width: 480px) {
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width: 768px) {
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width: 992px) {
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width: 1200px) {
+}
+
+/* MEDIA STYLES */
