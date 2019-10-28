@@ -1,6 +1,7 @@
 {
   "name": "task-manager",
   "version": "0.0.1",
+  "browserslist": ["last 2 version"],
   "config": {
     "logLevel": "-LL"
   },
@@ -13,7 +14,7 @@
     "prod": "cross-env NODE_ENV=prod cross-var gulp prod $npm_package_config_logLevel --gulpfile=configs/matreshka/builds/gulpfile.js",
     "prod:aot": "cross-env NODE_ENV=prod cross-var gulp prod:aot $npm_package_config_logLevel --gulpfile=configs/matreshka/builds/gulpfile.js",
     "ngc": "ngc ./node_modules/.bin/ngc -p ./configs/matreshka/builds/tsconfig.aot.json",
-    "lint:css": "cross-env NODE_ENV=dev gulp css:linting --gulpfile=configs/matreshka/builds/gulpfile.js",
+    "lint:style": "cross-env NODE_ENV=dev gulp style:linting --gulpfile=configs/matreshka/builds/gulpfile.js",
     "lint:js": "cross-env NODE_ENV=dev gulp js:linting --gulpfile=configs/matreshka/builds/gulpfile.js",
     "lint:ts": "cross-env NODE_ENV=dev gulp ts:linting --gulpfile=configs/matreshka/builds/gulpfile.js",
     "clean": "gulp clean --gulpfile=configs/matreshka/builds/gulpfile.js"
@@ -47,7 +48,8 @@
     "ngx-logger": "^3.3.12",
     "npm": "^6.9.0",
     "rxjs": "^6.4.0",
-    "zone.js": "^0.8.29"
+    "zone.js": "^0.8.29",
+    "gulp-sass": "latest"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",

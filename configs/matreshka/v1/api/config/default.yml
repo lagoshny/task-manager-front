@@ -4,13 +4,15 @@ project:
     dir: ./main/src
     entries:
       html:
-      - ./*.html
+        - ./*.html
       img:
-      - ./img/*
+        - ./img/*
       fonts:
-      - ./fonts/**.*
+        - ./fonts/**.*
       styles:
-      - ./styles/*.css
+        useSass: false
+        files:
+          - ./styles/*.css
       scripts:
         modules: false
         js:
@@ -20,7 +22,7 @@ project:
           tdd: false
           singleTdd: false
       resources:
-      - ./*.ico
+        - ./*.ico
   devStruct:
     dir: ./main/builds/development
     html: ./
@@ -60,4 +62,4 @@ frameworks:
       mainTest: ./main.test.ts
       mainAot: ./main.aot.ts
     tests:
-    - ./app/**/*.spec.ts
+      - ./app/**/*.spec.ts

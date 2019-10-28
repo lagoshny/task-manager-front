@@ -9,13 +9,14 @@ const fs = require('fs');
 const cssimport = require('postcss-import');
 const autoprefixer = require('autoprefixer');
 const cssurl = require('postcss-url');
+const sass = require('gulp-sass');
 
 const helpers = require('../../utils/helpers.utils');
 
 //Task for css lint, optimized with file cache after check css files.
 //For explain warning see: https://github.com/CSSLint/csslint/wiki/Rules-by-ID
 //For exclude rules, see: https://github.com/lazd/gulp-csslint/issues/55
-exports.cssLint = function (opt) {
+exports.lint = function (opt) {
     return function cssLint(done) {
         if (!opt || !opt.lint || !opt.lint.files || opt.lint.files.length === 0) {
             done();
@@ -63,7 +64,7 @@ exports.cssLint = function (opt) {
     }
 };
 
-exports.cssBuild = function (opt) {
+exports.build = function (opt) {
     return function cssBuild(done) {
         if (!opt || !opt.src || opt.src.length === 0) {
             done();
@@ -77,9 +78,10 @@ exports.cssBuild = function (opt) {
                     $.if(!!opt.out, $.concat(`${opt.out}`))
                 ))
             )
+            .pipe($.if(opt.useSass, sass().on('error', sass.logError)))
             .pipe(combiner(
                 $.cond(helpers.mode.isDebug(), $.debug({title: 'Css common files'})),
-                $.postcss([cssimport(), autoprefixer({browsers: ['last 2 version']}), cssurl()])
+                $.postcss([cssimport(), autoprefixer(), cssurl()])
             ))
             .pipe($.if(helpers.isDevelopment(), combiner(
                 $.sourcemaps.write(),
