@@ -1,0 +1,24 @@
+<!--<div [@dropDownAnimation]>-->
+<div>
+    <tm-common-page>
+        <ng-container page-header>
+            {{ formHeader }}
+        </ng-container>
+        <ng-container page-body>
+            <form [formGroup]="taskForm"
+                  (submit)="sendForm()">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-4">
+                                <mat-form-field>
+                                    <input matInput placeholder="Test input" value="Test">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </tm-common-page>
+</div>
