@@ -18,7 +18,7 @@ exports.getMethods = function (srcConf, devConf, isAngularParam) {
         getTestsWatch: getTestsWatch,
         getPolifylsWatch: getPolifylsWatch,
         getVendorsWatch: getVendorsWatch,
-        getCssWatch: getCssWatch,
+        getStyleWatch: getStyleWatch,
         getJsWatch: getJsWatch
     };
 };
@@ -63,11 +63,20 @@ function getVendorsWatch() {
     }
 }
 
-function getCssWatch() {
+function getStyleWatch() {
     if (_.isArray(src.getStyleFiles())) {
-        return src.getStyleFiles().map((file) => path.resolve(path.dirname(file), '*.css'));
+        const watchFiles = src.getStyleFiles().map((file) => path.resolve(path.dirname(file), '*.css'));
+        if (src.isUseSass()) {
+            watchFiles.push(...src.getStyleFiles().map((file) => path.resolve(path.dirname(file), '*.scss')));
+        }
+        return watchFiles;
     }
-    return [path.resolve(path.dirname(src.getStyleFiles()), '*.css')];
+
+    const watchFiles = path.resolve(path.dirname(src.getStyleFiles()), '*.css');
+    if (src.isUseSass()) {
+        watchFiles.push(...path.resolve(path.dirname(src.getStyleFiles()), '*.scss'));
+    }
+    return watchFiles;
 }
 
 function getJsWatch() {

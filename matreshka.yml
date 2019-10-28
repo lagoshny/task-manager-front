@@ -4,26 +4,28 @@ project:
     dir: ./main/src
     entries:
       html:
-      - ./*.html
+        - ./*.html
       img:
-      - ./resources/img/*.*
+        - ./resources/img/*.*
       fonts:
-      - ./resources/fonts/**/*.*
+        - ./resources/fonts/**/*.*
       styles:
-      - ./resources/styles/styles.css
-      - ./vendors/styles/*.css
+        useSass: true
+        files:
+          - ./resources/styles/styles.css
+          - ./vendors/styles/*.css
       scripts:
         modules: true
         ts:
           vendors:
-          - ./vendors/scripts/vendors.ts
+            - ./vendors/scripts/vendors.ts
         polifyls:
-        - ./vendors/scripts/polyfills.ts
-        - ./vendors/scripts/polyfills.test.ts
+          - ./vendors/scripts/polyfills.ts
+          - ./vendors/scripts/polyfills.test.ts
         test:
           specs: ./app/**/*.spec.ts
       resources:
-      - ./*.ico
+        - ./*.ico
   devStruct:
     dir: ./main/builds/development
     html: ./
