@@ -53,4 +53,12 @@ export class ServerApi {
         }
     };
 
+    public static readonly TASK_CATEGORIES = {
+        resource: 'task-categories',
+        allByUserId: {
+            query: 'allByUserId',
+            userIdParam: 'userId'
+        }
+    };
+
 }
