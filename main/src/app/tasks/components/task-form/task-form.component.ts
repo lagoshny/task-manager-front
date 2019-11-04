@@ -77,6 +77,9 @@ export class TaskFormComponent implements OnInit, OnDestroy {
                                 });
                                 this.taskToEdit = task;
                             });
+                    }, () => {
+                        this.router.navigate(['home'])
+                            .catch(reason => this.logger.error(reason));
                     })
             )
         }
@@ -142,8 +145,18 @@ export class TaskFormComponent implements OnInit, OnDestroy {
                     if (!this.showTimeSection) {
                         this.taskForm.patchValue({
                             totalTime: '',
+                            spentTime: '',
                             autoReduce: false
                         });
+                        this.taskForm.get('totalTime').clearValidators();
+                        this.taskForm.get('totalTime').updateValueAndValidity();
+                        this.taskForm.get('spentTime').clearValidators();
+                        this.taskForm.get('spentTime').updateValueAndValidity();
+                    } else {
+                        this.taskForm.get('totalTime').setValidators([Validators.required, Validators.min(0)]);
+                        this.taskForm.get('totalTime').updateValueAndValidity();
+                        this.taskForm.get('spentTime').setValidators([Validators.required, Validators.min(0)]);
+                        this.taskForm.get('spentTime').updateValueAndValidity();
                     }
                 })
         )

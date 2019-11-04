@@ -88,8 +88,7 @@
                                                aria-label="Duration"
                                                placeholder="Duration (minutes)"
                                                formControlName="totalTime"
-                                               matInput
-                                               required>
+                                               matInput>
                                         <mat-error ngxValidationMessages [for]="taskForm.get('totalTime')"></mat-error>
                                     </mat-form-field>
                                 </div>
@@ -99,8 +98,7 @@
                                                aria-label="Spent time"
                                                placeholder="Spent time"
                                                formControlName="spentTime"
-                                               matInput
-                                               required>
+                                               matInput>
                                         <mat-error ngxValidationMessages [for]="taskForm.get('spentTime')"></mat-error>
                                     </mat-form-field>
                                 </div>
@@ -116,6 +114,7 @@
                         <div class="row mt-2">
                             <div class="col-2">
                                 <button type="submit"
+                                        [disabled]="taskForm.invalid"
                                         class="w-100"
                                         mat-raised-button
                                         color="accent">
