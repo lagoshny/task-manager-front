@@ -45,11 +45,22 @@ export class ServerApi {
             query: 'allByAuthor',
             authorParam: 'userId'
         },
+        relations: {
+            taskCategory: 'category'
+        },
         projections: {
             taskProjection: {
                 key: 'projection',
                 value: 'taskProjection'
             }
+        }
+    };
+
+    public static readonly TASK_CATEGORIES = {
+        resource: 'task-categories',
+        allByUserId: {
+            query: 'allByUserId',
+            userIdParam: 'userId'
         }
     };
 

@@ -1,0 +1,131 @@
+<div [@dropDownAnimation]>
+    <tm-common-page>
+        <ng-container page-header>
+            {{ formHeader }}
+        </ng-container>
+        <ng-container page-body>
+            <form [formGroup]="taskForm"
+                  (submit)="sendForm()">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-6">
+                                <mat-form-field class="w-100">
+                                    <input type="text"
+                                           aria-label="Name"
+                                           placeholder="Task name"
+                                           formControlName="name"
+                                           matInput
+                                           required>
+                                    <mat-error ngxValidationMessages [for]="taskForm.get('name')"></mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6">
+                                <mat-form-field class="w-100">
+                                    <input type="text"
+                                           aria-label="Category"
+                                           placeholder="Choose category"
+                                           formControlName="category"
+                                           matInput
+                                           required
+                                           [matAutocomplete]="auto">
+                                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCategory">
+                                        <mat-option *ngFor="let option of filteredCategories | async" [value]="option">
+                                            {{option.name}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                    <mat-error ngxValidationMessages [for]="taskForm.get('category')"></mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-12">
+                                <mat-form-field class="w-100">
+                                    <textarea aria-label="Description"
+                                              placeholder="Task description"
+                                              formControlName="description"
+                                              matTextareaAutosize
+                                              matAutosizeMinRows="7"
+                                              matAutosizeMaxRows="10"
+                                              matInput>
+                                    </textarea>
+                                    <mat-error ngxValidationMessages [for]="taskForm.get('description')"></mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-6">
+                                <mat-form-field class="w-100">
+                                    <mat-select placeholder="Task priority"
+                                                formControlName="priority"
+                                                required>
+                                        <mat-option *ngFor="let option of taskPriorities" [value]="option">
+                                            <span [style.color]="option.color">
+                                                <i [ngClass]="['fa', option.icon]"></i> {{option.name}}
+                                            </span>
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error ngxValidationMessages [for]="taskForm.get('priority')"></mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-4 align-self-center">
+                                <mat-checkbox class="w-100"
+                                              formControlName="needTimeManagement">
+                                    Need time management?
+                                </mat-checkbox>
+                            </div>
+                        </div>
+
+                        <div [@showSection]="showTimeSection"
+                             [@changeHeight]="showTimeSection">
+                            <div *ngIf="showTimeSection"
+                                 class="row mt-2">
+                                <div class="col-4">
+                                    <mat-form-field class="w-100">
+                                        <input type="number"
+                                               aria-label="Duration"
+                                               placeholder="Duration (minutes)"
+                                               formControlName="totalTime"
+                                               matInput>
+                                        <mat-error ngxValidationMessages [for]="taskForm.get('totalTime')"></mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-4">
+                                    <mat-form-field class="w-100">
+                                        <input type="number"
+                                               aria-label="Spent time"
+                                               placeholder="Spent time"
+                                               formControlName="spentTime"
+                                               matInput>
+                                        <mat-error ngxValidationMessages [for]="taskForm.get('spentTime')"></mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-4 align-self-center">
+                                    <mat-checkbox class="w-100"
+                                                  formControlName="autoReduce">
+                                        Need auto reduce time?
+                                    </mat-checkbox>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-2">
+                                <button type="submit"
+                                        [disabled]="taskForm.invalid"
+                                        class="w-100"
+                                        mat-raised-button
+                                        color="accent">
+                                    {{buttonName}}
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </tm-common-page>
+</div>

@@ -6,4 +6,5 @@
 @import "../../vendors/styles/font-awesome-4.7.0/css/font-awesome.css";
 @import "../../vendors/styles/bootstrap4/bootstrap.min.css";
 @import "../../vendors/styles/bootstrap4/bootstrap-grid.min.css";
+@import "custom-material-theme.scss";
 /*PROVIDED OF LIBS*/

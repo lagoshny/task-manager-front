@@ -1,28 +1,27 @@
-.text_label {
-  width: 170px;
-  margin-left: -9px;
-  margin-bottom: 1px;
-  text-align: center;
-  font-family: ZionTrainProRegular, sans-serif;
-  background-color: rgba(0, 0, 0, 1);
-  color: rgba(255, 255, 255, 1);
-  box-shadow: 1px 1px 1px #aaaaaa;
+.common_page {
+  margin: 3em 1em;
 }
 
-.task-list__content {
-  font-size: 0.75em;
+.common_page__header {
+  width: 80%;
+  height: 2.3em;
+  margin: 0 auto;
+  padding-top: 0.4em;
+  padding-left: 1em;
+  color: rgb(255, 255, 255);
+  background-image: -moz-linear-gradient(90deg, rgb(76, 186, 226) 0%, rgb(17, 159, 211) 100%);
+  background-image: -webkit-linear-gradient(90deg, rgb(76, 186, 226) 0%, rgb(17, 159, 211) 100%);
+  background-image: -ms-linear-gradient(90deg, rgb(76, 186, 226) 0%, rgb(17, 159, 211) 100%);
+  font-size: 1.2em;
+  font-family: EurofurenceRegular, SansSerif sans-serif;
 }
 
-.task-list__label {
-  background-color: rgba(206, 6, 72, 1);
-  margin-bottom: 2px;
-}
-
-.task-list__minimize_button__icon {
-  float: right;
-  margin-top: 4px;
-  margin-right: 8px;
-  cursor: pointer;
+.common_page__body {
+  width: 80%;
+  margin: 0 auto;
+  padding: 1em 1.5em 1.8em;
+  background: rgb(255, 255, 255);
+  font-family: RobotoRegular, SansSerif sans-serif;
 }
 
 /* MEDIA STYLES */
@@ -32,6 +31,13 @@
 
 /* Medium Devices, Desktops */
 @media only screen and (max-width: 992px) {
+  .common_page__header {
+    width: 90%;
+  }
+
+  .common_page__body {
+    width: 90%;
+  }
 }
 
 /* Small Devices, Tablets */
@@ -41,7 +47,6 @@
     /*CSS transitions*/
     -o-transition-property: none !important;
     -moz-transition-property: none !important;
-    -ms-transition-property: none !important;
     -webkit-transition-property: none !important;
     transition-property: none !important;
     /*CSS transforms*/
@@ -55,14 +60,22 @@
     animation: none !important;
   }
 
-  .task-list__content {
-    margin-left: 0;
-  }
-
 }
 
 /* Extra Small Devices, Phones */
 @media only screen and (max-width: 480px) {
+  .common_page {
+    margin: 2em 1em;
+  }
+
+  .common_page__header {
+    font-size: 1em;
+    width: 100%;
+  }
+
+  .common_page__body {
+    width: 100%;
+  }
 }
 
 /* Custom, iPhone Retina */
@@ -77,6 +90,7 @@
 
 /* Extra Small Devices, Phones */
 @media only screen and (min-width: 480px) {
+
 }
 
 /* Small Devices, Tablets */
