@@ -45,6 +45,9 @@ export class ServerApi {
             query: 'allByAuthor',
             authorParam: 'userId'
         },
+        relations: {
+            taskCategory: 'category'
+        },
         projections: {
             taskProjection: {
                 key: 'projection',

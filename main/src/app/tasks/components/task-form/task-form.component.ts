@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as _ from 'lodash';
 import { isString } from 'lodash';
+import { NGXLogger } from 'ngx-logger';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ServerApi } from '../../../app.config';
@@ -42,11 +44,14 @@ export class TaskFormComponent implements OnInit, OnDestroy {
 
     public showTimeSection = false;
 
+    private taskToEdit: Task;
+
     private subs: Array<Subscription> = [];
 
     constructor(public router: Router,
                 private formBuilder: FormBuilder,
                 private activatedRoute: ActivatedRoute,
+                private logger: NGXLogger,
                 private authService: AuthService,
                 private taskService: TaskService,
                 private taskCategoryService: TaskCategoryService) {
@@ -61,13 +66,17 @@ export class TaskFormComponent implements OnInit, OnDestroy {
             this.formHeader = 'Edit task';
             this.buttonName = 'Save';
             this.subs.push(
-                this.taskService.get(taskID, [ServerApi.TASKS.projections.taskProjection])
+                this.taskService.get(taskID)
                     .subscribe((task: Task) => {
-                        this.taskForm.patchValue({
-                                ...task,
-                                priority: TaskPriority.getByCode(task.priority)
-                            }
-                        );
+                        task.getRelation(TaskCategory, ServerApi.TASKS.relations.taskCategory)
+                            .subscribe((taskCategory: TaskCategory) => {
+                                task.category = taskCategory;
+                                this.taskForm.patchValue({
+                                    ...task,
+                                    priority: TaskPriority.getByCode(task.priority),
+                                });
+                                this.taskToEdit = task;
+                            });
                     })
             )
         }
@@ -80,7 +89,17 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     }
 
     public sendForm(): void {
-        console.log(this.taskForm.getRawValue());
+        const taskFromForm = this.taskForm.getRawValue() as Task;
+        taskFromForm.priority = (this.taskForm.get('priority').value as TaskPriority).code;
+        taskFromForm.author = this.authService.getUser();
+
+        if (this.taskToEdit) {
+            const task = _.merge(this.taskToEdit, taskFromForm);
+            this.taskService.updateTask(task).subscribe((/* updatedTask: Task */) => {
+                this.router.navigate(['home'])
+                    .catch(reason => this.logger.error(reason));
+            });
+        }
     }
 
     public displayCategory(category?: TaskCategory): string | undefined {
@@ -116,16 +135,18 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     }
 
     private watchValueChanges(): void {
-        this.taskForm.get('needTimeManagement').valueChanges
-            .subscribe((value: boolean) => {
-                this.showTimeSection = value;
-                if (!this.showTimeSection) {
-                    this.taskForm.patchValue({
-                        totalTime: '',
-                        autoReduce: false
-                    });
-                }
-            })
+        this.subs.push(
+            this.taskForm.get('needTimeManagement').valueChanges
+                .subscribe((value: boolean) => {
+                    this.showTimeSection = value;
+                    if (!this.showTimeSection) {
+                        this.taskForm.patchValue({
+                            totalTime: '',
+                            autoReduce: false
+                        });
+                    }
+                })
+        )
     }
 
     private _filter(name: string): Array<TaskCategory> {
