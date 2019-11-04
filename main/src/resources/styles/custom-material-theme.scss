@@ -4,7 +4,7 @@
 @include mat-core();
 
 $tm-primary: mat-palette($tm-primary-color);
-$tm-accent: mat-palette($tm-accent-color, A200, A100, A400);
+$tm-accent: mat-palette($tm-accent-color);
 
 $tm-warn: mat-palette($mat-red);
 
