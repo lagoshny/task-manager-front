@@ -4,6 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { isString } from 'lodash';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import {
+    changeHeightAnimation,
+    dropDownAnimation,
+    showSectionAnimation
+} from '../../../core/animations/common.animation';
 import { TaskPriority } from '../../../core/models/constants/task-priority.items';
 import { TaskCategory } from '../../../core/models/task-category.model';
 import { AuthService } from '../../../core/services/auth.service';
@@ -12,7 +17,12 @@ import { TaskCategoryService } from '../../services/task-category.service';
 @Component({
     selector: 'tm-task-form',
     templateUrl: './task-form.component.html',
-    styleUrls: ['./task-form.component.scss']
+    styleUrls: ['./task-form.component.scss'],
+    animations: [
+        dropDownAnimation,
+        showSectionAnimation,
+        changeHeightAnimation
+    ]
 })
 export class TaskFormComponent implements OnInit, OnDestroy {
 
@@ -26,6 +36,8 @@ export class TaskFormComponent implements OnInit, OnDestroy {
 
     public taskPriorities: Array<TaskPriority> = TaskPriority.getAll();
 
+    public showTimeSection = false;
+
     private subs: Array<Subscription> = [];
 
     constructor(public router: Router,
@@ -38,6 +50,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.buildForm();
         this.loadUserCategories();
+        this.watchValueChanges();
         const taskID = this.activatedRoute.snapshot.paramMap.get('taskID');
         if (taskID) {
             this.formHeader = 'Edit task';
@@ -60,6 +73,10 @@ export class TaskFormComponent implements OnInit, OnDestroy {
             category: ['', [Validators.required]],
             description: [''],
             priority: ['', [Validators.required]],
+            needTimeManagement: false,
+            totalTime: '',
+            spentTime: '',
+            autoReduce: ''
         });
     }
 
@@ -89,4 +106,16 @@ export class TaskFormComponent implements OnInit, OnDestroy {
             .filter((option: TaskCategory) => option.name.toLowerCase().indexOf(filterValue) === 0);
     }
 
+    private watchValueChanges(): void {
+        this.taskForm.get('needTimeManagement').valueChanges
+            .subscribe((value: boolean) => {
+                this.showTimeSection = value;
+                if (!this.showTimeSection) {
+                    this.taskForm.patchValue({
+                        totalTime: '',
+                        autoReduce: false
+                    });
+                }
+            })
+    }
 }
