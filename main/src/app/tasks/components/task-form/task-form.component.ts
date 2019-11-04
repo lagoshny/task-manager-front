@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { isString } from 'lodash';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { ServerApi } from '../../../app.config';
 import {
     changeHeightAnimation,
     dropDownAnimation,
@@ -11,8 +12,10 @@ import {
 } from '../../../core/animations/common.animation';
 import { TaskPriority } from '../../../core/models/constants/task-priority.items';
 import { TaskCategory } from '../../../core/models/task-category.model';
+import { Task } from '../../../core/models/task.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { TaskCategoryService } from '../../services/task-category.service';
+import { TaskService } from '../../services/task.service';
 
 @Component({
     selector: 'tm-task-form',
@@ -29,6 +32,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     public taskForm: FormGroup;
 
     public formHeader = 'Create task';
+    public buttonName = 'Create';
 
     public viewCategories: Array<TaskCategory> = [];
 
@@ -44,6 +48,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
                 private formBuilder: FormBuilder,
                 private activatedRoute: ActivatedRoute,
                 private authService: AuthService,
+                private taskService: TaskService,
                 private taskCategoryService: TaskCategoryService) {
     }
 
@@ -54,6 +59,17 @@ export class TaskFormComponent implements OnInit, OnDestroy {
         const taskID = this.activatedRoute.snapshot.paramMap.get('taskID');
         if (taskID) {
             this.formHeader = 'Edit task';
+            this.buttonName = 'Save';
+            this.subs.push(
+                this.taskService.get(taskID, [ServerApi.TASKS.projections.taskProjection])
+                    .subscribe((task: Task) => {
+                        this.taskForm.patchValue({
+                                ...task,
+                                priority: TaskPriority.getByCode(task.priority)
+                            }
+                        );
+                    })
+            )
         }
     }
 
@@ -65,6 +81,10 @@ export class TaskFormComponent implements OnInit, OnDestroy {
 
     public sendForm(): void {
         console.log(this.taskForm.getRawValue());
+    }
+
+    public displayCategory(category?: TaskCategory): string | undefined {
+        return category ? category.name : undefined;
     }
 
     private buildForm(): void {
@@ -91,19 +111,8 @@ export class TaskFormComponent implements OnInit, OnDestroy {
                             map((value: TaskCategory | string) => isString(value) ? value : value.name),
                             map((name: string) => name ? this._filter(name) : this.viewCategories.slice())
                         );
-            })
+                })
         );
-    }
-
-    public displayFn(category?: TaskCategory): string | undefined {
-        return category ? category.name : undefined;
-    }
-
-    private _filter(name: string): Array<TaskCategory> {
-        const filterValue = name.toLowerCase();
-
-        return this.viewCategories
-            .filter((option: TaskCategory) => option.name.toLowerCase().indexOf(filterValue) === 0);
     }
 
     private watchValueChanges(): void {
@@ -118,4 +127,12 @@ export class TaskFormComponent implements OnInit, OnDestroy {
                 }
             })
     }
+
+    private _filter(name: string): Array<TaskCategory> {
+        const filterValue = name.toLowerCase();
+
+        return this.viewCategories
+            .filter((option: TaskCategory) => option.name.toLowerCase().indexOf(filterValue) === 0);
+    }
+
 }

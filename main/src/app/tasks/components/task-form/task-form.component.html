@@ -29,7 +29,7 @@
                                            matInput
                                            required
                                            [matAutocomplete]="auto">
-                                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCategory">
                                         <mat-option *ngFor="let option of filteredCategories | async" [value]="option">
                                             {{option.name}}
                                         </mat-option>
@@ -110,6 +110,17 @@
                                         Need auto reduce time?
                                     </mat-checkbox>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-2">
+                                <button type="submit"
+                                        class="w-100"
+                                        mat-raised-button
+                                        color="accent">
+                                    {{buttonName}}
+                                </button>
                             </div>
                         </div>
 
