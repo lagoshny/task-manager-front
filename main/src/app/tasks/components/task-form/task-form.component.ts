@@ -13,6 +13,7 @@ import {
     showSectionAnimation
 } from '../../../core/animations/common.animation';
 import { TaskPriority } from '../../../core/models/constants/task-priority.items';
+import { TaskStatus } from '../../../core/models/constants/task-status.items';
 import { TaskCategory } from '../../../core/models/task-category.model';
 import { Task } from '../../../core/models/task.model';
 import { AuthService } from '../../../core/services/auth.service';
@@ -98,10 +99,21 @@ export class TaskFormComponent implements OnInit, OnDestroy {
 
         if (this.taskToEdit) {
             const task = _.merge(this.taskToEdit, taskFromForm);
-            this.taskService.updateTask(task).subscribe((/* updatedTask: Task */) => {
-                this.router.navigate(['home'])
-                    .catch(reason => this.logger.error(reason));
-            });
+            this.subs.push(
+                this.taskService.updateTask(task).subscribe((/* updatedTask: Task */) => {
+                    this.router.navigate(['home'])
+                        .catch(reason => this.logger.error(reason));
+                })
+            );
+        } else {
+            taskFromForm.status = TaskStatus.NEW.code;
+            taskFromForm.creationDate = new Date();
+            this.subs.push(
+                this.taskService.createTask(taskFromForm).subscribe((/* createdTask: Task */) => {
+                    this.router.navigate(['home'])
+                        .catch(reason => this.logger.error(reason));
+                })
+            );
         }
     }
 
