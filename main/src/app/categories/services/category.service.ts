@@ -7,7 +7,7 @@ import { User } from '../../core/models/user.model';
 import { AuthService } from '../../core/services/auth.service';
 
 @Injectable()
-export class TaskCategoryService extends RestService<TaskCategory> {
+export class CategoryService extends RestService<TaskCategory> {
 
     constructor(private authService: AuthService,
                 injector: Injector) {
@@ -15,7 +15,7 @@ export class TaskCategoryService extends RestService<TaskCategory> {
     }
 
     /**
-     * Get all categories for specified user.
+     * Get all categories to specified user.
      *
      * @param user for whom need to get categories
      */

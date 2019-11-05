@@ -1,13 +1,42 @@
-.task-list__content {
+.category-list {
   font-size: 0.75em;
+  text-align: left;
+  color: #FFFFFF;
 }
 
-.task-list__label {
-  background-color: rgba(206, 6, 72, 1);
+.category-list__label {
+  background-color: rgba(50, 157, 3, 1);
   margin-bottom: 2px;
 }
 
-.task-list__minimize_button__icon {
+.category-list__add_button {
+  float: left;
+  display: inline-block;
+  width: 90px;
+  height: 78px;
+  margin-right: 5px;
+  padding: 11px 5px 10px 5px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  color: rgba(0, 0, 0, 1);
+  text-decoration: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: Exo2Regular, sans-serif;
+  font-size: 0.9em;
+}
+
+.category-list__add_button:hover {
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 5px;
+}
+
+.category-list__add_button__icon {
+  font-size: 3em;
+  color: rgba(70, 166, 201, 1);
+}
+
+.category-list__minimize_button__icon {
   float: right;
   margin-top: 4px;
   margin-right: 8px;
@@ -44,14 +73,20 @@
     animation: none !important;
   }
 
-  .task-list__content {
-    margin-left: 0;
-  }
-
 }
 
 /* Extra Small Devices, Phones */
 @media only screen and (max-width: 480px) {
+
+  .category-list__add_button {
+    width: 80px;
+    height: 70px;
+  }
+
+  .category-list__add_button__icon {
+    font-size: 2em;
+  }
+
 }
 
 /* Custom, iPhone Retina */

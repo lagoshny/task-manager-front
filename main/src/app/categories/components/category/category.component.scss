@@ -1,17 +1,74 @@
-.task-list__content {
+.category {
+  display: inline-block;
+  text-align: center;
+  margin-right: 5px;
   font-size: 0.75em;
 }
 
-.task-list__label {
-  background-color: rgba(206, 6, 72, 1);
-  margin-bottom: 2px;
+.category__prefix {
+  white-space: nowrap;
+  font-weight: bold;
+  background-color: rgba(70, 166, 201, 1);
+  border-radius: 5px 5px 0 0;
 }
 
-.task-list__minimize_button__icon {
-  float: right;
-  margin-top: 4px;
-  margin-right: 8px;
+.category__content {
+  display: inline-block;
+  width: 150px;
+  height: 150px;
+  min-height: 150px;
+  max-height: 150px;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.category__link {
+  display: inline-block;
+  min-width: 65px;
+  min-height: 65px;
+  padding: 9px 5px 5px 5px;
+  text-align: center;
+  color: rgba(0, 0, 0, 1);
+  text-decoration: none;
+  border-radius: 0 0 5px 5px;
   cursor: pointer;
+}
+
+.category__link_icon {
+  font-size: 3em;
+}
+
+.category__item {
+  border-radius: 5px;
+  width: 100px;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.category__item:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.category__item_menu {
+  display: inline-block;
+  background-color: rgba(70, 166, 201, 1);
+  cursor: pointer;
+}
+
+.category__item_menu__edit {
+  width: 50%;
+  border-radius: 5px 0px 0px 5px;
+}
+
+.category__item_menu__delete {
+  width: 50%;
+  border-radius: 0px 5px 5px 0px;
+}
+
+.category__item_menu__edit:hover {
+  background-color: rgba(97, 97, 97, 1);
+}
+
+.category__item_menu__delete:hover {
+  background-color: #761c19;
 }
 
 /* MEDIA STYLES */
@@ -44,14 +101,20 @@
     animation: none !important;
   }
 
-  .task-list__content {
-    margin-left: 0;
-  }
-
 }
 
 /* Extra Small Devices, Phones */
 @media only screen and (max-width: 480px) {
+
+  .category__item {
+    width: 80px;
+    height: 70px;
+  }
+
+  .category__link_icon {
+    font-size: 2em;
+  }
+
 }
 
 /* Custom, iPhone Retina */
