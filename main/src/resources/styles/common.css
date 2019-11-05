@@ -36,3 +36,14 @@
 .error_label {
     color: white;
 }
+
+.menu_content_text_label {
+    width: 170px;
+    margin-left: -9px;
+    margin-bottom: 1px;
+    text-align: center;
+    font-family: ZionTrainProRegular, sans-serif;
+    background-color: rgba(0, 0, 0, 1);
+    color: rgba(255, 255, 255, 1);
+    box-shadow: 1px 1px 1px #aaaaaa;
+}
