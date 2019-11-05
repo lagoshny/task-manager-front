@@ -136,7 +136,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
 
     private loadUserCategories(): void {
         this.subs.push(
-            this.taskCategoryService.getAllByUserId(this.authService.getUser())
+            this.taskCategoryService.getAllByUser(this.authService.getUser())
                 .subscribe((categories: Array<TaskCategory>) => {
                     this.viewCategories = categories;
                     this.filteredCategories = this.taskForm.get('category').valueChanges

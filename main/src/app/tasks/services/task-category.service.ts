@@ -19,7 +19,7 @@ export class TaskCategoryService extends RestService<TaskCategory> {
      *
      * @param user for whom need to get categories
      */
-    public getAllByUserId(user: User): Observable<Array<TaskCategory>> {
+    public getAllByUser(user: User): Observable<Array<TaskCategory>> {
         return this.search(ServerApi.TASK_CATEGORIES.allByUserId.query, {
             params: [
                 {
