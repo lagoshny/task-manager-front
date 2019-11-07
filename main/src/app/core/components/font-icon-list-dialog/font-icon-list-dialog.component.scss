@@ -1,0 +1,18 @@
+.icon-list__icon_label {
+  font-size: 0.7em;
+}
+
+.icon-list__icon {
+  cursor: pointer;
+  border: solid 2px white;
+}
+
+.icon-list__icon:hover {
+  border-color: #1b1e21;
+}
+
+.icon-list__header__close_button {
+  float: right;
+  border: none;
+  outline: none;
+}
