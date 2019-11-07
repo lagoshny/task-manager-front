@@ -1,4 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { TaskCategory } from '../../../core/models/task-category.model';
 import { AuthService } from '../../../core/services/auth.service';
@@ -17,7 +19,9 @@ export class CategoryListComponent implements OnInit, OnDestroy {
 
     private subs: Array<Subscription> = [];
 
-    constructor(private authService: AuthService,
+    constructor(private router: Router,
+                private logger: NGXLogger,
+                private authService: AuthService,
                 private categoryService: CategoryService) {
     }
 
@@ -45,7 +49,8 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     }
 
     public onAddCategory(): void {
-        // TODO: add create category
+        this.router.navigate(['categories/new'])
+            .catch(reason => this.logger.error(reason));
     }
 
 }
