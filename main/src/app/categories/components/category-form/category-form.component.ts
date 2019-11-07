@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { dropDownAnimation } from '../../../core/animations/common.animation';
+import { FontIconListDialogComponent } from '../../../core/components/font-icon-list-dialog/font-icon-list-dialog.component';
 
 @Component({
     selector: 'tm-category-form',
@@ -18,7 +20,8 @@ export class CategoryFormComponent implements OnInit {
 
     public buttonName = 'Create';
 
-    constructor(private formBuilder: FormBuilder) {
+    constructor(private formBuilder: FormBuilder,
+                private dialog: MatDialog) {
     }
 
     public ngOnInit(): void {
@@ -30,10 +33,21 @@ export class CategoryFormComponent implements OnInit {
             name: '',
             prefix: '',
             description: '',
-            icon: ''
+            icon: 'fa-certificate'
         })
     }
 
     public sendForm(): void {
     }
+
+    public onShowIconList(): void {
+        this.dialog.open(FontIconListDialogComponent).afterClosed().subscribe((selectedIcon: string) => {
+            if (selectedIcon) {
+                this.categoryForm.patchValue({
+                    icon: selectedIcon
+                })
+            }
+        });
+    }
+
 }
