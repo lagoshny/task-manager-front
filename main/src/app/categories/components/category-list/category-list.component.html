@@ -17,9 +17,10 @@
                 <div>Добавить</div>
             </div>
             <ng-container *ngFor="let category of categories">
-                <tm-category [category]="category"></tm-category>
+                <tm-category [category]="category"
+                             (categoryEdit)="onCategoryEdit($event)">
+                </tm-category>
             </ng-container>
-
         </div>
 
     </div>

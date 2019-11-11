@@ -18,6 +18,10 @@ export const routes: Routes = [
                     {
                         path: 'new',
                         component: CategoryFormComponent
+                    },
+                    {
+                        path: 'edit/:categoryID',
+                        component: CategoryFormComponent
                     }
                 ]
             },

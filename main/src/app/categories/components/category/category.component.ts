@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TaskCategory } from '../../../core/models/task-category.model';
 
 @Component({
@@ -10,6 +10,9 @@ export class CategoryComponent {
 
     @Input()
     public category: TaskCategory;
+
+    @Output()
+    public readonly categoryEdit = new EventEmitter<TaskCategory>();
 
     public categoryMenuOpacity = 0;
 

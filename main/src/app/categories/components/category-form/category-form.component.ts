@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as _ from 'lodash';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { dropDownAnimation } from '../../../core/animations/common.animation';
@@ -28,8 +29,11 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
 
     private subs: Array<Subscription> = [];
 
+    private categoryToEdit: TaskCategory;
+
     constructor(private formBuilder: FormBuilder,
                 private router: Router,
+                private activatedRoute: ActivatedRoute,
                 private logger: NGXLogger,
                 private dialog: MatDialog,
                 private authService: AuthService,
@@ -38,6 +42,22 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.categoryForm = this.buildForm();
+        const categoryID = this.activatedRoute.snapshot.paramMap.get('categoryID');
+        if (categoryID) {
+            this.formHeader = 'Edit category';
+            this.buttonName = 'Save';
+            this.subs.push(
+                this.categoryService.get(categoryID).subscribe((taskCategory: TaskCategory) => {
+                    this.categoryToEdit = taskCategory;
+                    this.categoryForm.patchValue({
+                        ...taskCategory
+                    });
+                }, () => {
+                    this.router.navigate(['home'])
+                        .catch(reason => this.logger.error(reason));
+                })
+            )
+        }
     }
 
     public ngOnDestroy(): void {
@@ -47,16 +67,25 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
     }
 
     public sendForm(): void {
-        const category = this.categoryForm.getRawValue() as TaskCategory;
-        category.user = this.authService.getUser();
-
-        this.subs.push(
-            this.categoryService.create(category)
-                .subscribe((/*category: TaskCategory*/) => {
+        const categoryFromForm = this.categoryForm.getRawValue() as TaskCategory;
+        if (this.categoryToEdit) {
+            const category = _.merge(this.categoryToEdit, categoryFromForm);
+            this.subs.push(
+                this.categoryService.patch(category).subscribe((/* updatedCategory: TaskCategory */) => {
                     this.router.navigate(['home'])
                         .catch(reason => this.logger.error(reason));
                 })
-        )
+            );
+        } else {
+            categoryFromForm.user = this.authService.getUser();
+            this.subs.push(
+                this.categoryService.create(categoryFromForm)
+                    .subscribe((/*category: TaskCategory*/) => {
+                        this.router.navigate(['home'])
+                            .catch(reason => this.logger.error(reason));
+                    })
+            )
+        }
     }
 
     public onShowIconList(): void {
