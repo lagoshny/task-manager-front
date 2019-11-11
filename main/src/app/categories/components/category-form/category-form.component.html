@@ -1,0 +1,78 @@
+<div [@dropDownAnimation]>
+    <tm-common-page>
+        <ng-container page-header>
+            {{ formHeader }}
+        </ng-container>
+        <ng-container page-body>
+            <form [formGroup]="categoryForm"
+                  (submit)="sendForm()">
+                <div class="row">
+                    <div class="col-6">
+                        <mat-form-field class="w-100">
+                            <input type="text"
+                                   aria-label="Name"
+                                   placeholder="Category name"
+                                   formControlName="name"
+                                   matInput
+                                   required>
+                            <mat-error ngxValidationMessages [for]="categoryForm.get('name')"></mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field class="w-100">
+                            <input type="text"
+                                   aria-label="Prefix"
+                                   placeholder="Category prefix"
+                                   formControlName="prefix"
+                                   matInput
+                                   required>
+                            <mat-error ngxValidationMessages [for]="categoryForm.get('prefix')"></mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <mat-form-field class="w-100">
+                                    <textarea aria-label="Description"
+                                              placeholder="Category description"
+                                              formControlName="description"
+                                              matTextareaAutosize
+                                              matAutosizeMinRows="7"
+                                              matAutosizeMaxRows="10"
+                                              matInput>
+                                    </textarea>
+                            <mat-error ngxValidationMessages [for]="categoryForm.get('description')"></mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-2">
+                        <span class="mr-2">Category icon</span>
+                        <i [ngClass]="['category-form_preview_icon', 'fa', categoryForm.get('icon').value, 'fa-2x']"></i>
+                    </div>
+                    <div class="col-2">
+                        <button class="w-100"
+                                type="button"
+                                (click)="onShowIconList()"
+                                mat-raised-button>
+                            Change icon
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-2">
+                        <button type="submit"
+                                [disabled]="categoryForm.invalid"
+                                class="w-100"
+                                mat-raised-button
+                                color="accent">
+                            {{buttonName}}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </tm-common-page>
+</div>

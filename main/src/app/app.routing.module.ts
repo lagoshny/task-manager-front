@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CategoryFormComponent } from './categories/components/category-form/category-form.component';
 import { HomeComponent } from './home/home.component';
 import { TaskFormComponent } from './tasks/components/task-form/task-form.component';
 
@@ -10,6 +11,15 @@ export const routes: Routes = [
             {
                 path: 'home',
                 component: HomeComponent
+            },
+            {
+                path: 'categories',
+                children: [
+                    {
+                        path: 'new',
+                        component: CategoryFormComponent
+                    }
+                ]
             },
             {
                 path: 'tasks',
