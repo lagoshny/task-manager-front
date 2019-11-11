@@ -53,4 +53,9 @@ export class CategoryListComponent implements OnInit, OnDestroy {
             .catch(reason => this.logger.error(reason));
     }
 
+    public onCategoryEdit(category: TaskCategory): void {
+        this.router.navigate(['categories/edit', category.id])
+            .catch(reason => this.logger.error(reason));
+    }
+
 }
