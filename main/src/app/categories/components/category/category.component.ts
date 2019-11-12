@@ -14,6 +14,9 @@ export class CategoryComponent {
     @Output()
     public readonly categoryEdit = new EventEmitter<TaskCategory>();
 
+    @Output()
+    public readonly categoryDelete = new EventEmitter<TaskCategory>();
+
     public categoryMenuOpacity = 0;
 
     public isCategoryActive = false;
