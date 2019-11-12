@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>
+    <span *ngIf="data.type === 'WARNING'">
+        <i class="fa fa-exclamation-triangle"></i>
+    </span>
+    {{data.title}}
+    <button class="simple-dialog__header__close_button" mat-dialog-close>
+        <i class="fa fa-times"></i>
+    </button>
+</h1>
+<div mat-dialog-content>
+    {{data.content}}
+</div>
+<div class="mt-2"
+     mat-dialog-actions
+     align="end">
+    <button mat-button [mat-dialog-close]="false">
+        {{data.cancelButtonTitle}}
+    </button>
+    <button mat-button [mat-dialog-close]="true">
+        {{data.acceptButtonTitle}}
+    </button>
+</div>
