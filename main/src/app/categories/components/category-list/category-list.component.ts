@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
+import { SimpleDialogComponent } from '../../../core/components/simple-dialog/simple-dialog.component';
 import { TaskCategory } from '../../../core/models/task-category.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { CategoryService } from '../../services/category.service';
@@ -22,6 +24,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     constructor(private router: Router,
                 private logger: NGXLogger,
                 private authService: AuthService,
+                private dialog: MatDialog,
                 private categoryService: CategoryService) {
     }
 
@@ -56,6 +59,25 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     public onCategoryEdit(category: TaskCategory): void {
         this.router.navigate(['categories/edit', category.id])
             .catch(reason => this.logger.error(reason));
+    }
+
+    public onCategoryDelete(deletedCategory: TaskCategory): void {
+        this.dialog
+            .open(SimpleDialogComponent, {
+                data: {
+                    title: 'Delete category',
+                    content: 'During deletion of the category, all tasks in this category will be deleted too. ' +
+                        'Do you want to continue?'
+                }
+            })
+            .afterClosed()
+            .subscribe((accepted: boolean) => {
+                if (accepted) {
+                    this.categoryService.delete(deletedCategory).subscribe(() => {
+                        this.loadCategoriesByUser();
+                    });
+                }
+            });
     }
 
 }
