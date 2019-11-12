@@ -13,10 +13,11 @@
     <div [style.opacity]="categoryMenuOpacity">
         <div class="category__item_menu category__item_menu__edit"
              (click)="categoryEdit.emit(category)">
-        <i class="fa fa-pencil"></i>
+            <i class="fa fa-pencil"></i>
         </div>
-        <div class="category__item_menu category__item_menu__delete">
-        <i class="fa fa-trash"></i>
+        <div class="category__item_menu category__item_menu__delete"
+             (click)="categoryDelete.emit(category)">
+            <i class="fa fa-trash"></i>
         </div>
     </div>
 </div>
