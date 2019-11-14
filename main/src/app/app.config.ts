@@ -58,6 +58,11 @@ export class ServerApi {
 
     public static readonly TASK_CATEGORIES = {
         resource: 'task-categories',
+        byPrefix: {
+            query: 'byPrefix',
+            prefixParam: 'prefix',
+            userIdParam: 'userId'
+        },
         allByUserId: {
             query: 'allByUserId',
             userIdParam: 'userId'

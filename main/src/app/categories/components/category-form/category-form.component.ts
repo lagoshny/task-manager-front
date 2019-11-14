@@ -42,12 +42,12 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.categoryForm = this.buildForm();
-        const categoryID = this.activatedRoute.snapshot.paramMap.get('categoryID');
-        if (categoryID) {
+        const categoryPrefix = this.activatedRoute.snapshot.paramMap.get('prefix');
+        if (categoryPrefix) {
             this.formHeader = 'Edit category';
             this.buttonName = 'Save';
             this.subs.push(
-                this.categoryService.get(categoryID).subscribe((taskCategory: TaskCategory) => {
+                this.categoryService.getByPrefix(categoryPrefix).subscribe((taskCategory: TaskCategory) => {
                     this.categoryToEdit = taskCategory;
                     this.categoryForm.patchValue({
                         ...taskCategory

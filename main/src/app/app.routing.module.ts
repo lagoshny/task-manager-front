@@ -20,7 +20,7 @@ export const routes: Routes = [
                         component: CategoryFormComponent
                     },
                     {
-                        path: 'edit/:categoryID',
+                        path: 'edit/:prefix',
                         component: CategoryFormComponent
                     }
                 ]
