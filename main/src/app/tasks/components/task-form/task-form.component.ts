@@ -62,12 +62,15 @@ export class TaskFormComponent implements OnInit, OnDestroy {
         this.buildForm();
         this.loadUserCategories();
         this.watchValueChanges();
-        const taskID = this.activatedRoute.snapshot.paramMap.get('taskID');
-        if (taskID) {
+        const taskCategoryNumber = this.activatedRoute.snapshot.paramMap.get('taskCategoryNumber');
+        if (taskCategoryNumber) {
             this.formHeader = 'Edit task';
             this.buttonName = 'Save';
+            const taskParam = taskCategoryNumber.split("-");
+            const categoryPrefix = taskParam[0];
+            const number = _.toNumber(taskParam[1]);
             this.subs.push(
-                this.taskService.get(taskID)
+                this.taskService.getByCategoryPrefixAndNumber(categoryPrefix, number)
                     .subscribe((task: Task) => {
                         task.getRelation(TaskCategory, ServerApi.TASKS.relations.taskCategory)
                             .subscribe((taskCategory: TaskCategory) => {

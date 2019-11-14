@@ -33,7 +33,7 @@ export const routes: Routes = [
                         component: TaskFormComponent
                     },
                     {
-                        path: 'edit/:taskID',
+                        path: 'edit/:taskCategoryNumber',
                         component: TaskFormComponent
                     }
                 ]

@@ -45,7 +45,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
     }
 
     public onSelectTask(task: Task): void {
-        this.router.navigate(['tasks/edit', task.id])
+        this.router.navigate(['tasks/edit', `${task.category.prefix}-${task.number}`])
             .catch(reason => this.logger.error(reason));
     }
 
