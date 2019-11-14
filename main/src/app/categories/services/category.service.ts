@@ -44,8 +44,8 @@ export class CategoryService extends RestService<TaskCategory> {
                     value: prefix
                 },
                 {
-                    key: ServerApi.TASK_CATEGORIES.byPrefix.userIdParam,
-                    value: user.id
+                    key: ServerApi.TASK_CATEGORIES.byPrefix.userParam,
+                    value: user
                 }
             ]
         });
