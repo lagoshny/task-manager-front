@@ -45,6 +45,12 @@ export class ServerApi {
             query: 'allByAuthor',
             authorParam: 'userId'
         },
+        byNumberAndCategory: {
+            query: 'byNumberAndCategory',
+            authorParam: 'user',
+            numberParam: 'number',
+            categoryParam: 'categoryPrefix'
+        },
         relations: {
             taskCategory: 'category'
         },
@@ -61,7 +67,7 @@ export class ServerApi {
         byPrefix: {
             query: 'byPrefix',
             prefixParam: 'prefix',
-            userIdParam: 'userId'
+            userParam: 'user'
         },
         allByUserId: {
             query: 'allByUserId',
