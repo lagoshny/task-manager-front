@@ -23,6 +23,26 @@ export class TaskService extends RestService<Task> {
         return this.patch(task);
     }
 
+    public getByCategoryPrefixAndNumber(categoryPrefix: string, number: number): Observable<Task> {
+        const author = this.authService.getUser();
+        return this.searchSingle(ServerApi.TASKS.byNumberAndCategory.query, {
+            params: [
+                {
+                    key: ServerApi.TASKS.byNumberAndCategory.authorParam,
+                    value: author
+                },
+                {
+                    key: ServerApi.TASKS.byNumberAndCategory.numberParam,
+                    value: number
+                },
+                {
+                    key: ServerApi.TASKS.byNumberAndCategory.categoryParam,
+                    value: categoryPrefix
+                }
+            ]
+        })
+    }
+
     public getAllUserTasks(taskPageSize: number): Observable<ResourcePage<Task>> {
         const author = this.authService.getUser();
         return this.searchPage(ServerApi.TASKS.allByAuthor.query, {

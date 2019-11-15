@@ -45,6 +45,12 @@ export class ServerApi {
             query: 'allByAuthor',
             authorParam: 'userId'
         },
+        byNumberAndCategory: {
+            query: 'byNumberAndCategory',
+            authorParam: 'user',
+            numberParam: 'number',
+            categoryParam: 'categoryPrefix'
+        },
         relations: {
             taskCategory: 'category'
         },
@@ -58,6 +64,11 @@ export class ServerApi {
 
     public static readonly TASK_CATEGORIES = {
         resource: 'task-categories',
+        byPrefix: {
+            query: 'byPrefix',
+            prefixParam: 'prefix',
+            userParam: 'user'
+        },
         allByUserId: {
             query: 'allByUserId',
             userIdParam: 'userId'

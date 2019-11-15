@@ -30,4 +30,25 @@ export class CategoryService extends RestService<TaskCategory> {
         });
     }
 
+    /**
+     * Get user's category by category prefix.
+     *
+     * @param prefix category to find
+     */
+    public getByPrefix(prefix: string): Observable<TaskCategory> {
+        const user = this.authService.getUser();
+        return this.searchSingle(ServerApi.TASK_CATEGORIES.byPrefix.query, {
+            params: [
+                {
+                    key: ServerApi.TASK_CATEGORIES.byPrefix.prefixParam,
+                    value: prefix
+                },
+                {
+                    key: ServerApi.TASK_CATEGORIES.byPrefix.userParam,
+                    value: user
+                }
+            ]
+        });
+    }
+
 }
