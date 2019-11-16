@@ -43,7 +43,7 @@ export class ServerApi {
         resource: 'tasks',
         allByAuthor: {
             query: 'allByAuthor',
-            authorParam: 'userId'
+            authorParam: 'user'
         },
         byNumberAndCategory: {
             query: 'byNumberAndCategory',
@@ -69,9 +69,9 @@ export class ServerApi {
             prefixParam: 'prefix',
             userParam: 'user'
         },
-        allByUserId: {
-            query: 'allByUserId',
-            userIdParam: 'userId'
+        allByUser: {
+            query: 'allByUser',
+            userParam: 'user'
         }
     };
 

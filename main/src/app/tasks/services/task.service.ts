@@ -15,21 +15,12 @@ export class TaskService extends RestService<Task> {
         super(Task, ServerApi.TASKS.resource, injector);
     }
 
-    public createTask(task: Task): Observable<Task | Observable<never>> {
-        return this.create(task);
-    }
-
-    public updateTask(task: Task): Observable<Task | Observable<never>> {
-        return this.patch(task);
-    }
-
     public getByCategoryPrefixAndNumber(categoryPrefix: string, number: number): Observable<Task> {
-        const author = this.authService.getUser();
         return this.searchSingle(ServerApi.TASKS.byNumberAndCategory.query, {
             params: [
                 {
                     key: ServerApi.TASKS.byNumberAndCategory.authorParam,
-                    value: author
+                    value: this.authService.getUser()
                 },
                 {
                     key: ServerApi.TASKS.byNumberAndCategory.numberParam,
@@ -44,13 +35,12 @@ export class TaskService extends RestService<Task> {
     }
 
     public getAllUserTasks(taskPageSize: number): Observable<ResourcePage<Task>> {
-        const author = this.authService.getUser();
         return this.searchPage(ServerApi.TASKS.allByAuthor.query, {
             size: taskPageSize,
             params: [
                 {
                     key: ServerApi.TASKS.allByAuthor.authorParam,
-                    value: author.id
+                    value: this.authService.getUser()
                 },
                 ServerApi.TASKS.projections.taskProjection
             ]

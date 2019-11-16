@@ -3,11 +3,11 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { timer } from 'rxjs';
+import { TaskPriority } from '../../../core/models/constants/task-priority.items';
+import { TaskStatus } from '../../../core/models/constants/task-status.items';
 import { Task } from '../../../core/models/task.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { StringUtils } from '../../../core/utils/string.utils';
-import { TaskPriority } from '../../../core/models/constants/task-priority.items';
-import { TaskStatus } from '../../../core/models/constants/task-status.items';
 import { TaskService } from '../../services/task.service';
 
 @Component({
@@ -55,7 +55,7 @@ export class QuickTaskCreateComponent implements OnInit {
         task.priority = TaskPriority.MIDDLE.code;
         task.status = TaskStatus.NEW.code;
 
-        this.taskService.createTask(task).subscribe((t: Task) => {
+        this.taskService.create(task).subscribe((t: Task) => {
             taskNameControl.setValue(StringUtils.EMPTY);
             this.newTask.emit(t);
         });
