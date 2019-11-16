@@ -103,7 +103,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
         if (this.taskToEdit) {
             const task = _.merge(this.taskToEdit, taskFromForm);
             this.subs.push(
-                this.taskService.updateTask(task).subscribe((/* updatedTask: Task */) => {
+                this.taskService.patch(task).subscribe((/* updatedTask: Task */) => {
                     this.router.navigate(['home'])
                         .catch(reason => this.logger.error(reason));
                 })
@@ -112,7 +112,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
             taskFromForm.status = TaskStatus.NEW.code;
             taskFromForm.creationDate = new Date();
             this.subs.push(
-                this.taskService.createTask(taskFromForm).subscribe((/* createdTask: Task */) => {
+                this.taskService.create(taskFromForm).subscribe((/* createdTask: Task */) => {
                     this.router.navigate(['home'])
                         .catch(reason => this.logger.error(reason));
                 })
@@ -139,7 +139,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
 
     private loadUserCategories(): void {
         this.subs.push(
-            this.taskCategoryService.getAllByUser(this.authService.getUser())
+            this.taskCategoryService.getAllByUser()
                 .subscribe((categories: Array<TaskCategory>) => {
                     this.viewCategories = categories;
                     this.filteredCategories = this.taskForm.get('category').valueChanges

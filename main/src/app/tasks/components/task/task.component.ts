@@ -31,8 +31,6 @@ export class TaskComponent implements OnInit, OnDestroy {
 
     public statusClassName: string;
 
-    public showTaskMenu = false;
-
     private prefixPriorityClassName = 'task__priority_';
 
     private prefixStatusClassName = 'task__status_';
@@ -72,14 +70,6 @@ export class TaskComponent implements OnInit, OnDestroy {
 
     public onClickTask(): void {
         this.selectTask.emit(this.task);
-    }
-
-    public isFocused(event: boolean): void {
-        this.showTaskMenu = this.showTaskMenu && event;
-    }
-
-    public onClickTaskMenu(): void {
-        this.showTaskMenu = !this.showTaskMenu;
     }
 
     private calculateLeftTime(): number {
