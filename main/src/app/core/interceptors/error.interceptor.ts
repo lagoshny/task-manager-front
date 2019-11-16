@@ -46,8 +46,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                 {
                     data: {title: 'Error', messages, type: NotificationType.ERROR},
                     verticalPosition: 'top',
-                    horizontalPosition: 'right',
-                    duration: 5000
+                    horizontalPosition: 'right'
                 });
         }
     }
