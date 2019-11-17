@@ -11,7 +11,7 @@ import { StringUtils } from '../utils/string.utils';
 export class AmountCharactersPipe implements PipeTransform {
 
     public transform(str: string, maxCharacters: number): string {
-        if (str.length === maxCharacters) {
+        if (!str || !maxCharacters || str.length <= maxCharacters) {
             return str;
         }
         const maxCharactersWithEllipsis = maxCharacters - 3;
