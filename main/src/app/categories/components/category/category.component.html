@@ -10,7 +10,7 @@
             <div [title]="category.name">{{ category.name | amountCharacters: 11 }}</div>
         </div>
     </div>
-    <div [style.opacity]="categoryMenuOpacity">
+    <div class="category_menu" [style.opacity]="categoryMenuOpacity">
         <div class="category__item_menu category__item_menu__edit"
              (click)="categoryEdit.emit(category)">
             <i class="fa fa-pencil"></i>
