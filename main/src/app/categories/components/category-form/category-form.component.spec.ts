@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -7,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxValidationMessagesModule } from '@lagoshny/ngx-validation-messages';
 import { NGXLogger, NGXLoggerMock } from 'ngx-logger';
 import { of, throwError } from 'rxjs';
+import { FontIconListDialogComponent } from '../../../core/components/font-icon-list-dialog/font-icon-list-dialog.component';
 import { CoreModule } from '../../../core/core.module';
 import { TaskCategory } from '../../../core/models/task-category.model';
 import { ActivatedRouteStub } from '../../../test/activated-route-stub';
@@ -17,7 +19,6 @@ describe('CategoryFormComponent', () => {
     let routerSpy: any;
     let categoryServiceSpy: any;
     let activatedRouteStub: ActivatedRouteStub;
-
     let fixture: ComponentFixture<CategoryFormComponent>;
     let comp: CategoryFormComponent;
 
@@ -26,7 +27,9 @@ describe('CategoryFormComponent', () => {
             navigate: jasmine.createSpy('navigate')
         };
         categoryServiceSpy = {
-            getByPrefix: jasmine.createSpy('getByPrefix')
+            getByPrefix: jasmine.createSpy('getByPrefix'),
+            create: jasmine.createSpy('create'),
+            patch: jasmine.createSpy('patch')
         };
         activatedRouteStub = new ActivatedRouteStub({});
 
@@ -74,7 +77,7 @@ describe('CategoryFormComponent', () => {
 
     it('should be button with caption "Save" when edit existing category', () => {
         activatedRouteStub.setParamMap({
-            prefix: '5'
+            prefix: 'TEST-1'
         });
         categoryServiceSpy.getByPrefix.and.returnValue(of(new TaskCategory()));
 
@@ -91,7 +94,7 @@ describe('CategoryFormComponent', () => {
 
     it('should be header text "Edit category" when edit existing category', () => {
         activatedRouteStub.setParamMap({
-            prefix: '5'
+            prefix: 'TEST-1'
         });
         categoryServiceSpy.getByPrefix.and.returnValue(of(new TaskCategory()));
 
@@ -102,7 +105,7 @@ describe('CategoryFormComponent', () => {
 
     it('should get category by id when edit category', () => {
         activatedRouteStub.setParamMap({
-            prefix: '5'
+            prefix: 'TEST-1'
         });
         let expectedCategory = new TaskCategory();
         expectedCategory.name = 'Test';
@@ -119,9 +122,9 @@ describe('CategoryFormComponent', () => {
         expect(resultCategory.description).toBe(expectedCategory.description);
     });
 
-    it('should be forward to home page when during get category was error',() => {
+    it('should be forward to home page when during get category was error', () => {
         activatedRouteStub.setParamMap({
-            prefix: '5'
+            prefix: 'TEST-1'
         });
         routerSpy.navigate.and.returnValue(Promise.resolve());
         categoryServiceSpy.getByPrefix.and.returnValue(throwError('Test error'));
@@ -131,22 +134,66 @@ describe('CategoryFormComponent', () => {
         expect(routerSpy.navigate).toHaveBeenCalledWith(['home']);
     });
 
-    // it('should create new category', () => {
-    // });
-    //
-    // it('should be forward to home page when during create category error occurs', () => {
-    // });
-    //
-    // it('should edit category', () => {
-    // });
-    //
-    // it('should be forward to home page when during edit category error occurs', () => {
-    // });
-    //
-    // it('should open icon list dialog', () => {
-    // });
-    //
-    // it('should get selected icon from list dialog', () => {
-    // });
+    it('should be forward to home page when create category success', () => {
+        fixture.detectChanges();
+        let newCategory = new TaskCategory();
+        newCategory.name = 'New category';
+        newCategory.prefix = 'Prefix';
+        newCategory.description = 'Description';
+        comp.categoryForm.patchValue(newCategory);
+
+        routerSpy.navigate.and.returnValue(Promise.resolve());
+        categoryServiceSpy.create.and.returnValue(of(newCategory));
+
+        comp.sendForm();
+
+        expect(categoryServiceSpy.create).toHaveBeenCalled();
+        expect(routerSpy.navigate).toHaveBeenCalledWith(['home']);
+    });
+
+    it('should be forward to home page when edit category success', () => {
+        activatedRouteStub.setParamMap({
+            prefix: 'TEST-1'
+        });
+        const existingCategory = new TaskCategory();
+        existingCategory.name = 'Test';
+        existingCategory.prefix = 'Prefix';
+        existingCategory.description = 'Description';
+        categoryServiceSpy.getByPrefix.and.returnValue(of(existingCategory));
+
+        fixture.detectChanges();
+
+        routerSpy.navigate.and.returnValue(Promise.resolve());
+        categoryServiceSpy.patch.and.returnValue(of(existingCategory));
+
+        comp.sendForm();
+
+        expect(categoryServiceSpy.patch).toHaveBeenCalled();
+        expect(routerSpy.navigate).toHaveBeenCalledWith(['home']);
+    });
+
+    it('should open icon list dialog', () => {
+        fixture.detectChanges();
+
+        let dialogComp = fixture.debugElement.injector.get(MatDialog);
+        let spyDialog = spyOn(dialogComp, 'open').and.callThrough();
+        comp.onShowIconList();
+
+        expect(spyDialog).toHaveBeenCalled();
+        expect(spyDialog).toHaveBeenCalledWith(FontIconListDialogComponent);
+    });
+
+    it('should get selected icon from list dialog', () => {
+        fixture.detectChanges();
+
+        let afterClose = jasmine.createSpyObj({ afterClosed : of('fa-tree'), close: null });
+        let dialogComp = fixture.debugElement.injector.get(MatDialog);
+        spyOn(dialogComp, 'open').and.returnValue(afterClose);
+
+        comp.onShowIconList();
+
+        expect(afterClose.afterClosed).toHaveBeenCalled();
+        expect(comp.categoryForm.getRawValue().icon).toBe('fa-tree');
+    });
 
 });
