@@ -6,31 +6,27 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxValidationMessagesModule } from '@lagoshny/ngx-validation-messages';
 import { NGXLogger, NGXLoggerMock } from 'ngx-logger';
-import { Observable, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { CoreModule } from '../../../core/core.module';
 import { TaskCategory } from '../../../core/models/task-category.model';
 import { ActivatedRouteStub } from '../../../test/activated-route-stub';
 import { CategoryService } from '../../services/category.service';
 import { CategoryFormComponent } from './category-form.component';
 
-
-class CategoryServiceStub {
-    public getByPrefix(prefix: string): Observable<TaskCategory> {
-        return of();
-    }
-}
-
 describe('CategoryFormComponent', () => {
     let routerSpy: any;
+    let categoryServiceSpy: any;
     let activatedRouteStub: ActivatedRouteStub;
-    let categoryServiceStub: CategoryService;
 
     let fixture: ComponentFixture<CategoryFormComponent>;
     let comp: CategoryFormComponent;
 
     beforeEach(async(() => {
         routerSpy = {
-            navigate: jasmine.createSpy('navigate').and.returnValue(Promise.resolve())
+            navigate: jasmine.createSpy('navigate')
+        };
+        categoryServiceSpy = {
+            getByPrefix: jasmine.createSpy('getByPrefix')
         };
         activatedRouteStub = new ActivatedRouteStub({});
 
@@ -52,14 +48,13 @@ describe('CategoryFormComponent', () => {
                 {provide: Router, useValue: routerSpy},
                 {provide: ActivatedRoute, useValue: activatedRouteStub},
                 {provide: NGXLogger, useClass: NGXLoggerMock},
-                {provide: CategoryService, useClass: CategoryServiceStub}
+                {provide: CategoryService, useValue: categoryServiceSpy}
             ]
         })
             .compileComponents()
             .then(() => {
                 fixture = TestBed.createComponent(CategoryFormComponent);
                 comp = fixture.componentInstance;
-                categoryServiceStub = fixture.debugElement.injector.get(CategoryService);
             })
     }));
 
@@ -81,7 +76,7 @@ describe('CategoryFormComponent', () => {
         activatedRouteStub.setParamMap({
             prefix: '5'
         });
-        spyOn(categoryServiceStub, 'getByPrefix').and.returnValue(of(new TaskCategory()));
+        categoryServiceSpy.getByPrefix.and.returnValue(of(new TaskCategory()));
 
         fixture.detectChanges();
 
@@ -98,7 +93,7 @@ describe('CategoryFormComponent', () => {
         activatedRouteStub.setParamMap({
             prefix: '5'
         });
-        spyOn(categoryServiceStub, 'getByPrefix').and.returnValue(of(new TaskCategory()));
+        categoryServiceSpy.getByPrefix.and.returnValue(of(new TaskCategory()));
 
         fixture.detectChanges();
 
@@ -113,7 +108,8 @@ describe('CategoryFormComponent', () => {
         expectedCategory.name = 'Test';
         expectedCategory.prefix = 'Prefix';
         expectedCategory.description = 'Description';
-        spyOn(categoryServiceStub, 'getByPrefix').and.returnValue(of(expectedCategory));
+
+        categoryServiceSpy.getByPrefix.and.returnValue(of(expectedCategory));
 
         fixture.detectChanges();
 
@@ -127,26 +123,13 @@ describe('CategoryFormComponent', () => {
         activatedRouteStub.setParamMap({
             prefix: '5'
         });
-        spyOn(categoryServiceStub, 'getByPrefix').and.returnValue(throwError("Test error"));
+        routerSpy.navigate.and.returnValue(Promise.resolve());
+        categoryServiceSpy.getByPrefix.and.returnValue(throwError('Test error'));
 
         fixture.detectChanges();
 
         expect(routerSpy.navigate).toHaveBeenCalledWith(['home']);
     });
-
-    // it('should be forward to home page when during get category was error', () => {
-    //     activatedRouteStub.setParamMap({
-    //         prefix: '5'
-    //     });
-    //
-    //     // const xService = fixture.debugElement.injector.get(CategoryService);
-    //     // spyOn(xService, 'getByPrefix').and.returnValue(throwError("Test error"));
-    //     // const spy = router.navigate as jasmine.Spy;
-    //     categoryServiceSpy.getByPrefix.and.returnValue(throwError("Test error"));
-    //     fixture.detectChanges();
-    //
-    //     expect(routerSpy.navigate).toHaveBeenCalledWith(['home']);
-    // });
 
     // it('should create new category', () => {
     // });
