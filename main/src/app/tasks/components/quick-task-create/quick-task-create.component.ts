@@ -6,7 +6,6 @@ import { timer } from 'rxjs';
 import { TaskPriority } from '../../../core/models/constants/task-priority.items';
 import { TaskStatus } from '../../../core/models/constants/task-status.items';
 import { Task } from '../../../core/models/task.model';
-import { AuthService } from '../../../core/services/auth.service';
 import { StringUtils } from '../../../core/utils/string.utils';
 import { TaskService } from '../../services/task.service';
 
@@ -25,7 +24,6 @@ export class QuickTaskCreateComponent implements OnInit {
     public needShowError = false;
 
     constructor(private formBuilder: FormBuilder,
-                private authService: AuthService,
                 private taskService: TaskService) {
     }
 
@@ -49,7 +47,6 @@ export class QuickTaskCreateComponent implements OnInit {
         }
 
         const task = new Task();
-        task.author = this.authService.getUser();
         task.name = taskNameControl.value;
         task.creationDate = moment().toDate();
         task.priority = TaskPriority.MIDDLE.code;

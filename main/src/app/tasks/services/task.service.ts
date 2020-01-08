@@ -34,6 +34,11 @@ export class TaskService extends RestService<Task> {
         })
     }
 
+    public create(task: Task): Observable<Observable<never> | Task> {
+        task.author = this.authService.getUser();
+        return super.create(task);
+    }
+
     public getAllUserTasks(taskPageSize: number): Observable<ResourcePage<Task>> {
         return this.searchPage(ServerApi.TASKS.allByAuthor.query, {
             size: taskPageSize,
