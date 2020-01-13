@@ -46,28 +46,28 @@ export class TimeIconComponent implements OnInit {
             return;
         }
         const leftHours = Math.ceil(this._leftTime);
-        // 100 percents time left
-        if (this.totalTime >= leftHours && this.totalTime * 80 / 100 < leftHours) {
+
+        if (this.totalTime >= leftHours && this.totalTime * leftHours / 100 < 20) {
+            // 20 percents time left
             this.iconClassName = 'fa-hourglass';
             this.colorClassName = 'time_icon__color_green';
-            // 80 percents time left
-        } else if (this.totalTime * 80 / 100 >= leftHours && this.totalTime * 50 / 100 < leftHours) {
+        } else if (this.totalTime * leftHours / 100 >= 20 && this.totalTime * leftHours / 100 < 50) {
+            // 50 percents time left
             this.iconClassName = 'fa-hourglass-start';
             this.colorClassName = 'time_icon__color_green';
-            // 50 percents time left
-        } else if (this.totalTime * 50 / 100 >= leftHours && this.totalTime * 30 / 100 < leftHours) {
+        } else if (this.totalTime * leftHours / 100 >= 50 && this.totalTime * leftHours / 100 < 70) {
+            // 70 percents time left
             this.iconClassName = 'fa-hourglass-half';
             this.colorClassName = 'time_icon__color_orange';
-            // 30 percents time left
-        } else if (this.totalTime * 30 / 100 >= leftHours && leftHours > 0) {
+        } else if (this.totalTime * leftHours / 100 >= 70 && leftHours > 0) {
             this.iconClassName = 'fa-hourglass-end';
             this.colorClassName = 'time_icon__color_red';
-            // full time is left
         } else if (leftHours === 0 && this._leftTime <= 60) {
+            // full time is left
             this.iconClassName = 'fa-hourglass-o';
             this.colorClassName = 'time_icon__color_red';
-            // time left is unknown
         } else {
+            // time left is unknown
             this.iconClassName = 'fa-ban';
             this.colorClassName = 'time_icon__color_red';
         }
