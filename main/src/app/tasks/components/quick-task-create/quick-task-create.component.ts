@@ -17,7 +17,7 @@ import { TaskService } from '../../services/task.service';
 export class QuickTaskCreateComponent implements OnInit {
 
     @Output()
-    public readonly newTask = new EventEmitter<Task>();
+    public readonly afterAddedTask = new EventEmitter<Task>();
 
     public quickTaskForm: FormGroup;
 
@@ -54,7 +54,7 @@ export class QuickTaskCreateComponent implements OnInit {
 
         this.taskService.create(task).subscribe((t: Task) => {
             taskNameControl.setValue(StringUtils.EMPTY);
-            this.newTask.emit(t);
+            this.afterAddedTask.emit(t);
         });
     }
 

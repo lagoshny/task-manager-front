@@ -8,13 +8,13 @@
                    (click)="onMinimizeTasks()"></i>
             </div>
             <ng-container *ngIf="!minimizeTasks">
-                <tm-quick-task-create (newTask)="onNewTask()"></tm-quick-task-create>
+                <tm-quick-task-create (afterAddedTask)="onAddedTask()"></tm-quick-task-create>
                 <div class="row">
                     <ng-container *ngFor="let task of viewTasks; let i = index">
                         <div class="col-12">
                             <tm-task [task]="task"
-                                       (selectTask)="onSelectTask($event)"
-                                       (removeTask)="onRemoveTask($event)">
+                                     (clickTask)="onClickTask($event)"
+                                     (removeTask)="onRemoveTask($event)">
                             </tm-task>
                         </div>
                     </ng-container>

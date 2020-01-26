@@ -60,13 +60,13 @@ describe('TaskComponent', () => {
         expect(comp.totalMinutesAsString).toBe('10 minutes');
     });
 
-    it('should emit selectTask when click by task', () => {
+    it('should emit clickTask when click by task', () => {
         const task = getTestTask();
         let selectedTask = undefined;
         comp.task = task;
 
         fixture.detectChanges();
-        comp.selectTask.subscribe((task: Task) => {
+        comp.clickTask.subscribe((task: Task) => {
             selectedTask = task;
         });
         comp.onClickTask();
