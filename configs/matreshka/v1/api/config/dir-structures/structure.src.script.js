@@ -152,12 +152,14 @@ function isTest() {
     return scripts.test && !_.isEmpty(scripts.test.specs);
 }
 
+// npm run test --tdd then all tests from project will be run after each editing any file
 function isTdd() {
-    return isTest() && (scripts.test.tdd || process.env.npm_config_test && process.env.npm_config_test === 'tdd');
+    return isTest() && (scripts.test.tdd || process.env.npm_config_tdd);
 }
 
+// // npm run test --tdd-single then only edited test will be run
 function isSingleTdd() {
-    return isTest() && (scripts.test.singleTdd || process.env.npm_config_test && process.env.npm_config_test === 'tdd-single');
+    return isTest() && (scripts.test.singleTdd || process.env.npm_config_tdd_single);
 }
 
 function getTestFiles() {

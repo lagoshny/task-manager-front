@@ -6,7 +6,7 @@ export class TaskCategory extends Resource {
     /**
      * Category id.
      */
-    public id: string;
+    public id: number;
 
     /**
      * Category owner.

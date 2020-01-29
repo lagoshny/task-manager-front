@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import { StringUtils } from './string.utils';
 
 export class DateUtils {
@@ -10,9 +11,12 @@ export class DateUtils {
      * @returns {string} string which contains number minutes and word in right form
      */
     public static getMinutesAsString(minutes: number): string {
-        const hourForms = ['минута', 'минуты', 'минут'];
+        if (!_.isNumber(minutes) || _.isNaN(minutes)) {
+            return StringUtils.EMPTY;
+        }
+        const hourFormsEn = ['minute', 'minutes', 'minutes'];
 
-        return `${minutes} ${StringUtils.getFormWordByNumber(minutes, hourForms)}`;
+        return `${minutes} ${StringUtils.getFormWordByNumber(minutes, hourFormsEn)}`;
     }
 
 }

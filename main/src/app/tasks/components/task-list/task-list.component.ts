@@ -44,7 +44,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
         }
     }
 
-    public onSelectTask(task: Task): void {
+    public onClickTask(task: Task): void {
         this.router.navigate(['tasks/edit', `${task.category.prefix}-${task.number}`])
             .catch(reason => this.logger.error(reason));
     }
@@ -59,7 +59,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
         this.minimizeTasks = !this.minimizeTasks;
     }
 
-    public onNewTask(): void {
+    public onAddedTask(): void {
         this.updateTaskList();
     }
 

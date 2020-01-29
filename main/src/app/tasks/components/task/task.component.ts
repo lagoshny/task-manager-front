@@ -18,7 +18,7 @@ export class TaskComponent implements OnInit, OnDestroy {
     public task: Task;
 
     @Output()
-    public readonly selectTask = new EventEmitter<Task>();
+    public readonly clickTask = new EventEmitter<Task>();
 
     @Output()
     public readonly removeTask = new EventEmitter<Task>();
@@ -69,7 +69,7 @@ export class TaskComponent implements OnInit, OnDestroy {
     }
 
     public onClickTask(): void {
-        this.selectTask.emit(this.task);
+        this.clickTask.emit(this.task);
     }
 
     private calculateLeftTime(): number {
