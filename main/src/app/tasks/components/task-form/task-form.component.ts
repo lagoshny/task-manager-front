@@ -168,10 +168,23 @@ export class TaskFormComponent implements OnInit, OnDestroy {
                         this.taskForm.get('spentTime').clearValidators();
                         this.taskForm.get('spentTime').updateValueAndValidity();
                     } else {
-                        this.taskForm.get('totalTime').setValidators([Validators.required, Validators.min(0)]);
-                        this.taskForm.get('totalTime').updateValueAndValidity();
                         this.taskForm.get('spentTime').setValidators([Validators.required, Validators.min(0)]);
                         this.taskForm.get('spentTime').updateValueAndValidity();
+                        this.taskForm.get('totalTime').setValidators([Validators.required, Validators.min(0)]);
+                        this.taskForm.get('totalTime').updateValueAndValidity();
+                    }
+                }),
+            this.taskForm.get('autoReduce').valueChanges
+                .subscribe((autoReduce: boolean) => {
+                    let spentTimeControl = this.taskForm.get('spentTime');
+                    if (this.taskForm.get('needTimeManagement').value) {
+                        if (autoReduce) {
+                            spentTimeControl.disable();
+                        } else {
+                            spentTimeControl.enable();
+                        }
+                    } else {
+                        spentTimeControl.enable();
                     }
                 })
         )

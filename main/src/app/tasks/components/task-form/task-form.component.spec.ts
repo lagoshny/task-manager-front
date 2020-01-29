@@ -258,4 +258,38 @@ describe('TaskFormComponent', () => {
         expect(comp.taskForm.get('spentTime').valid).toBeTruthy();
     });
 
+    it('when need time management is TRUE and auto reduce is FALSE then spent time is ENABLE', () => {
+        taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
+        activatedRouteStub.setParamMap({});
+        fixture.detectChanges();
+
+        comp.taskForm.get('needTimeManagement').setValue(true);
+        comp.taskForm.get('autoReduce').setValue(false);
+
+        expect(comp.taskForm.get('spentTime').enabled).toBeTruthy();
+    });
+
+    it('when need time management is TRUE  and auto reduce is TRUE then spent time is DISABLE', () => {
+        taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
+        activatedRouteStub.setParamMap({});
+        fixture.detectChanges();
+
+        comp.taskForm.get('needTimeManagement').setValue(true);
+        comp.taskForm.get('autoReduce').setValue(true);
+
+        expect(comp.taskForm.get('spentTime').disabled).toBeTruthy();
+    });
+
+    it('when need time management is TRUE and auto reduce is FALSE then spent time is REQUIRED', () => {
+        taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
+        activatedRouteStub.setParamMap({});
+        fixture.detectChanges();
+        comp.taskForm.get('spentTime').setValue(null);
+
+        comp.taskForm.get('needTimeManagement').setValue(true);
+        comp.taskForm.get('autoReduce').setValue(false);
+
+        expect(comp.taskForm.get('spentTime').valid).toBeFalsy();
+    });
+
 });
