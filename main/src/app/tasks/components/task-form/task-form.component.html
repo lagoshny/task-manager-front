@@ -8,7 +8,24 @@
                   (submit)="sendForm()">
                 <div class="row">
                     <div class="col-12">
-                        <div class="row">
+                        <div *ngIf="taskToEdit">
+                            <div class="row">
+                                <div class="col-2">
+                                    <mat-form-field class="w-100">
+                                        <input type="text"
+                                               aria-label="Status"
+                                               placeholder="Task status"
+                                               formControlName="status"
+                                               matInput
+                                               required>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-10">
+                                    <tm-task-status-changer [task]="taskToEdit"></tm-task-status-changer>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
                             <div class="col-6">
                                 <mat-form-field class="w-100">
                                     <input type="text"

@@ -1,3 +1,4 @@
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -20,6 +21,15 @@ import { TaskCategoryService } from '../../services/task-category.service';
 import { TaskService } from '../../services/task.service';
 import { getTestTask } from '../test.helper';
 import { TaskFormComponent } from './task-form.component';
+
+@Component({
+    selector: 'tm-task-status-changer',
+    template: ''
+})
+export class TaskStatusChangerComponent {
+    @Input()
+    public task: Task;
+}
 
 describe('TaskFormComponent', () => {
     let fixture: ComponentFixture<TaskFormComponent>;
@@ -59,6 +69,7 @@ describe('TaskFormComponent', () => {
                 })
             ],
             declarations: [
+                TaskStatusChangerComponent,
                 TaskFormComponent
             ],
             providers: [
