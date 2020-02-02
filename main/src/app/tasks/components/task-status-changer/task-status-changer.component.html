@@ -1,41 +1,56 @@
 <div class="row">
-    <div *ngIf="availableStatuses.IN_PROGRESS.name == task.status"
-         class="col-2">
-        <button class="w-100 task_status_changer__status_button task__status_cancel"
-                mat-raised-button
-                (click)="changeStatus(availableStatuses.NOT_COMPLETED)">
-            Cancel
-        </button>
-    </div>
-    <div *ngIf="availableStatuses.IN_PROGRESS.name != task.status"
-         class="col-2">
-        <button class="w-100 task_status_changer__status_button task_status_changer__status_in_progress"
-                mat-raised-button
-                (click)="changeStatus(availableStatuses.IN_PROGRESS)">
-            In progress
-        </button>
-    </div>
-    <div *ngIf="availableStatuses.IN_PROGRESS.name == task.status"
-         class="col-2">
-        <button class="w-100 task_status_changer__status_button task__status_pause"
-                mat-raised-button
-                (click)="changeStatus(availableStatuses.PAUSE)">
-            Pause
-        </button>
-    </div>
-    <div *ngIf="availableStatuses.IN_PROGRESS.name == task.status"
-         class="col-2">
-        <button class="w-100 task_status_changer__status_button task_status_changer__status_done"
-                mat-raised-button
-                (click)="changeStatus(availableStatuses.COMPLETED)">
-            Done
-        </button>
-    </div>
-    <div *ngIf="availableStatuses.COMPLETED.name == task.status || availableStatuses.NOT_COMPLETED.name == task.status"
+    <div *ngIf="availableStatuses.IN_PROGRESS.name == status
+                || availableStatuses.NEW.name == status
+                || availableStatuses.PAUSE.name == status"
          class="col-2">
         <button class="w-100"
                 mat-raised-button
-                (click)="changeStatus(availableStatuses.NEW)">
+                [style.color]="availableStatuses.NOT_COMPLETED.color"
+                type="button"
+                (click)="this.statusChanged.emit(availableStatuses.NOT_COMPLETED)">
+            Cancel
+        </button>
+    </div>
+    <div *ngIf="availableStatuses.NEW.name == status
+                || availableStatuses.PAUSE.name == status"
+         class="col-2">
+        <button class="w-100"
+                mat-raised-button
+                type="button"
+                [style.color]="availableStatuses.IN_PROGRESS.color"
+                (click)="this.statusChanged.emit(availableStatuses.IN_PROGRESS)">
+            In progress
+        </button>
+    </div>
+    <div *ngIf="availableStatuses.IN_PROGRESS.name == status"
+         class="col-2">
+        <button class="w-100"
+                mat-raised-button
+                type="button"
+                [style.color]="availableStatuses.PAUSE.color"
+                (click)="this.statusChanged.emit(availableStatuses.PAUSE)">
+            Pause
+        </button>
+    </div>
+    <div *ngIf="availableStatuses.IN_PROGRESS.name == status
+                || availableStatuses.NEW.name == status
+                || availableStatuses.PAUSE.name == status"
+         class="col-2">
+        <button class="w-100"
+                mat-raised-button
+                type="button"
+                [style.color]="availableStatuses.COMPLETED.color"
+                (click)="this.statusChanged.emit(availableStatuses.COMPLETED)">
+            Done
+        </button>
+    </div>
+    <div *ngIf="availableStatuses.COMPLETED.name == status
+                || availableStatuses.NOT_COMPLETED.name == status"
+         class="col-2">
+        <button class="w-100"
+                mat-raised-button
+                type="button"
+                (click)="this.statusChanged.emit(availableStatuses.NEW)">
             Reopen
         </button>
     </div>
