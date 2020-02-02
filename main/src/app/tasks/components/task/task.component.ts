@@ -29,11 +29,7 @@ export class TaskComponent implements OnInit, OnDestroy {
 
     public priorityClassName: string;
 
-    public statusClassName: string;
-
     private prefixPriorityClassName = 'task__priority_';
-
-    private prefixStatusClassName = 'task__status_';
 
     private updateLeftTimeSubscription: Subscription;
 
@@ -59,7 +55,6 @@ export class TaskComponent implements OnInit, OnDestroy {
         }
 
         this.priorityClassName = this.prefixPriorityClassName + (this.task.priority as string).toLowerCase();
-        this.statusClassName = this.prefixStatusClassName + TaskStatus.getByName(this.task.status).className;
     }
 
     public ngOnDestroy(): void {
@@ -70,6 +65,10 @@ export class TaskComponent implements OnInit, OnDestroy {
 
     public onClickTask(): void {
         this.clickTask.emit(this.task);
+    }
+
+    public getStatusColor(): string {
+        return TaskStatus.getByName(this.task.status).color;
     }
 
     private calculateLeftTime(): number {

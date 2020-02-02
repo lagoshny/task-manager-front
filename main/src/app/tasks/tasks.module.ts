@@ -12,6 +12,7 @@ import { CoreModule } from '../core/core.module';
 import { QuickTaskCreateComponent } from './components/quick-task-create/quick-task-create.component';
 import { TaskFormComponent } from './components/task-form/task-form.component';
 import { TaskListComponent } from './components/task-list/task-list.component';
+import { TaskStatusChangerComponent } from './components/task-status-changer/task-status-changer.component';
 import { TaskComponent } from './components/task/task.component';
 import { TimeIconComponent } from './components/task/time-icon/time-icon.component';
 import { TaskCategoryService } from './services/task-category.service';
@@ -35,7 +36,8 @@ import { TaskService } from './services/task.service';
         TaskComponent,
         TimeIconComponent,
         TaskListComponent,
-        TaskFormComponent
+        TaskFormComponent,
+        TaskStatusChangerComponent
     ],
     providers: [
         TaskService,
