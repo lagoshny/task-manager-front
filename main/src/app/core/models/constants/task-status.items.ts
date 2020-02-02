@@ -3,6 +3,8 @@ export class TaskStatus {
     public static NEW = new TaskStatus('New', 'NEW', 'new', '#D65F2B');
     public static NOT_COMPLETED = new TaskStatus('Not completed', 'NOT_COMPLETED',
         'not_completed', '#9F0909');
+    public static CANCELED = new TaskStatus('Canceled', 'CANCELED',
+        'canceled', '#9F0909');
     public static COMPLETED = new TaskStatus('Completed', 'COMPLETED',
         'completed', '#329D03');
     public static PAUSE = new TaskStatus('Paused', 'PAUSE',

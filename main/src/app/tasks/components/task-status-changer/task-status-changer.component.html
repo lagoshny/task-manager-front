@@ -5,9 +5,9 @@
          class="col-2">
         <button class="w-100"
                 mat-raised-button
-                [style.color]="availableStatuses.NOT_COMPLETED.color"
+                [style.color]="availableStatuses.CANCELED.color"
                 type="button"
-                (click)="this.statusChanged.emit(availableStatuses.NOT_COMPLETED)">
+                (click)="this.statusChanged.emit(availableStatuses.CANCELED)">
             Cancel
         </button>
     </div>
@@ -41,10 +41,11 @@
                 type="button"
                 [style.color]="availableStatuses.COMPLETED.color"
                 (click)="this.statusChanged.emit(availableStatuses.COMPLETED)">
-            Done
+            Complete
         </button>
     </div>
     <div *ngIf="availableStatuses.COMPLETED.name == status
+                || availableStatuses.CANCELED.name == status
                 || availableStatuses.NOT_COMPLETED.name == status"
          class="col-2">
         <button class="w-100"
