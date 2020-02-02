@@ -11,7 +11,7 @@
                     <span class="task__description">
                         {{ task.name }}
                     </span>
-                    <span [ngClass]="['task__status_name', statusClassName]">
+                    <span class="task__status_name" [style.color]="getStatusColor()">
                         [{{ task.status }}]
                     </span>
                 </div>
