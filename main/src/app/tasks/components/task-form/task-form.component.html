@@ -8,21 +8,21 @@
                   (submit)="sendForm()">
                 <div class="row">
                     <div class="col-12">
-                        <div *ngIf="taskToEdit">
-                            <div class="row">
-                                <div class="col-2">
-                                    <mat-form-field class="w-100">
-                                        <input type="text"
-                                               aria-label="Status"
-                                               placeholder="Task status"
-                                               formControlName="status"
-                                               matInput
-                                               required>
-                                    </mat-form-field>
-                                </div>
-                                <div class="col-10">
-                                    <tm-task-status-changer [task]="taskToEdit"></tm-task-status-changer>
-                                </div>
+                        <div class="row">
+                            <div class="col-2">
+                                <mat-form-field class="w-100">
+                                    <input type="text"
+                                           aria-label="Status"
+                                           placeholder="Task status"
+                                           formControlName="status"
+                                           [style.color]="getStatusColor()"
+                                           matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-10">
+                                <tm-task-status-changer [status]="taskForm.get('status').value"
+                                                        (statusChanged)="onStatusChanged($event)">
+                                </tm-task-status-changer>
                             </div>
                         </div>
                         <div class="row mt-4">
@@ -136,6 +136,14 @@
                                         mat-raised-button
                                         color="accent">
                                     {{buttonName}}
+                                </button>
+                            </div>
+                            <div class="col-2">
+                                <button type="button"
+                                        class="w-100"
+                                        mat-raised-button
+                                        (click)="router.navigate(['/home'])">
+                                    Close
                                 </button>
                             </div>
                         </div>

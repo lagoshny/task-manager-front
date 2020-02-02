@@ -78,6 +78,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
                                 this.taskForm.patchValue({
                                     ...task,
                                     priority: TaskPriority.getByCode(task.priority),
+                                    status: TaskStatus.getByCode(task.status).name
                                 });
                                 this.taskToEdit = task;
                             });
@@ -98,6 +99,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     public sendForm(): void {
         const taskFromForm = this.taskForm.getRawValue() as Task;
         taskFromForm.priority = (this.taskForm.get('priority').value as TaskPriority).code;
+        taskFromForm.status = TaskStatus.getByName(this.taskForm.get('status').value).code;
         taskFromForm.author = this.authService.getUser();
 
         if (this.taskToEdit) {
@@ -124,10 +126,20 @@ export class TaskFormComponent implements OnInit, OnDestroy {
         return category ? category.name : undefined;
     }
 
+    public onStatusChanged(status: TaskStatus): void {
+        this.taskForm.patchValue({
+            status: status.name
+        })
+    }
+
+    public getStatusColor(): string {
+        return TaskStatus.getByName(this.taskForm.get('status').value).color;
+    }
+
     private buildForm(): void {
         this.taskForm = this.formBuilder.group({
             name: ['', [Validators.required]],
-            status: [{value: '', disabled: true}],
+            status: [{value: TaskStatus.NEW.name, disabled: true}],
             category: ['', [Validators.required]],
             description: [''],
             priority: ['', [Validators.required]],
