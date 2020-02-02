@@ -1,14 +1,14 @@
 export class TaskStatus {
 
-    public static NEW = new TaskStatus('New', 'NEW', 'new', '#28CAD4');
+    public static NEW = new TaskStatus('New', 'NEW', 'new', '#D65F2B');
     public static NOT_COMPLETED = new TaskStatus('Not completed', 'NOT_COMPLETED',
         'not_completed', '#9F0909');
     public static COMPLETED = new TaskStatus('Completed', 'COMPLETED',
         'completed', '#329D03');
     public static PAUSE = new TaskStatus('Paused', 'PAUSE',
-        'pause', '#28CAD4');
+        'pause', '#D65F2B');
     public static IN_PROGRESS = new TaskStatus('In progress', 'IN_PROGRESS',
-        'in_progress', '#D65F2B');
+        'in_progress', '#28CAD4');
 
     constructor(public name?: string, public code?: string,
                 public className?: string, public color?: string, public icon?: string) {
