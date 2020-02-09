@@ -92,6 +92,13 @@
                                               formControlName="needTimeManagement">
                                     Need time management?
                                 </mat-checkbox>
+                                <i class="fa fa-question-circle-o task_form__tooltip"
+                                   matTooltip="Check it, if you want to set time to complete for the task">
+                                </i>
+                                <i *ngIf="taskForm.get('needTimeManagement').disabled"
+                                   class="fa fa-exclamation task_form__tooltip task_form__tooltip_extra"
+                                   [matTooltip]="'You can\'t change this option while the task has \''+ taskForm.get('status').value + '\' status'">
+                                </i>
                             </div>
                         </div>
 
@@ -124,6 +131,14 @@
                                                   formControlName="autoReduce">
                                         Need auto reduce time?
                                     </mat-checkbox>
+                                    <i class="fa fa-question-circle-o task_form__tooltip"
+                                       matTooltip="Check it, if you want to allow system reducing the left
+                                                   time of the task automatically or unchecked it for manage the task time manually">
+                                    </i>
+                                    <i *ngIf="taskForm.get('needTimeManagement').disabled"
+                                       class="fa fa-exclamation task_form__tooltip task_form__tooltip_extra"
+                                       [matTooltip]="'You can\'t change this option while the task has \''+ taskForm.get('status').value + '\' status'">
+                                    </i>
                                 </div>
                             </div>
                         </div>
