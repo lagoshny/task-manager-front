@@ -19,6 +19,7 @@ import { Task } from '../../../core/models/task.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { TaskCategoryService } from '../../services/task-category.service';
 import { TaskService } from '../../services/task.service';
+import { TaskUtils } from '../../utils/task.utils';
 
 @Component({
     selector: 'tm-task-form',
@@ -78,7 +79,8 @@ export class TaskFormComponent implements OnInit, OnDestroy {
                                 this.taskForm.patchValue({
                                     ...task,
                                     priority: TaskPriority.getByCode(task.priority),
-                                    status: TaskStatus.getByCode(task.status).name
+                                    status: TaskStatus.getByCode(task.status).name,
+                                    spentTime: TaskUtils.calculateSpentTime(task)
                                 });
                                 this.taskToEdit = task;
                             });
@@ -143,7 +145,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
             category: ['', [Validators.required]],
             description: [''],
             priority: ['', [Validators.required]],
-            needTimeManagement: false,
+            needTimeManagement: [{value: false,  disabled: true}],
             totalTime: '',
             spentTime: '',
             autoReduce: ''
@@ -198,6 +200,20 @@ export class TaskFormComponent implements OnInit, OnDestroy {
                         }
                     } else {
                         spentTimeControl.enable();
+                    }
+                }),
+            this.taskForm.get('status').valueChanges
+                .subscribe((statusName: string) => {
+                    if (TaskStatus.NEW == TaskStatus.getByName(statusName)) {
+                        this.taskForm.get('spentTime').patchValue(0);
+                    }
+                    if (TaskStatus.NEW == TaskStatus.getByName(statusName)
+                        || TaskStatus.PAUSE == TaskStatus.getByName(statusName)) {
+                        this.taskForm.get('needTimeManagement').enable();
+                        this.taskForm.get('autoReduce').enable();
+                    } else {
+                        this.taskForm.get('needTimeManagement').disable();
+                        this.taskForm.get('autoReduce').disable();
                     }
                 })
         )
