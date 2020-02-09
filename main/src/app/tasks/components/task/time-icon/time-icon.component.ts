@@ -46,20 +46,22 @@ export class TimeIconComponent implements OnInit {
             return;
         }
         const leftHours = Math.ceil(this._leftTime);
+        let timeInPercent = leftHours / this.totalTime * 100;
 
-        if (this.totalTime >= leftHours && this.totalTime * leftHours / 100 < 20) {
-            // 20 percents time left
+        if (this.totalTime >= leftHours && timeInPercent > 80 && timeInPercent <= 100) {
+            // 100 - 80 percents
             this.iconClassName = 'fa-hourglass';
             this.colorClassName = 'time_icon__color_green';
-        } else if (this.totalTime * leftHours / 100 >= 20 && this.totalTime * leftHours / 100 < 50) {
-            // 50 percents time left
+        } else if (timeInPercent > 50 && timeInPercent <= 80) {
+            // 80 - 50 percents
             this.iconClassName = 'fa-hourglass-start';
             this.colorClassName = 'time_icon__color_green';
-        } else if (this.totalTime * leftHours / 100 >= 50 && this.totalTime * leftHours / 100 < 70) {
-            // 70 percents time left
+        } else if (timeInPercent > 30 && timeInPercent <= 50) {
+            // 50 - 30 percents
             this.iconClassName = 'fa-hourglass-half';
             this.colorClassName = 'time_icon__color_orange';
-        } else if (this.totalTime * leftHours / 100 >= 70 && leftHours > 0) {
+        } else if (timeInPercent > 0 && leftHours <= 30) {
+            // 30 - 0 percents
             this.iconClassName = 'fa-hourglass-end';
             this.colorClassName = 'time_icon__color_red';
         } else if (leftHours === 0 && this._leftTime <= 60) {

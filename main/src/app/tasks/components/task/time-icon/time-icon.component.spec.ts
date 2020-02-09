@@ -39,45 +39,45 @@ describe('TimeIconComponent', () => {
         expect(comp.colorClassName).toBe('time_icon__color_green')
     });
 
-    it('should be GREEN color for task with total time more than 80 percents', () => {
+    it('should be GREEN color for task with left time more than 80 percents', () => {
         comp.totalTime = 100;
-        comp.leftTime = 10;
+        comp.leftTime = 85;
 
         fixture.detectChanges();
 
         expect(comp.colorClassName).toBe('time_icon__color_green')
     });
 
-    it('should be GREEN color for task with total time between 80 and 50 percents', () => {
+    it('should be GREEN color for task with left time between 80 and 50 percents', () => {
         comp.totalTime = 100;
-        comp.leftTime = 40;
+        comp.leftTime = 65;
 
         fixture.detectChanges();
 
         expect(comp.colorClassName).toBe('time_icon__color_green')
     });
 
-    it('should be ORANGE color for task with total time between 50 and 30 percents', () => {
+    it('should be ORANGE color for task with left time between 50 and 30 percents', () => {
         comp.totalTime = 100;
-        comp.leftTime = 60;
+        comp.leftTime = 35;
 
         fixture.detectChanges();
 
         expect(comp.colorClassName).toBe('time_icon__color_orange')
     });
 
-    it('should be RED color for task with total time between 30 and 0 percents', () => {
+    it('should be RED color for task with left time between 30 and 0 percents', () => {
         comp.totalTime = 100;
-        comp.leftTime = 80;
+        comp.leftTime = 10;
 
         fixture.detectChanges();
 
         expect(comp.colorClassName).toBe('time_icon__color_red')
     });
 
-    it('should be RED color for task with total time is over', () => {
+    it('should be RED color for task with left time is over', () => {
         comp.totalTime = 100;
-        comp.leftTime = 100;
+        comp.leftTime = 0;
 
         fixture.detectChanges();
 
