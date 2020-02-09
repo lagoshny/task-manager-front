@@ -17,6 +17,9 @@ export class TaskStatus {
     }
 
     public static getByName<T>(name: any): TaskStatus {
+        if (!name) {
+            return {};
+        }
         for (const key in TaskStatus) {
             if (this[key] instanceof TaskStatus) {
                 if (this[key].name === name) {
@@ -27,6 +30,9 @@ export class TaskStatus {
     }
 
     public static getByCode<T>(code: any): TaskStatus {
+        if (!code) {
+            return {};
+        }
         for (const key in TaskStatus) {
             if (this[key] instanceof TaskStatus) {
                 if (this[key].code === code) {

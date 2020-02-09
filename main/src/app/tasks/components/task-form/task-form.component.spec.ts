@@ -7,6 +7,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxValidationMessagesModule } from '@lagoshny/ngx-validation-messages';
@@ -17,6 +18,7 @@ import { TaskStatus } from '../../../core/models/constants/task-status.items';
 import { TaskCategory } from '../../../core/models/task-category.model';
 import { Task } from '../../../core/models/task.model';
 import { ActivatedRouteStub } from '../../../test/activated-route-stub';
+import { TemplateHelper } from '../../../test/template.helper';
 import { TaskCategoryService } from '../../services/task-category.service';
 import { TaskService } from '../../services/task.service';
 import { getTestTask } from '../test.helper';
@@ -28,7 +30,7 @@ import { TaskFormComponent } from './task-form.component';
 })
 export class TaskStatusChangerComponent {
     @Input()
-    public task: Task;
+    public status: string;
 }
 
 describe('TaskFormComponent', () => {
@@ -64,6 +66,7 @@ describe('TaskFormComponent', () => {
                 MatCheckboxModule,
                 MatButtonModule,
                 MatInputModule,
+                MatTooltipModule,
                 NgxValidationMessagesModule.forRoot({
                     messages: {}
                 })
@@ -227,6 +230,7 @@ describe('TaskFormComponent', () => {
         taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
         const taskToEdit = {
             ...getTestTask(),
+            status: TaskStatus.IN_PROGRESS.code,
             getRelation: jasmine.createSpy('getRelation')
         };
         taskToEdit.getRelation.and.returnValue(of(new TaskCategory()));
@@ -301,6 +305,116 @@ describe('TaskFormComponent', () => {
         comp.taskForm.get('autoReduce').setValue(false);
 
         expect(comp.taskForm.get('spentTime').valid).toBeFalsy();
+    });
+
+    it('should disable needTimeManagement and autoReduce checkbox when task in "IN_PROGRESS" status', () => {
+        taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
+        const taskToEdit = {
+            ...getTestTask(),
+            status: TaskStatus.IN_PROGRESS.code,
+            getRelation: jasmine.createSpy('getRelation')
+        };
+        taskToEdit.getRelation.and.returnValue(of(new TaskCategory()));
+        taskServiceSpy.getByCategoryPrefixAndNumber.and.returnValue(of(taskToEdit));
+        activatedRouteStub.setParamMap({
+            taskCategoryNumber: 'TEST-1'
+        });
+        fixture.detectChanges();
+
+        expect(comp.taskForm.get('needTimeManagement').disabled).toBeTruthy();
+        expect(comp.taskForm.get('autoReduce').disabled).toBeTruthy();
+    });
+
+    it('should disable needTimeManagement and autoReduce checkbox when task in "COMPLETED" status', () => {
+        taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
+        const taskToEdit = {
+            ...getTestTask(),
+            status: TaskStatus.COMPLETED.code,
+            getRelation: jasmine.createSpy('getRelation')
+        };
+        taskToEdit.getRelation.and.returnValue(of(new TaskCategory()));
+        taskServiceSpy.getByCategoryPrefixAndNumber.and.returnValue(of(taskToEdit));
+        activatedRouteStub.setParamMap({
+            taskCategoryNumber: 'TEST-1'
+        });
+        fixture.detectChanges();
+
+        expect(comp.taskForm.get('needTimeManagement').disabled).toBeTruthy();
+        expect(comp.taskForm.get('autoReduce').disabled).toBeTruthy();
+    });
+
+    it('should disable needTimeManagement and autoReduce checkbox when task in "CANCELED" status', () => {
+        taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
+        const taskToEdit = {
+            ...getTestTask(),
+            status: TaskStatus.CANCELED.code,
+            getRelation: jasmine.createSpy('getRelation')
+        };
+        taskToEdit.getRelation.and.returnValue(of(new TaskCategory()));
+        taskServiceSpy.getByCategoryPrefixAndNumber.and.returnValue(of(taskToEdit));
+        activatedRouteStub.setParamMap({
+            taskCategoryNumber: 'TEST-1'
+        });
+        fixture.detectChanges();
+
+        expect(comp.taskForm.get('needTimeManagement').disabled).toBeTruthy();
+        expect(comp.taskForm.get('autoReduce').disabled).toBeTruthy();
+    });
+
+    it('should disable needTimeManagement and autoReduce checkbox when task in "NOT_COMPLETED" status', () => {
+        taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
+        const taskToEdit = {
+            ...getTestTask(),
+            status: TaskStatus.NOT_COMPLETED.code,
+            getRelation: jasmine.createSpy('getRelation')
+        };
+        taskToEdit.getRelation.and.returnValue(of(new TaskCategory()));
+        taskServiceSpy.getByCategoryPrefixAndNumber.and.returnValue(of(taskToEdit));
+        activatedRouteStub.setParamMap({
+            taskCategoryNumber: 'TEST-1'
+        });
+        fixture.detectChanges();
+
+        expect(comp.taskForm.get('needTimeManagement').disabled).toBeTruthy();
+        expect(comp.taskForm.get('autoReduce').disabled).toBeTruthy();
+    });
+
+    it('should show extra tooltip when autoReduce is DISABLE', () => {
+        taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
+        const taskToEdit = {
+            ...getTestTask(),
+            status: TaskStatus.NOT_COMPLETED.code,
+            getRelation: jasmine.createSpy('getRelation')
+        };
+        taskToEdit.getRelation.and.returnValue(of(new TaskCategory()));
+        taskServiceSpy.getByCategoryPrefixAndNumber.and.returnValue(of(taskToEdit));
+        activatedRouteStub.setParamMap({
+            taskCategoryNumber: 'TEST-1'
+        });
+        fixture.detectChanges();
+        const templateHelper = new TemplateHelper(fixture);
+
+        expect(comp.taskForm.get('autoReduce').disabled).toBeTruthy();
+        expect(templateHelper.query('task_form__tooltip task_form__tooltip_extra')).toBeDefined();
+    });
+
+    it('should show extra tooltip when needTimeManagement is DISABLE', () => {
+        taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
+        const taskToEdit = {
+            ...getTestTask(),
+            status: TaskStatus.NOT_COMPLETED.code,
+            getRelation: jasmine.createSpy('getRelation')
+        };
+        taskToEdit.getRelation.and.returnValue(of(new TaskCategory()));
+        taskServiceSpy.getByCategoryPrefixAndNumber.and.returnValue(of(taskToEdit));
+        activatedRouteStub.setParamMap({
+            taskCategoryNumber: 'TEST-1'
+        });
+        fixture.detectChanges();
+        const templateHelper = new TemplateHelper(fixture);
+
+        expect(comp.taskForm.get('needTimeManagement').disabled).toBeTruthy();
+        expect(templateHelper.query('task_form__tooltip task_form__tooltip_extra')).toBeDefined();
     });
 
 });

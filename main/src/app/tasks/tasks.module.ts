@@ -7,6 +7,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxValidationMessagesModule } from '@lagoshny/ngx-validation-messages';
 import { CoreModule } from '../core/core.module';
 import { QuickTaskCreateComponent } from './components/quick-task-create/quick-task-create.component';
@@ -29,7 +30,8 @@ import { TaskService } from './services/task.service';
         MatSelectModule,
         MatDatepickerModule,
         MatCheckboxModule,
-        MatButtonModule
+        MatButtonModule,
+        MatTooltipModule
     ],
     declarations: [
         QuickTaskCreateComponent,
