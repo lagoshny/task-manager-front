@@ -7,7 +7,7 @@
                 mat-raised-button
                 [style.color]="availableStatuses.CANCELED.color"
                 type="button"
-                (click)="this.statusChanged.emit(availableStatuses.CANCELED)">
+                (click)="this.changeStatus.emit(availableStatuses.CANCELED)">
             Cancel
         </button>
     </div>
@@ -18,7 +18,7 @@
                 mat-raised-button
                 type="button"
                 [style.color]="availableStatuses.IN_PROGRESS.color"
-                (click)="this.statusChanged.emit(availableStatuses.IN_PROGRESS)">
+                (click)="this.changeStatus.emit(availableStatuses.IN_PROGRESS)">
             In progress
         </button>
     </div>
@@ -28,7 +28,7 @@
                 mat-raised-button
                 type="button"
                 [style.color]="availableStatuses.PAUSE.color"
-                (click)="this.statusChanged.emit(availableStatuses.PAUSE)">
+                (click)="this.changeStatus.emit(availableStatuses.PAUSE)">
             Pause
         </button>
     </div>
@@ -40,7 +40,7 @@
                 mat-raised-button
                 type="button"
                 [style.color]="availableStatuses.COMPLETED.color"
-                (click)="this.statusChanged.emit(availableStatuses.COMPLETED)">
+                (click)="this.changeStatus.emit(availableStatuses.COMPLETED)">
             Complete
         </button>
     </div>
@@ -51,7 +51,7 @@
         <button class="w-100"
                 mat-raised-button
                 type="button"
-                (click)="this.statusChanged.emit(availableStatuses.NEW)">
+                (click)="this.changeStatus.emit(availableStatuses.NEW)">
             Reopen
         </button>
     </div>
