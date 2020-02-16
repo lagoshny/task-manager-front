@@ -3,11 +3,10 @@ import { MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material';
 import { NotificationType } from '../../models/notification-type.model';
 
 @Component({
-    selector: 'tm-server-notification',
-    templateUrl: './server-notification.component.html',
-    styleUrls: ['./server-notification.component.scss']
+    templateUrl: './notification-layout.component.html',
+    styleUrls: ['./notification-layout.component.scss']
 })
-export class ServerNotificationComponent {
+export class NotificationLayoutComponent {
 
     public title: string;
 
@@ -16,7 +15,7 @@ export class ServerNotificationComponent {
     public type = NotificationType.SUCCESS;
 
     constructor(@Inject(MAT_SNACK_BAR_DATA) data: any,
-                private _snackBar: MatSnackBar) {
+                private snackBar: MatSnackBar) {
         this.title = data.title;
         this.messages = data.messages;
         if (data.type) {
@@ -25,6 +24,6 @@ export class ServerNotificationComponent {
     }
 
     public onCloseClick(): void {
-        this._snackBar.dismiss();
+        this.snackBar.dismiss();
     }
 }
