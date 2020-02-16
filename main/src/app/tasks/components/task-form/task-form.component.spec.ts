@@ -417,4 +417,7 @@ describe('TaskFormComponent', () => {
         expect(templateHelper.query('task_form__tooltip task_form__tooltip_extra')).toBeDefined();
     });
 
+    // after success update task status should be successed message
+    // after fail update task status should be failed message
+
 });

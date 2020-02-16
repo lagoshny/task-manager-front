@@ -17,6 +17,7 @@ import { TaskStatus } from '../../../core/models/constants/task-status.items';
 import { TaskCategory } from '../../../core/models/task-category.model';
 import { Task } from '../../../core/models/task.model';
 import { AuthService } from '../../../core/services/auth.service';
+import { NotificationService } from '../../../core/services/notification.service';
 import { TaskCategoryService } from '../../services/task-category.service';
 import { TaskService } from '../../services/task.service';
 import { TaskUtils } from '../../utils/task.utils';
@@ -54,6 +55,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
                 private formBuilder: FormBuilder,
                 private activatedRoute: ActivatedRoute,
                 private logger: NGXLogger,
+                private notificationService: NotificationService,
                 private authService: AuthService,
                 private taskService: TaskService,
                 private taskCategoryService: TaskCategoryService) {
@@ -128,10 +130,16 @@ export class TaskFormComponent implements OnInit, OnDestroy {
         return category ? category.name : undefined;
     }
 
-    public onStatusChanged(status: TaskStatus): void {
-        this.taskForm.patchValue({
-            status: status.name
-        })
+    public onChangeStatus(status: TaskStatus): void {
+        this.taskToEdit.postRelation('updateStatus', {
+                status: status.code
+            }
+        ).subscribe(() => {
+            this.taskForm.patchValue({
+                status: status.name
+            });
+            this.notificationService.showSuccess([`Task status changed to '${status.name}'`]);
+        });
     }
 
     public getStatusColor(): string {
@@ -145,7 +153,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
             category: ['', [Validators.required]],
             description: [''],
             priority: ['', [Validators.required]],
-            needTimeManagement: [{value: false,  disabled: true}],
+            needTimeManagement: [{value: false, disabled: true}],
             totalTime: '',
             spentTime: '',
             autoReduce: ''
