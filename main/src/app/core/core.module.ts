@@ -6,12 +6,13 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonPageComponent } from './components/common-page/common-page.component';
 import { FontIconListDialogComponent } from './components/font-icon-list-dialog/font-icon-list-dialog.component';
-import { ServerNotificationComponent } from './components/server-notification/server-notification.component';
+import { NotificationLayoutComponent } from './components/notification/notification-layout.component';
 import { SimpleDialogComponent } from './components/simple-dialog/simple-dialog.component';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { AmountCharactersPipe } from './pipes/amount-characters.pipe';
 import { AuthService } from './services/auth.service';
 import { FontIconService } from './services/font-icon.service';
+import { NotificationService } from './services/notification.service';
 
 
 @NgModule({
@@ -25,12 +26,13 @@ import { FontIconService } from './services/font-icon.service';
         CommonPageComponent,
         FontIconListDialogComponent,
         SimpleDialogComponent,
-        ServerNotificationComponent,
+        NotificationLayoutComponent,
         AmountCharactersPipe
     ],
     providers: [
         AuthService,
         FontIconService,
+        NotificationService,
         {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
     ],
     exports: [
@@ -40,7 +42,7 @@ import { FontIconService } from './services/font-icon.service';
     entryComponents: [
         FontIconListDialogComponent,
         SimpleDialogComponent,
-        ServerNotificationComponent
+        NotificationLayoutComponent
     ]
 })
 export class CoreModule {

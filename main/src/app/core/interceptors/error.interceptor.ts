@@ -5,18 +5,17 @@ import * as _ from 'lodash';
 import { NGXLogger } from 'ngx-logger';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ServerNotificationComponent } from '../components/server-notification/server-notification.component';
-import { NotificationType } from '../models/notification-type.model';
+import { NotificationService } from '../services/notification.service';
 
 /**
  * Common HTTP interceptor to handle server errors.
- * When server errors occurs then show their in material {@link MatSnackBar} with {@link ServerNotificationComponent}.
+ * When server errors occurs then show their in material {@link MatSnackBar} with {@link NotificationLayoutComponent}.
  */
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
     constructor(private logger: NGXLogger,
-                private _snackBar: MatSnackBar) {
+                private notificationService: NotificationService) {
     }
 
     public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -31,24 +30,13 @@ export class ErrorInterceptor implements HttpInterceptor {
                                 const messages = _.map(responseError.error.messages, (serverError: string) => {
                                     return serverError;
                                 });
-                                this.showErrors(messages);
+                                this.notificationService.showErrors(messages);
                             } else {
-                                this.showErrors([responseError.message]);
+                                this.notificationService.showErrors([responseError.message]);
                             }
                         }
                     })
             );
-    }
-
-    private showErrors(messages: Array<string>): void {
-        if (!_.isEmpty(messages)) {
-            this._snackBar.openFromComponent(ServerNotificationComponent,
-                {
-                    data: {title: 'Error', messages, type: NotificationType.ERROR},
-                    verticalPosition: 'top',
-                    horizontalPosition: 'right'
-                });
-        }
     }
 
 }
