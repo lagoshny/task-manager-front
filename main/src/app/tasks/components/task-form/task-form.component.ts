@@ -134,11 +134,14 @@ export class TaskFormComponent implements OnInit, OnDestroy {
         this.taskToEdit.postRelation('updateStatus', {
                 status: status.code
             }
-        ).subscribe(() => {
+        ).subscribe((updatedTask: Task) => {
+            this.taskToEdit = updatedTask;
             this.taskForm.patchValue({
-                status: status.name
+                status: TaskStatus.getByCode(updatedTask.status).name
             });
             this.notificationService.showSuccess([`Task status changed to '${status.name}'`]);
+        }, () => {
+            this.notificationService.showErrors([`An error occurred while changing the task status '${status.name}'`]);
         });
     }
 
