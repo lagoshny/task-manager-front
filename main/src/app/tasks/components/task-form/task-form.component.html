@@ -20,9 +20,9 @@
                                 </mat-form-field>
                             </div>
                             <div class="col-10">
-                                <tm-task-status-changer [status]="taskForm.get('status').value"
-                                                        (statusChanged)="onStatusChanged($event)">
-                                </tm-task-status-changer>
+                                <tm-task-status [status]="taskForm.get('status').value"
+                                                        (changeStatus)="onChangeStatus($event)">
+                                </tm-task-status>
                             </div>
                         </div>
                         <div class="row mt-4">

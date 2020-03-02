@@ -15,10 +15,15 @@
     <hr class="server-notification__separate_line"/>
     <div class="row">
         <div class="col-12">
-            <div *ngFor="let msg of messages">
-                <i class="fa fa-caret-square-o-right" [style.color]="type.color"></i>
-                {{ msg }}
+            <div *ngIf="messages.length > 1; else singleMessage">
+                <div *ngFor="let msg of messages">
+                    <i class="fa fa-caret-square-o-right" [style.color]="type.color"></i>
+                    {{ msg }}
+                </div>
             </div>
+            <ng-template #singleMessage>
+                {{ messages }}
+            </ng-template>
         </div>
     </div>
 </div>
