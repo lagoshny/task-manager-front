@@ -17,6 +17,7 @@ import { CoreModule } from '../../../core/core.module';
 import { TaskStatus } from '../../../core/models/constants/task-status.items';
 import { TaskCategory } from '../../../core/models/task-category.model';
 import { Task } from '../../../core/models/task.model';
+import { NotificationService } from '../../../core/services/notification.service';
 import { ActivatedRouteStub } from '../../../test/activated-route-stub';
 import { TemplateHelper } from '../../../test/template.helper';
 import { TaskCategoryService } from '../../services/task-category.service';
@@ -25,7 +26,7 @@ import { getTestTask } from '../test.helper';
 import { TaskFormComponent } from './task-form.component';
 
 @Component({
-    selector: 'tm-task-status-changer',
+    selector: 'tm-task-status',
     template: ''
 })
 export class TaskStatusChangerComponent {
@@ -40,6 +41,7 @@ describe('TaskFormComponent', () => {
     let activatedRouteStub: ActivatedRouteStub;
     let taskServiceSpy: any;
     let taskCategoryServiceSpy: any;
+    let notificationServiceSpy: any;
 
     beforeEach(async(() => {
         routerSpy = {
@@ -53,6 +55,11 @@ describe('TaskFormComponent', () => {
         };
         taskCategoryServiceSpy = {
             getAllByUser: jasmine.createSpy('getAllByUser')
+        };
+
+        notificationServiceSpy = {
+            showSuccess: jasmine.createSpy('showSuccess'),
+            showErrors: jasmine.createSpy('showErrors')
         };
 
         TestBed.configureTestingModule({
@@ -80,7 +87,8 @@ describe('TaskFormComponent', () => {
                 {provide: ActivatedRoute, useValue: activatedRouteStub},
                 {provide: NGXLogger, useClass: NGXLoggerMock},
                 {provide: TaskService, useValue: taskServiceSpy},
-                {provide: TaskCategoryService, useValue: taskCategoryServiceSpy}
+                {provide: TaskCategoryService, useValue: taskCategoryServiceSpy},
+                {provide: NotificationService, useValue: notificationServiceSpy}
             ]
         })
             .compileComponents()
@@ -417,7 +425,51 @@ describe('TaskFormComponent', () => {
         expect(templateHelper.query('task_form__tooltip task_form__tooltip_extra')).toBeDefined();
     });
 
-    // after success update task status should be successed message
-    // after fail update task status should be failed message
+    it('after success update task status should be success message', () => {
+        taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
+        const taskToEdit = {
+            ...getTestTask(),
+            status: TaskStatus.NOT_COMPLETED.code,
+            getRelation: jasmine.createSpy('getRelation'),
+            postRelation: jasmine.createSpy('postRelation')
+        };
+        taskToEdit.getRelation.and.returnValue(of(new TaskCategory()));
+        taskServiceSpy.getByCategoryPrefixAndNumber.and.returnValue(of(taskToEdit));
+
+        const updatedTask = {...taskToEdit, status: TaskStatus.IN_PROGRESS.code};
+        taskToEdit.postRelation.and.returnValue(of(updatedTask));
+        activatedRouteStub.setParamMap({
+            taskCategoryNumber: 'TEST-1'
+        });
+        fixture.detectChanges();
+
+        comp.onChangeStatus(TaskStatus.IN_PROGRESS);
+
+        expect(notificationServiceSpy.showErrors.calls.count()).toBe(0);
+        expect(notificationServiceSpy.showSuccess.calls.count()).toBe(1);
+    });
+
+    it('after fail update task status should be failed message', () => {
+        taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
+        const taskToEdit = {
+            ...getTestTask(),
+            status: TaskStatus.NOT_COMPLETED.code,
+            getRelation: jasmine.createSpy('getRelation'),
+            postRelation: jasmine.createSpy('postRelation')
+        };
+        taskToEdit.getRelation.and.returnValue(of(new TaskCategory()));
+        taskServiceSpy.getByCategoryPrefixAndNumber.and.returnValue(of(taskToEdit));
+
+        taskToEdit.postRelation.and.returnValue(throwError('Error occurs while update task '));
+        activatedRouteStub.setParamMap({
+            taskCategoryNumber: 'TEST-1'
+        });
+        fixture.detectChanges();
+
+        comp.onChangeStatus(TaskStatus.IN_PROGRESS);
+
+        expect(notificationServiceSpy.showErrors.calls.count()).toBe(1);
+        expect(notificationServiceSpy.showSuccess.calls.count()).toBe(0);
+    });
 
 });
