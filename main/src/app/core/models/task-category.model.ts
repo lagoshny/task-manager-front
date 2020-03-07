@@ -38,8 +38,4 @@ export class TaskCategory extends Resource {
      */
     public color: string;
 
-    public constructor() {
-        super();
-    }
-
 }

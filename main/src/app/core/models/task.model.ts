@@ -79,8 +79,4 @@ export class Task extends Resource {
      */
     public spentTime: number;
 
-    public constructor() {
-        super();
-    }
-
 }
