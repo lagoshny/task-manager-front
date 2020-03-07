@@ -6,7 +6,10 @@ import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { TaskStatus } from '../../../core/models/constants/task-status.items';
+import { TaskCategory } from '../../../core/models/task-category.model';
 import { Task } from '../../../core/models/task.model';
+import { TaskCategoryService } from '../../../core/services/task-category.service';
+import { StringUtils } from '../../../core/utils/string.utils';
 import { TaskService } from '../../services/task.service';
 
 @Component({
@@ -29,11 +32,24 @@ export class TaskListComponent implements OnInit, OnDestroy {
     constructor(private router: Router,
                 private activatedRoute: ActivatedRoute,
                 private taskService: TaskService,
+                private taskCategoryService: TaskCategoryService,
                 private logger: NGXLogger) {
     }
 
     public ngOnInit(): void {
-        this.updateTaskList();
+        this.loadAllUserTasks();
+        this.subs.push(
+            this.taskCategoryService.tasks.subscribe(() => {
+                this.loadAllUserTasks();
+            }),
+            this.taskCategoryService.categoriesToFilter.subscribe((categories: Array<TaskCategory>) => {
+                let categoriesIds = StringUtils.EMPTY;
+                categories.forEach((value: TaskCategory) => {
+                    categoriesIds += `${value.id},`;
+                });
+                this.loadAllUserTasks(categoriesIds);
+            })
+        );
     }
 
     @HostListener('window:scroll', [])
@@ -60,7 +76,8 @@ export class TaskListComponent implements OnInit, OnDestroy {
     }
 
     public onAddedTask(): void {
-        this.updateTaskList();
+        this.taskCategoryService.refreshCategories();
+        this.loadAllUserTasks();
     }
 
     public onRemoveTask(task: Task): void {
@@ -69,14 +86,24 @@ export class TaskListComponent implements OnInit, OnDestroy {
         });
     }
 
-    private loadAllUserTasks(): void {
-        this.subs.push(
-            this.taskService.getAllUserTasks(this.taskPageSize)
-                .subscribe((value: ResourcePage<Task>) => {
-                    this.viewTasks = value.resources;
-                    this.tasks = value;
-                })
-        );
+    private loadAllUserTasks(selectedTaskCategoriesIds?: string): void {
+        if (selectedTaskCategoriesIds) {
+            this.subs.push(
+                this.taskService.getFilteredUserTasksByCategories(selectedTaskCategoriesIds, this.taskPageSize)
+                    .subscribe((value: ResourcePage<Task>) => {
+                        this.viewTasks = value.resources;
+                        this.tasks = value;
+                    })
+            );
+        } else {
+            this.subs.push(
+                this.taskService.getAllUserTasks(this.taskPageSize)
+                    .subscribe((value: ResourcePage<Task>) => {
+                        this.viewTasks = value.resources;
+                        this.tasks = value;
+                    })
+            );
+        }
     }
 
     public loadNewPortion(): void {
@@ -97,10 +124,6 @@ export class TaskListComponent implements OnInit, OnDestroy {
                     this.tasks = value;
                 })
         );
-    }
-
-    public updateTaskList(): void {
-        this.loadAllUserTasks();
     }
 
 }

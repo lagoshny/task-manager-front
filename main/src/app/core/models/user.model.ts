@@ -59,8 +59,4 @@ export class User extends Resource {
      */
     public birthday: Date;
 
-    public constructor() {
-        super();
-    }
-
 }

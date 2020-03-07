@@ -12,6 +12,9 @@ export class CategoryComponent {
     public category: TaskCategory;
 
     @Output()
+    public readonly categoryClick = new EventEmitter<TaskCategory>();
+
+    @Output()
     public readonly categoryEdit = new EventEmitter<TaskCategory>();
 
     @Output()
@@ -23,6 +26,11 @@ export class CategoryComponent {
 
     public onChangeCategoryMenuOpacity(value: number): void {
         this.categoryMenuOpacity = value;
+    }
+
+    public onCategoryClick(): void {
+        this.isCategoryActive = !this.isCategoryActive;
+        this.categoryClick.emit(this.category);
     }
 
 }

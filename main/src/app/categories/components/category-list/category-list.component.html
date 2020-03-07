@@ -18,6 +18,7 @@
             </div>
             <ng-container *ngFor="let category of categories">
                 <tm-category [category]="category"
+                             (categoryClick)="onCategoryClick($event)"
                              (categoryEdit)="onCategoryEdit($event)"
                              (categoryDelete)="onCategoryDelete($event)">
                 </tm-category>

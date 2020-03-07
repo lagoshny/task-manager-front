@@ -18,7 +18,7 @@ import { TaskCategory } from '../../../core/models/task-category.model';
 import { Task } from '../../../core/models/task.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { NotificationService } from '../../../core/services/notification.service';
-import { TaskCategoryService } from '../../services/task-category.service';
+import { CategoryService } from '../../services/category.service';
 import { TaskService } from '../../services/task.service';
 import { TaskUtils } from '../../utils/task.utils';
 
@@ -58,7 +58,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
                 private notificationService: NotificationService,
                 private authService: AuthService,
                 private taskService: TaskService,
-                private taskCategoryService: TaskCategoryService) {
+                private categoryService: CategoryService) {
     }
 
     public ngOnInit(): void {
@@ -165,7 +165,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
 
     private loadUserCategories(): void {
         this.subs.push(
-            this.taskCategoryService.getAllByUser()
+            this.categoryService.getAllByUser()
                 .subscribe((categories: Array<TaskCategory>) => {
                     this.viewCategories = categories;
                     this.filteredCategories = this.taskForm.get('category').valueChanges

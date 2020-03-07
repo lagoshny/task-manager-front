@@ -17,7 +17,7 @@ import { TaskListComponent } from './components/task-list/task-list.component';
 import { TaskStatusComponent } from './components/task-status-changer/task-status.component';
 import { TaskComponent } from './components/task/task.component';
 import { TimeIconComponent } from './components/task/time-icon/time-icon.component';
-import { TaskCategoryService } from './services/task-category.service';
+import { CategoryService } from './services/category.service';
 import { TaskService } from './services/task.service';
 
 @NgModule({
@@ -45,7 +45,7 @@ import { TaskService } from './services/task.service';
     ],
     providers: [
         TaskService,
-        TaskCategoryService
+        CategoryService
     ],
     exports: [TaskListComponent]
 })

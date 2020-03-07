@@ -13,6 +13,7 @@ import { AmountCharactersPipe } from './pipes/amount-characters.pipe';
 import { AuthService } from './services/auth.service';
 import { FontIconService } from './services/font-icon.service';
 import { NotificationService } from './services/notification.service';
+import { TaskCategoryService } from './services/task-category.service';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { NotificationService } from './services/notification.service';
         AuthService,
         FontIconService,
         NotificationService,
+        TaskCategoryService,
         {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
     ],
     exports: [
