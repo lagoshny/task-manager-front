@@ -2,6 +2,7 @@
      (mouseenter)="onChangeCategoryMenuOpacity(1)"
      (mouseleave)="onChangeCategoryMenuOpacity(0)">
     <div class="category__item"
+         [style.opacity]="isCategoryActive || categoryMenuOpacity > 0 ? 1 : 0.7"
          (click)="onCategoryClick()">
         <div class="category__prefix" [title]="category.prefix">{{ category.prefix | amountCharacters: 10 }}</div>
         <div class="category__link">
