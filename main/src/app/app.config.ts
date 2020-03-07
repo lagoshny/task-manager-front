@@ -51,6 +51,11 @@ export class ServerApi {
             numberParam: 'number',
             categoryParam: 'categoryPrefix'
         },
+        allByAuthorAndCategories: {
+            query: 'allByAuthorAndCategories',
+            authorParam: 'userId',
+            categoriesIds: 'categoriesIds'
+        },
         relations: {
             taskCategory: 'category'
         },

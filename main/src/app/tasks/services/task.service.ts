@@ -59,4 +59,30 @@ export class TaskService extends RestService<Task> {
             );
     }
 
+    public getFilteredUserTasksByCategories(categoriesIds: string,
+                                            taskPageSize: number): Observable<ResourcePage<Task>> {
+        const author = this.authService.getUser();
+        return this.searchPage(ServerApi.TASKS.allByAuthorAndCategories.query,
+            {
+                size: taskPageSize,
+                params: [
+                    {
+                        key: ServerApi.TASKS.allByAuthorAndCategories.authorParam,
+                        value: author.id
+                    },
+                    {
+                        key: ServerApi.TASKS.allByAuthorAndCategories.categoriesIds,
+                        value: categoriesIds
+                    },
+                    ServerApi.TASKS.projections.taskProjection
+                ]
+            })
+            .pipe(
+                tap((tasks: ResourcePage<Task>) => {
+                    tasks.resources.forEach((task: Task) => {
+                        task.status = TaskStatus.getByCode(task.status).name;
+                    });
+                }));
+    }
+
 }
