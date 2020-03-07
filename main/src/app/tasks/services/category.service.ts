@@ -6,7 +6,7 @@ import { TaskCategory } from '../../core/models/task-category.model';
 import { AuthService } from '../../core/services/auth.service';
 
 @Injectable()
-export class TaskCategoryService extends RestService<TaskCategory> {
+export class CategoryService extends RestService<TaskCategory> {
 
     constructor(private authService: AuthService,
                 injector: Injector) {

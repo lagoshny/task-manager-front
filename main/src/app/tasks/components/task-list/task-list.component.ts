@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { TaskStatus } from '../../../core/models/constants/task-status.items';
 import { Task } from '../../../core/models/task.model';
+import { TaskCategoryService } from '../../../core/services/task-category.service';
 import { TaskService } from '../../services/task.service';
 
 @Component({
@@ -29,11 +30,17 @@ export class TaskListComponent implements OnInit, OnDestroy {
     constructor(private router: Router,
                 private activatedRoute: ActivatedRoute,
                 private taskService: TaskService,
+                private taskCategoryService: TaskCategoryService,
                 private logger: NGXLogger) {
     }
 
     public ngOnInit(): void {
         this.updateTaskList();
+        this.subs.push(
+            this.taskCategoryService.tasks.subscribe(() => {
+                this.updateTaskList();
+            })
+        );
     }
 
     @HostListener('window:scroll', [])
@@ -60,6 +67,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
     }
 
     public onAddedTask(): void {
+        this.taskCategoryService.refreshCategories();
         this.updateTaskList();
     }
 
@@ -75,6 +83,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
                 .subscribe((value: ResourcePage<Task>) => {
                     this.viewTasks = value.resources;
                     this.tasks = value;
+                    this.taskService.test(value.resources[0]);
                 })
         );
     }

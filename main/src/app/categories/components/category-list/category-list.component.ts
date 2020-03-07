@@ -5,6 +5,7 @@ import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { SimpleDialogComponent } from '../../../core/components/simple-dialog/simple-dialog.component';
 import { TaskCategory } from '../../../core/models/task-category.model';
+import { TaskCategoryService } from '../../../core/services/task-category.service';
 import { CategoryService } from '../../services/category.service';
 
 @Component({
@@ -23,11 +24,16 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     constructor(private router: Router,
                 private logger: NGXLogger,
                 private dialog: MatDialog,
-                private categoryService: CategoryService) {
+                private categoryService: CategoryService,
+                private taskCategoryService: TaskCategoryService) {
     }
 
     public ngOnInit(): void {
         this.loadCategoriesByUser();
+        this.subs.push(
+            this.taskCategoryService.categories.subscribe(() => {
+                this.loadCategoriesByUser();
+            }))
     }
 
     public onMinimizeCategories(): void {
@@ -73,6 +79,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
                 if (accepted) {
                     this.categoryService.delete(deletedCategory).subscribe(() => {
                         this.loadCategoriesByUser();
+                        this.taskCategoryService.refreshTasks();
                     });
                 }
             });

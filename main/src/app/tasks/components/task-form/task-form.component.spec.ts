@@ -20,7 +20,7 @@ import { Task } from '../../../core/models/task.model';
 import { NotificationService } from '../../../core/services/notification.service';
 import { ActivatedRouteStub } from '../../../test/activated-route-stub';
 import { TemplateHelper } from '../../../test/template.helper';
-import { TaskCategoryService } from '../../services/task-category.service';
+import { CategoryService } from '../../services/category.service';
 import { TaskService } from '../../services/task.service';
 import { getTestTask } from '../test.helper';
 import { TaskFormComponent } from './task-form.component';
@@ -87,7 +87,7 @@ describe('TaskFormComponent', () => {
                 {provide: ActivatedRoute, useValue: activatedRouteStub},
                 {provide: NGXLogger, useClass: NGXLoggerMock},
                 {provide: TaskService, useValue: taskServiceSpy},
-                {provide: TaskCategoryService, useValue: taskCategoryServiceSpy},
+                {provide: CategoryService, useValue: taskCategoryServiceSpy},
                 {provide: NotificationService, useValue: notificationServiceSpy}
             ]
         })
