@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import * as _ from 'lodash';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { SimpleDialogComponent } from '../../../core/components/simple-dialog/simple-dialog.component';
@@ -18,6 +19,8 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     public categories: Array<TaskCategory> = [];
 
     public minimizeCategories = false;
+
+    private selectedCategories: Array<TaskCategory> = [];
 
     private subs: Array<Subscription> = [];
 
@@ -53,6 +56,13 @@ export class CategoryListComponent implements OnInit, OnDestroy {
                     this.categories = taskCategories;
                 })
         );
+    }
+
+    public onCategoryClick(category: TaskCategory): void {
+        if (_.isEmpty(_.remove(this.selectedCategories, category))) {
+            this.selectedCategories.push(category);
+        }
+        this.taskCategoryService.updateCategoriesToFilter(this.selectedCategories);
     }
 
     public onAddCategory(): void {
