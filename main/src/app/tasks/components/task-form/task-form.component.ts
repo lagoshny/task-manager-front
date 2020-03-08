@@ -5,7 +5,7 @@ import * as _ from 'lodash';
 import { isString } from 'lodash';
 import { NGXLogger } from 'ngx-logger';
 import { Observable, Subscription } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { filter, map, startWith } from 'rxjs/operators';
 import { ServerApi } from '../../../app.config';
 import {
     changeHeightAnimation,
@@ -63,8 +63,8 @@ export class TaskFormComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.buildForm();
-        this.loadUserCategories();
         this.watchValueChanges();
+        this.loadUserCategories();
         const taskCategoryNumber = this.activatedRoute.snapshot.paramMap.get('taskCategoryNumber');
         if (taskCategoryNumber) {
             this.formHeader = 'Edit task';
@@ -170,8 +170,11 @@ export class TaskFormComponent implements OnInit, OnDestroy {
                     this.viewCategories = categories;
                     this.filteredCategories = this.taskForm.get('category').valueChanges
                         .pipe(
-                            startWith(''),
                             map((value: TaskCategory | string) => isString(value) ? value : value.name),
+                            filter((name: string) => this.taskToEdit
+                                && this.taskToEdit.category
+                                && name != this.taskToEdit.category.name),
+                            startWith(''),
                             map((name: string) => name ? this._filter(name) : this.viewCategories.slice())
                         );
                 })
