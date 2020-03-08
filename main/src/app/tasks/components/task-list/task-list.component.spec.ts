@@ -4,7 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ResourcePage } from '@lagoshny/ngx-hal-client';
 import { NGXLogger, NGXLoggerMock } from 'ngx-logger';
 import { of } from 'rxjs';
+import { TaskCategory } from '../../../core/models/task-category.model';
 import { Task } from '../../../core/models/task.model';
+import { TaskCategoryService } from '../../../core/services/task-category.service';
 import { ActivatedRouteStub } from '../../../test/activated-route-stub';
 import { TemplateHelper } from '../../../test/template.helper';
 import { TaskService } from '../../services/task.service';
@@ -13,7 +15,8 @@ import { TaskListComponent } from './task-list.component';
 
 @Component({
     selector: 'tm-quick-task-create',
-    template: `<div class="task-add" (click)="afterAddedTask.emit()"></div>`
+    template: `
+        <div class="task-add" (click)="afterAddedTask.emit()"></div>`
 })
 class QuickTaskCreateComponent {
     @Output()
@@ -22,8 +25,9 @@ class QuickTaskCreateComponent {
 
 @Component({
     selector: 'tm-task',
-    template: `<div class="task-select" (click)="clickTask.emit(task)"></div>
-                <div class="task__remove_button" (click)="removeTask.emit(task)"></div>`
+    template: `
+        <div class="task-select" (click)="clickTask.emit(task)"></div>
+        <div class="task__remove_button" (click)="removeTask.emit(task)"></div>`
 })
 class TaskComponent {
     @Input()
@@ -49,9 +53,9 @@ describe('TaskListComponent', () => {
         activatedRouteStub = new ActivatedRouteStub({});
         taskServiceSpy = {
             delete: jasmine.createSpy('delete'),
-            getAllUserTasks: jasmine.createSpy('getAllUserTasks')
+            getAllUserTasks: jasmine.createSpy('getAllUserTasks'),
+            getFilteredUserTasksByCategories: jasmine.createSpy('getFilteredUserTasksByCategories')
         };
-
         TestBed.configureTestingModule({
             declarations: [
                 QuickTaskCreateComponent,
@@ -62,7 +66,8 @@ describe('TaskListComponent', () => {
                 {provide: Router, useValue: routerSpy},
                 {provide: ActivatedRoute, useValue: activatedRouteStub},
                 {provide: NGXLogger, useClass: NGXLoggerMock},
-                {provide: TaskService, useValue: taskServiceSpy}
+                {provide: TaskService, useValue: taskServiceSpy},
+                TaskCategoryService
             ]
         })
             .compileComponents()
@@ -77,11 +82,11 @@ describe('TaskListComponent', () => {
     });
 
     it('should load all users tasks after init comp', () => {
-       taskServiceSpy.getAllUserTasks.and.returnValue(of(new Task()));
+        taskServiceSpy.getAllUserTasks.and.returnValue(of(new Task()));
 
-       fixture.detectChanges();
+        fixture.detectChanges();
 
-       expect(taskServiceSpy.getAllUserTasks.calls.count()).toBe(1);
+        expect(taskServiceSpy.getAllUserTasks.calls.count()).toBe(1);
     });
 
     it('should navigate to edit task form when click by task', () => {
@@ -161,6 +166,44 @@ describe('TaskListComponent', () => {
         quickTaskCreateEl.click();
 
         expect(taskServiceSpy.getAllUserTasks.calls.count()).toBe(2);
+    });
+
+    it('should refresh task list by taskCategoryService tasks change event', () => {
+        taskServiceSpy.getAllUserTasks.and.returnValue(of());
+        fixture.detectChanges();
+
+        expect(taskServiceSpy.getAllUserTasks.calls.count()).toBe(1);
+
+        const taskCategoryService: TaskCategoryService = TestBed.get(TaskCategoryService);
+        taskCategoryService.refreshTasks();
+
+        expect(taskServiceSpy.getAllUserTasks.calls.count()).toBe(2);
+    });
+
+    it('should filtered task list using list of categories by taskCategoryService categoriesByFilter change event', () => {
+        taskServiceSpy.getAllUserTasks.and.returnValue(of());
+        taskServiceSpy.getFilteredUserTasksByCategories.and.returnValue(of());
+        fixture.detectChanges();
+
+        const taskCategory = new TaskCategory();
+        taskCategory.id = 1;
+        const taskCategories = new Array<TaskCategory>(taskCategory);
+
+        const taskCategoryService: TaskCategoryService = TestBed.get(TaskCategoryService);
+        taskCategoryService.updateCategoriesByFilter(taskCategories);
+
+        expect(taskServiceSpy.getFilteredUserTasksByCategories.calls.count()).toBe(1);
+    });
+
+    it('should invoke refresh category list after add new task', () => {
+        taskServiceSpy.getAllUserTasks.and.returnValue(of());
+        fixture.detectChanges();
+        const taskCategoryService: TaskCategoryService = TestBed.get(TaskCategoryService);
+        const spyRefreshCategories = spyOn(taskCategoryService, 'refreshCategories');
+
+        comp.onAddedTask();
+
+        expect(spyRefreshCategories.calls.count()).toBe(1);
     });
 
 });

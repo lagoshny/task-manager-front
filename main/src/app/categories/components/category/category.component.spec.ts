@@ -109,4 +109,33 @@ describe("CategoryComponent", () => {
         expect(categoryMenuEl.style.opacity).toBe('0');
     });
 
+    it('should set active category when click by inactive category', () => {
+        comp.category = new TaskCategory();
+        comp.isCategoryActive = false;
+        fixture.detectChanges();
+
+        comp.onCategoryClick();
+
+        expect(comp.isCategoryActive).toBe(true);
+    });
+
+    it('should set inactive category when click by active category', () => {
+        comp.category = new TaskCategory();
+        comp.isCategoryActive = true;
+        fixture.detectChanges();
+
+        comp.onCategoryClick();
+
+        expect(comp.isCategoryActive).toBe(false);
+    });
+
+    it('should fire category click event with category when click by category', () => {
+        const taskCategory = new TaskCategory();
+        comp.category = taskCategory;
+
+        comp.categoryClick.subscribe((categoryToEdit: TaskCategory) => {
+            expect(categoryToEdit).toBe(taskCategory);
+        });
+    });
+
 });
