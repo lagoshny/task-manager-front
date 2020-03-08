@@ -42,7 +42,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
             this.taskCategoryService.tasks.subscribe(() => {
                 this.loadAllUserTasks();
             }),
-            this.taskCategoryService.categoriesToFilter.subscribe((categories: Array<TaskCategory>) => {
+            this.taskCategoryService.categoriesByFilter.subscribe((categories: Array<TaskCategory>) => {
                 let categoriesIds = StringUtils.EMPTY;
                 categories.forEach((value: TaskCategory) => {
                     categoriesIds += `${value.id},`;

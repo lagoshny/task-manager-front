@@ -62,7 +62,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
         if (_.isEmpty(_.remove(this.selectedCategories, category))) {
             this.selectedCategories.push(category);
         }
-        this.taskCategoryService.updateCategoriesToFilter(this.selectedCategories);
+        this.taskCategoryService.updateCategoriesByFilter(this.selectedCategories);
     }
 
     public onAddCategory(): void {

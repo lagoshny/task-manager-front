@@ -8,7 +8,7 @@ import { TaskCategory } from '../models/task-category.model';
 @Injectable()
 export class TaskCategoryService {
 
-    public categoriesToFilter = new Subject<Array<TaskCategory>>();
+    public categoriesByFilter = new Subject<Array<TaskCategory>>();
 
     public tasks = new Subject<void>();
 
@@ -19,8 +19,8 @@ export class TaskCategoryService {
      *
      * @param categories list of categories for filtering
      */
-    public updateCategoriesToFilter(categories: Array<TaskCategory>): void {
-        this.categoriesToFilter.next(categories);
+    public updateCategoriesByFilter(categories: Array<TaskCategory>): void {
+        this.categoriesByFilter.next(categories);
     }
 
     /**
