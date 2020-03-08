@@ -7,6 +7,7 @@ import { NGXLogger, NGXLoggerMock } from 'ngx-logger';
 import { of } from 'rxjs';
 import { CoreModule } from '../../../core/core.module';
 import { TaskCategory } from '../../../core/models/task-category.model';
+import { TaskCategoryService } from '../../../core/services/task-category.service';
 import { TemplateHelper } from '../../../test/template.helper';
 import { CategoryService } from '../../services/category.service';
 import { CategoryListComponent } from './category-list.component';
@@ -46,7 +47,8 @@ describe('CategoryListComponent', () => {
             providers: [
                 {provide: Router, useValue: routerSpy},
                 {provide: NGXLogger, useClass: NGXLoggerMock},
-                {provide: CategoryService, useValue: categoryServiceSpy}
+                {provide: CategoryService, useValue: categoryServiceSpy},
+                TaskCategoryService
             ]
         })
             .compileComponents()
@@ -114,7 +116,7 @@ describe('CategoryListComponent', () => {
     });
 
     it("should open dialog to delete category", () => {
-        let dialogComp = fixture.debugElement.injector.get(MatDialog);
+        let dialogComp = TestBed.get(MatDialog);
         let spyDialog = spyOn(dialogComp, 'open').and.callThrough();
         comp.onCategoryDelete(new TaskCategory());
 
@@ -123,7 +125,7 @@ describe('CategoryListComponent', () => {
 
     it("should delete category after deletion dialog confirm", () => {
         let afterClose = jasmine.createSpyObj({afterClosed: of(true), close: null});
-        let dialogComp = fixture.debugElement.injector.get(MatDialog);
+        let dialogComp = TestBed.get(MatDialog);
         spyOn(dialogComp, 'open').and.returnValue(afterClose);
         categoryServiceSpy.delete.and.returnValue(of());
 
@@ -135,7 +137,7 @@ describe('CategoryListComponent', () => {
 
     it("should NOT delete category after deletion dialog reject", () => {
         let afterClose = jasmine.createSpyObj({afterClosed: of(false), close: null});
-        let dialogComp = fixture.debugElement.injector.get(MatDialog);
+        let dialogComp = TestBed.get(MatDialog);
         spyOn(dialogComp, 'open').and.returnValue(afterClose);
         categoryServiceSpy.delete.and.returnValue(of());
 
@@ -148,7 +150,7 @@ describe('CategoryListComponent', () => {
 
     it("should update category list after delete category", () => {
         let afterClose = jasmine.createSpyObj({afterClosed: of(true), close: null});
-        let dialogComp = fixture.debugElement.injector.get(MatDialog);
+        let dialogComp = TestBed.get(MatDialog);
         spyOn(dialogComp, 'open').and.returnValue(afterClose);
         categoryServiceSpy.getAllByUser.and.returnValue(of([new TaskCategory()]));
         categoryServiceSpy.delete.and.returnValue(of(new TaskCategory()));
@@ -158,6 +160,62 @@ describe('CategoryListComponent', () => {
         expect(afterClose.afterClosed).toHaveBeenCalled();
         expect(categoryServiceSpy.delete).toHaveBeenCalled();
         expect(categoryServiceSpy.getAllByUser).toHaveBeenCalled();
+    });
+
+    it('should refresh task list after delete category', () => {
+        let afterClose = jasmine.createSpyObj({afterClosed: of(true), close: null});
+        let dialogComp = TestBed.get(MatDialog);
+        spyOn(dialogComp, 'open').and.returnValue(afterClose);
+        categoryServiceSpy.getAllByUser.and.returnValue(of([new TaskCategory()]));
+        categoryServiceSpy.delete.and.returnValue(of(new TaskCategory()));
+        const taskCategoryService = TestBed.get(TaskCategoryService);
+        const spyRefreshTasks = spyOn(taskCategoryService, 'refreshTasks');
+
+        comp.onCategoryDelete(new TaskCategory());
+
+        expect(spyRefreshTasks.calls.count()).toBe(1);
+    });
+
+    it('should refresh category list by taskCategoryService category change event', () => {
+        categoryServiceSpy.getAllByUser.and.returnValue(of([new TaskCategory()]));
+        fixture.detectChanges();
+
+        expect(categoryServiceSpy.getAllByUser.calls.count()).toBe(1);
+
+        const taskCategoryService: TaskCategoryService = TestBed.get(TaskCategoryService);
+        taskCategoryService.refreshCategories();
+
+        expect(categoryServiceSpy.getAllByUser.calls.count()).toBe(2);
+    });
+
+    it('should be 2 selected categories when double CategoryClick', () => {
+        categoryServiceSpy.getAllByUser.and.returnValue(of([new TaskCategory()]));
+        fixture.detectChanges();
+
+        const taskCategoryService: TaskCategoryService = TestBed.get(TaskCategoryService);
+        const spyUpdateCategoriesByFilter = spyOn(taskCategoryService, 'updateCategoriesByFilter');
+
+        const firstCategory = new TaskCategory();
+        firstCategory.id = 1;
+
+        const secondCategory = new TaskCategory();
+        secondCategory.id = 2;
+        comp.onCategoryClick(firstCategory);
+        comp.onCategoryClick(secondCategory);
+
+        expect(spyUpdateCategoriesByFilter.calls.mostRecent().args[0].length).toBe(2);
+    });
+
+    it('should fire updateCategoriesByFilter when click by category', () => {
+        categoryServiceSpy.getAllByUser.and.returnValue(of([new TaskCategory()]));
+        fixture.detectChanges();
+
+        const taskCategoryService: TaskCategoryService = TestBed.get(TaskCategoryService);
+        const spyUpdateCategoriesByFilter = spyOn(taskCategoryService, 'updateCategoriesByFilter');
+
+        comp.onCategoryClick(new TaskCategory());
+
+        expect(spyUpdateCategoriesByFilter.calls.count()).toBe(1);
     });
 
 });
