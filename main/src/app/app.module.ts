@@ -10,6 +10,7 @@ import { ExternalConfigurationService } from './app.config';
 import { AppRoutingModule } from './app.routing.module';
 import { ValidationMessagesConfig } from './core/validation/validation-messages.config';
 import { HomeModule } from './home/home.module';
+import { LoginModule } from './login/login.module';
 
 @NgModule({
     imports: [
@@ -27,7 +28,8 @@ import { HomeModule } from './home/home.module';
             level: NgxLoggerLevel.DEBUG
         }),
         HomeModule,
-        AppRoutingModule
+        AppRoutingModule,
+        LoginModule
     ],
     declarations: [
         AppComponent
