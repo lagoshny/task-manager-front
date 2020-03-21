@@ -39,6 +39,10 @@ export class ServerApi {
 
     public static readonly BASE_API = 'http://localhost:8080/api/v1';
 
+    public static readonly LOGIN = {
+        path: `${ServerApi.BASE_API}/auth/user`
+    };
+
     public static readonly TASKS = {
         resource: 'tasks',
         allByAuthor: {

@@ -8,13 +8,13 @@ import { CommonPageComponent } from './components/common-page/common-page.compon
 import { FontIconListDialogComponent } from './components/font-icon-list-dialog/font-icon-list-dialog.component';
 import { NotificationLayoutComponent } from './components/notification/notification-layout.component';
 import { SimpleDialogComponent } from './components/simple-dialog/simple-dialog.component';
+import { BasicAuthInterceptor } from './interceptors/basic-auth.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { AmountCharactersPipe } from './pipes/amount-characters.pipe';
 import { AuthService } from './services/auth.service';
 import { FontIconService } from './services/font-icon.service';
 import { NotificationService } from './services/notification.service';
 import { TaskCategoryService } from './services/task-category.service';
-
 
 @NgModule({
     imports: [
@@ -35,7 +35,8 @@ import { TaskCategoryService } from './services/task-category.service';
         FontIconService,
         NotificationService,
         TaskCategoryService,
-        {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
+        {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+        {provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true}
     ],
     exports: [
         CommonPageComponent,
