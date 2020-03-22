@@ -18,6 +18,7 @@
                                    aria-label="Username"
                                    placeholder="Username"
                                    formControlName="username"
+                                   required
                                    matInput>
                         </mat-form-field>
                         <ngx-validation-messages [for]="registrationForm.get('username')"></ngx-validation-messages>
@@ -32,6 +33,7 @@
                                        aria-label="Password"
                                        placeholder="Password"
                                        formControlName="password"
+                                       required
                                        matInput>
                             </mat-form-field>
                             <ngx-validation-messages
@@ -46,6 +48,7 @@
                                        aria-label="Confirm password"
                                        placeholder="Confirm password"
                                        formControlName="confirmPassword"
+                                       required
                                        matInput>
                             </mat-form-field>
                             <ngx-validation-messages
@@ -63,23 +66,10 @@
                                    aria-label="Email"
                                    placeholder="Email"
                                    formControlName="email"
+                                   required
                                    matInput>
                         </mat-form-field>
                         <ngx-validation-messages [for]="registrationForm.get('email')"></ngx-validation-messages>
-                    </div>
-                </div>
-                <div class="row justify-content-center mt-2">
-                    <div class="col-sm-10 col-11">
-                        <mat-form-field class="w-100">
-                            <input type="text"
-                                   class="login_input"
-                                   aria-label="First name"
-                                   placeholder="First name"
-                                   formControlName="firstName"
-                                   matInput>
-                        </mat-form-field>
-                        <ngx-validation-messages
-                                [for]="registrationForm.get('firstName')"></ngx-validation-messages>
                     </div>
                 </div>
                 <div class="row justify-content-center mt-2">
