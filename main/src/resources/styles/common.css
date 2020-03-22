@@ -6,6 +6,8 @@
     min-height: 90%;
     background: url("../img/background.jpg") no-repeat center center fixed;
     background-size: cover;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .error_block {
