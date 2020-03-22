@@ -18,6 +18,7 @@
                                    aria-label="Username"
                                    placeholder="Username"
                                    formControlName="username"
+                                   required
                                    matInput>
                         </mat-form-field>
                         <ngx-validation-messages [for]="loginForm.get('username')"></ngx-validation-messages>
@@ -31,6 +32,7 @@
                                    aria-label="Password"
                                    placeholder="Password"
                                    formControlName="password"
+                                   required
                                    matInput>
                         </mat-form-field>
                         <ngx-validation-messages [for]="loginForm.get('password')"></ngx-validation-messages>
