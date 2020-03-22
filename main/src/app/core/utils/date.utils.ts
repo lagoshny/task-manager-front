@@ -4,6 +4,23 @@ import { StringUtils } from './string.utils';
 export class DateUtils {
 
     /**
+     * Custom date format for material datepicker component.
+     */
+    public static getMaterialDateFormat(): object {
+        return {
+            parse: {
+                dateInput: 'DD.MM.YYYY',
+            },
+            display: {
+                dateInput: 'DD.MM.YYYY',
+                monthYearLabel: 'MMM YYYY',
+                dateA11yLabel: 'LL',
+                monthYearA11yLabel: 'MMMM YYYY',
+            }
+        }
+    }
+
+    /**
      * Get full string for minutes in right word form
      *
      * @param {number} minutes the number minutes

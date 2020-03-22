@@ -1,5 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxHalClientModule } from '@lagoshny/ngx-hal-client';
@@ -8,6 +9,7 @@ import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { AppComponent } from './app.component';
 import { ExternalConfigurationService } from './app.config';
 import { AppRoutingModule } from './app.routing.module';
+import { DateUtils } from './core/utils/date.utils';
 import { ValidationMessagesConfig } from './core/validation/validation-messages.config';
 import { HomeModule } from './home/home.module';
 import { LoginModule } from './login/login.module';
@@ -35,7 +37,11 @@ import { LoginModule } from './login/login.module';
         AppComponent
     ],
     providers: [
-        {provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService}
+        {provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService},
+        {
+            provide: MAT_DATE_FORMATS,
+            useValue: DateUtils.getMaterialDateFormat()
+        }
     ],
     bootstrap: [AppComponent]
 })
