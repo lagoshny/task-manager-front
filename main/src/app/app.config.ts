@@ -43,6 +43,10 @@ export class ServerApi {
         path: `${ServerApi.BASE_API}/auth/user`
     };
 
+    public static readonly USERS = {
+        resource: 'users'
+    };
+
     public static readonly TASKS = {
         resource: 'tasks',
         allByAuthor: {

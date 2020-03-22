@@ -8,6 +8,7 @@ import { CommonPageComponent } from './components/common-page/common-page.compon
 import { FontIconListDialogComponent } from './components/font-icon-list-dialog/font-icon-list-dialog.component';
 import { NotificationLayoutComponent } from './components/notification/notification-layout.component';
 import { SimpleDialogComponent } from './components/simple-dialog/simple-dialog.component';
+import { AuthGuard } from './guards/auth.guard';
 import { BasicAuthInterceptor } from './interceptors/basic-auth.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { AmountCharactersPipe } from './pipes/amount-characters.pipe';
@@ -31,6 +32,7 @@ import { TaskCategoryService } from './services/task-category.service';
         AmountCharactersPipe
     ],
     providers: [
+        AuthGuard,
         AuthService,
         FontIconService,
         NotificationService,

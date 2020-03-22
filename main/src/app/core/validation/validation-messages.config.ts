@@ -5,7 +5,8 @@ export class ValidationMessagesConfig {
     public static getMessages(): any {
         return {
             defError: 'Invalid value',
-            required: 'This field is required'
+            required: 'This field is required',
+            passwordMatch: 'Passwords do not match'
         };
     }
 }

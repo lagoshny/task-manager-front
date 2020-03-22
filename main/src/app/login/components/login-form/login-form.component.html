@@ -18,6 +18,7 @@
                                    aria-label="Username"
                                    placeholder="Username"
                                    formControlName="username"
+                                   required
                                    matInput>
                         </mat-form-field>
                         <ngx-validation-messages [for]="loginForm.get('username')"></ngx-validation-messages>
@@ -31,6 +32,7 @@
                                    aria-label="Password"
                                    placeholder="Password"
                                    formControlName="password"
+                                   required
                                    matInput>
                         </mat-form-field>
                         <ngx-validation-messages [for]="loginForm.get('password')"></ngx-validation-messages>
@@ -41,7 +43,7 @@
                         <input class="login_button login_button__blue"
                                type="submit"
                                [disabled]="!loginForm.valid"
-                               value="Войти">
+                               value="Sing in">
                     </div>
                 </div>
                 <div class="row justify-content-center">
@@ -49,7 +51,7 @@
                         <input class="login_button login_button__black"
                                type="button"
                                routerLink="/login/registration"
-                               value="Зарегистрироваться">
+                               value="Sign up">
                     </div>
                 </div>
             </div>
