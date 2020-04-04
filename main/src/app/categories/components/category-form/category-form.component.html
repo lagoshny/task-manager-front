@@ -15,8 +15,8 @@
                                    formControlName="name"
                                    matInput
                                    required>
-                            <mat-error ngxValidationMessages [for]="categoryForm.get('name')"></mat-error>
                         </mat-form-field>
+                        <ngx-validation-messages [for]="categoryForm.get('name')"></ngx-validation-messages>
                     </div>
                     <div class="col-6">
                         <mat-form-field class="w-100">
@@ -26,8 +26,8 @@
                                    formControlName="prefix"
                                    matInput
                                    required>
-                            <mat-error ngxValidationMessages [for]="categoryForm.get('prefix')"></mat-error>
                         </mat-form-field>
+                        <ngx-validation-messages [for]="categoryForm.get('prefix')"></ngx-validation-messages>
                     </div>
                 </div>
                 <div class="row">
@@ -41,8 +41,8 @@
                                               matAutosizeMaxRows="10"
                                               matInput>
                                     </textarea>
-                            <mat-error ngxValidationMessages [for]="categoryForm.get('description')"></mat-error>
                         </mat-form-field>
+                        <ngx-validation-messages [for]="categoryForm.get('description')"></ngx-validation-messages>
                     </div>
                 </div>
 
