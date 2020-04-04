@@ -118,8 +118,9 @@ export class TaskFormComponent implements OnInit, OnDestroy {
             taskFromForm.status = TaskStatus.NEW.code;
             taskFromForm.creationDate = new Date();
             this.subs.push(
-                this.taskService.create(taskFromForm).subscribe((/* createdTask: Task */) => {
-                    this.router.navigate(['home'])
+                this.taskService.create(taskFromForm).subscribe((createdTask: Task) => {
+                    this.notificationService.showSuccess(['Task successfully created']);
+                    this.router.navigate(['tasks/edit', `${createdTask.category.prefix}-${createdTask.number}`])
                         .catch(reason => this.logger.error(reason));
                 })
             );
