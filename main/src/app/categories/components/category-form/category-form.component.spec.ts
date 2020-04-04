@@ -11,7 +11,7 @@ import { of, throwError } from 'rxjs';
 import { FontIconListDialogComponent } from '../../../core/components/font-icon-list-dialog/font-icon-list-dialog.component';
 import { CoreModule } from '../../../core/core.module';
 import { TaskCategory } from '../../../core/models/task-category.model';
-import { ActivatedRouteStub } from '../../../test/activated-route-stub';
+import { ActivatedRouteStub } from '../../../utils/activated-route-stub';
 import { CategoryService } from '../../services/category.service';
 import { CategoryFormComponent } from './category-form.component';
 

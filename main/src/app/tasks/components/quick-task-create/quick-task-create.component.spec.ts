@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { TaskPriority } from '../../../core/models/constants/task-priority.items';
 import { TaskStatus } from '../../../core/models/constants/task-status.items';
 import { Task } from '../../../core/models/task.model';
-import { TemplateHelper } from '../../../test/template.helper';
+import { TemplateHelper } from '../../../utils/template.helper';
 import { TaskService } from '../../services/task.service';
 import { QuickTaskCreateComponent } from './quick-task-create.component';
 
