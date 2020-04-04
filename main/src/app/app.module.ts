@@ -11,6 +11,7 @@ import { ExternalConfigurationService } from './app.config';
 import { AppRoutingModule } from './app.routing.module';
 import { DateUtils } from './core/utils/date.utils';
 import { ValidationMessagesConfig } from './core/validation/validation-messages.config';
+import { HeaderModule } from './header/header.module';
 import { HomeModule } from './home/home.module';
 import { LoginModule } from './login/login.module';
 
@@ -31,7 +32,8 @@ import { LoginModule } from './login/login.module';
         }),
         HomeModule,
         AppRoutingModule,
-        LoginModule
+        LoginModule,
+        HeaderModule
     ],
     declarations: [
         AppComponent
