@@ -9,7 +9,7 @@ import { NGXLogger, NGXLoggerMock } from 'ngx-logger';
 import { of } from 'rxjs';
 import { User } from '../../../core/models/user.model';
 import { AuthService } from '../../../core/services/auth.service';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../../users/services/user.service';
 import { RegistrationFormComponent } from './registration-form.component';
 
 describe('RegistrationFormComponent', () => {
