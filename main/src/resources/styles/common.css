@@ -49,3 +49,28 @@
     color: rgba(255, 255, 255, 1);
     box-shadow: 1px 1px 1px #aaaaaa;
 }
+
+.link {
+    text-transform: none;
+    text-decoration: none;
+    outline: none;
+    color: #FFFFFF;
+}
+
+.link:hover {
+    text-transform: none;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.link:visited {
+    text-transform: none;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.link:link {
+    text-transform: none;
+    text-decoration: none;
+    color: #FFFFFF;
+}
