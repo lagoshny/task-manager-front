@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 import { CoreModule } from '../../../core/core.module';
 import { TaskCategory } from '../../../core/models/task-category.model';
 import { TaskCategoryService } from '../../../core/services/task-category.service';
-import { TemplateHelper } from '../../../test/template.helper';
+import { TemplateHelper } from '../../../utils/template.helper';
 import { CategoryService } from '../../services/category.service';
 import { CategoryListComponent } from './category-list.component';
 

@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TaskCategory } from '../../../core/models/task-category.model';
 import { StringUtils } from '../../../core/utils/string.utils';
-import { TemplateHelper } from '../../../test/template.helper';
+import { TemplateHelper } from '../../../utils/template.helper';
 import { CategoryComponent } from './category.component';
 
 @Pipe({

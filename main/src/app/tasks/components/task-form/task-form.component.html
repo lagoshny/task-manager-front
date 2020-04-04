@@ -8,23 +8,25 @@
                   (submit)="sendForm()">
                 <div class="row">
                     <div class="col-12">
-                        <div class="row">
-                            <div class="col-2">
-                                <mat-form-field class="w-100">
-                                    <input type="text"
-                                           aria-label="Status"
-                                           placeholder="Task status"
-                                           formControlName="status"
-                                           [style.color]="getStatusColor()"
-                                           matInput>
-                                </mat-form-field>
+                        <ng-container *ngIf="router.isActive('tasks/edit', false)">
+                            <div class="row">
+                                <div class="col-2">
+                                    <mat-form-field class="w-100">
+                                        <input type="text"
+                                               aria-label="Status"
+                                               placeholder="Task status"
+                                               formControlName="status"
+                                               [style.color]="getStatusColor()"
+                                               matInput>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-10">
+                                    <tm-task-status [status]="taskForm.get('status').value"
+                                                    (changeStatus)="onChangeStatus($event)">
+                                    </tm-task-status>
+                                </div>
                             </div>
-                            <div class="col-10">
-                                <tm-task-status [status]="taskForm.get('status').value"
-                                                        (changeStatus)="onChangeStatus($event)">
-                                </tm-task-status>
-                            </div>
-                        </div>
+                        </ng-container>
                         <div class="row mt-4">
                             <div class="col-6">
                                 <mat-form-field class="w-100">
@@ -52,6 +54,7 @@
                                         </mat-option>
                                     </mat-autocomplete>
                                 </mat-form-field>
+
                                 <ngx-validation-messages [for]="taskForm.get('category')"></ngx-validation-messages>
                             </div>
                         </div>
@@ -87,19 +90,22 @@
                                 </mat-form-field>
                                 <ngx-validation-messages [for]="taskForm.get('priority')"></ngx-validation-messages>
                             </div>
-                            <div class="col-4 align-self-center">
-                                <mat-checkbox class="w-100"
-                                              formControlName="needTimeManagement">
-                                    Need time management?
-                                </mat-checkbox>
-                                <i class="fa fa-question-circle-o task_form__tooltip"
-                                   matTooltip="Check it, if you want to set time to complete for the task">
-                                </i>
-                                <i *ngIf="taskForm.get('needTimeManagement').disabled"
-                                   class="fa fa-exclamation task_form__tooltip task_form__tooltip_extra"
-                                   [matTooltip]="'You can\'t change this option while the task has \''+ taskForm.get('status').value + '\' status'">
-                                </i>
-                            </div>
+                            <ng-container *ngIf="router.isActive('tasks/edit', false)">
+
+                                <div class="task_form__need_time_management col-4 align-self-center">
+                                    <mat-checkbox class="w-100"
+                                                  formControlName="needTimeManagement">
+                                        Need time management?
+                                    </mat-checkbox>
+                                    <i class="fa fa-question-circle-o task_form__tooltip"
+                                       matTooltip="Check it, if you want to set time to complete for the task">
+                                    </i>
+                                    <i *ngIf="taskForm.get('needTimeManagement').disabled"
+                                       class="fa fa-exclamation task_form__tooltip task_form__tooltip_extra"
+                                       [matTooltip]="'You can\'t change this option while the task has \''+ taskForm.get('status').value + '\' status'">
+                                    </i>
+                                </div>
+                            </ng-container>
                         </div>
 
                         <div [@showSection]="showTimeSection"
@@ -114,7 +120,8 @@
                                                formControlName="totalTime"
                                                matInput>
                                     </mat-form-field>
-                                    <ngx-validation-messages [for]="taskForm.get('totalTime')"></ngx-validation-messages>
+                                    <ngx-validation-messages
+                                            [for]="taskForm.get('totalTime')"></ngx-validation-messages>
                                 </div>
                                 <div class="col-4">
                                     <mat-form-field class="w-100">
@@ -124,7 +131,8 @@
                                                formControlName="spentTime"
                                                matInput>
                                     </mat-form-field>
-                                    <ngx-validation-messages [for]="taskForm.get('spentTime')"></ngx-validation-messages>
+                                    <ngx-validation-messages
+                                            [for]="taskForm.get('spentTime')"></ngx-validation-messages>
                                 </div>
                                 <div class="col-4 align-self-center">
                                     <mat-checkbox class="w-100"

@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-12">
             <div class="menu_content_text_label category-list__label">
-                Список категорий
+                Category list
                 <i [ngClass]="['category-list__minimize_button__icon', 'fa',
                                 minimizeCategories ? 'fa-eye-slash' : 'fa-eye']"
                    (click)="onMinimizeCategories()"></i>
@@ -14,7 +14,7 @@
             <div class="category-list__add_button"
                  (click)="onAddCategory()">
                 <i class="category-list__add_button__icon fa fa-plus"></i>
-                <div>Добавить</div>
+                <div>Add new</div>
             </div>
             <ng-container *ngFor="let category of categories">
                 <tm-category [category]="category"
