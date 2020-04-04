@@ -37,14 +37,13 @@ export class RegistrationFormComponent {
 
     private buildForm(): void {
         this.registrationForm = this.formBuilder.group({
-            username: ['', [Validators.required, Validators.maxLength(50)]],
+            username: ['', [Validators.required, Validators.maxLength(100), CustomValidators.latinWithNumbers]],
             passwordGroup: this.formBuilder.group({
-                password: ['', [Validators.required]],
-                confirmPassword: ['', [Validators.required]]
+                password: ['', [Validators.required, Validators.maxLength(100), CustomValidators.passwordStrength(8)]],
+                confirmPassword: ['', [Validators.required, Validators.maxLength(100), CustomValidators.passwordStrength(8)]]
             }, {validator: CustomValidators.passwordMatcher}),
             email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
-            firstName: ['', [Validators.maxLength(100)]],
-            birthday: ['']
+            birthday: ['', CustomValidators.notFeatureDate]
         });
     }
 

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
@@ -9,6 +9,7 @@ import { dropDownAnimation } from '../../../core/animations/common.animation';
 import { FontIconListDialogComponent } from '../../../core/components/font-icon-list-dialog/font-icon-list-dialog.component';
 import { TaskCategory } from '../../../core/models/task-category.model';
 import { AuthService } from '../../../core/services/auth.service';
+import { CustomValidators } from '../../../core/validation/custom.validators';
 import { CategoryService } from '../../services/category.service';
 
 @Component({
@@ -100,9 +101,9 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
 
     private buildForm(): FormGroup {
         return this.formBuilder.group({
-            name: '',
-            prefix: '',
-            description: '',
+            name: ['', [Validators.required, Validators.maxLength(100), CustomValidators.symbolsWithNumbers]],
+            prefix: ['', [Validators.required, Validators.maxLength(50), CustomValidators.latinWithNumbers]],
+            description: ['', Validators.maxLength(255)],
             icon: 'fa-certificate'
         })
     }

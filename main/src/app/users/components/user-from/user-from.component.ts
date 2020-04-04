@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NGXLogger } from 'ngx-logger';
 import { dropDownAnimation } from '../../../core/animations/common.animation';
 import { User } from '../../../core/models/user.model';
 import { AuthService } from '../../../core/services/auth.service';
+import { CustomValidators } from '../../../core/validation/custom.validators';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -46,12 +47,12 @@ export class UserFromComponent implements OnInit {
 
     private buildForm(): FormGroup {
         return this.formBuilder.group({
-            firstName: [''],
-            middleName: [''],
-            lastName: [''],
-            birthday: [''],
-            city: [''],
-            email: ['']
+            firstName: ['', [Validators.maxLength(100), CustomValidators.latinOrCyrillic]],
+            middleName: ['', [Validators.maxLength(100), CustomValidators.latinOrCyrillic]],
+            lastName: ['', [Validators.maxLength(100), CustomValidators.latinOrCyrillic]],
+            birthday: ['', CustomValidators.notFeatureDate],
+            city: ['', Validators.maxLength(50)],
+            email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]]
         });
     }
 
