@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { NGXLogger } from 'ngx-logger';
 import { User } from '../../../core/models/user.model';
 import { CustomValidators } from '../../../core/validation/custom.validators';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../../users/services/user.service';
 
 @Component({
     templateUrl: './registration-form.component.html',
