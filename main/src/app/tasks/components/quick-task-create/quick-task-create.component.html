@@ -8,9 +8,9 @@
                                formControlName="name"
                                class="quick_task_create_input"
                                type="text"
-                               title="Название новой задачи"
+                               title="Enter a name for the new task"
                                (keydown.Enter)="onEnter()"
-                               placeholder="Название новой задачи"/>
+                               placeholder="Enter a name for the new task"/>
                     </div>
                     <div class="col-sm-1 col-2 pl-0">
                         <div class="quick_task_create_input_button"
@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <ngx-validation-messages *ngIf="needShowError">
-                    Данное поле обязательно для заполнения!
+                    This field is required!
                 </ngx-validation-messages>
             </div>
         </div>
