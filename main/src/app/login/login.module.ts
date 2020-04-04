@@ -7,13 +7,13 @@ import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
 import { NgxValidationMessagesModule } from '@lagoshny/ngx-validation-messages';
 import { CoreModule } from '../core/core.module';
+import { UsersModule } from '../users/users.module';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { RegistrationFormComponent } from './components/registration-form/registration-form.component';
 import { LoginGuard } from './guards/login.guard';
 import { LoginComponent } from './login.component';
 import { LoginRoutingModule } from './login.routing.module';
 import { LoginService } from './services/login.service';
-import { UserService } from './services/user.service';
 
 @NgModule({
     imports: [
@@ -22,6 +22,7 @@ import { UserService } from './services/user.service';
         RouterModule,
         CoreModule,
         LoginRoutingModule,
+        UsersModule,
         NgxValidationMessagesModule,
         MatInputModule,
         MatMomentDateModule,
@@ -34,8 +35,7 @@ import { UserService } from './services/user.service';
     ],
     providers: [
         LoginGuard,
-        LoginService,
-        UserService
+        LoginService
     ],
     exports: [
         LoginComponent

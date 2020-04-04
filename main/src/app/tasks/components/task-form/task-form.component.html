@@ -34,8 +34,8 @@
                                            formControlName="name"
                                            matInput
                                            required>
-                                    <mat-error ngxValidationMessages [for]="taskForm.get('name')"></mat-error>
                                 </mat-form-field>
+                                <ngx-validation-messages [for]="taskForm.get('name')"></ngx-validation-messages>
                             </div>
                             <div class="col-6">
                                 <mat-form-field class="w-100">
@@ -51,8 +51,8 @@
                                             {{option.name}}
                                         </mat-option>
                                     </mat-autocomplete>
-                                    <mat-error ngxValidationMessages [for]="taskForm.get('category')"></mat-error>
                                 </mat-form-field>
+                                <ngx-validation-messages [for]="taskForm.get('category')"></ngx-validation-messages>
                             </div>
                         </div>
 
@@ -67,8 +67,8 @@
                                               matAutosizeMaxRows="10"
                                               matInput>
                                     </textarea>
-                                    <mat-error ngxValidationMessages [for]="taskForm.get('description')"></mat-error>
                                 </mat-form-field>
+                                <ngx-validation-messages [for]="taskForm.get('description')"></ngx-validation-messages>
                             </div>
                         </div>
 
@@ -84,8 +84,8 @@
                                             </span>
                                         </mat-option>
                                     </mat-select>
-                                    <mat-error ngxValidationMessages [for]="taskForm.get('priority')"></mat-error>
                                 </mat-form-field>
+                                <ngx-validation-messages [for]="taskForm.get('priority')"></ngx-validation-messages>
                             </div>
                             <div class="col-4 align-self-center">
                                 <mat-checkbox class="w-100"
@@ -113,8 +113,8 @@
                                                placeholder="Duration (minutes)"
                                                formControlName="totalTime"
                                                matInput>
-                                        <mat-error ngxValidationMessages [for]="taskForm.get('totalTime')"></mat-error>
                                     </mat-form-field>
+                                    <ngx-validation-messages [for]="taskForm.get('totalTime')"></ngx-validation-messages>
                                 </div>
                                 <div class="col-4">
                                     <mat-form-field class="w-100">
@@ -123,8 +123,8 @@
                                                placeholder="Spent time (minutes)"
                                                formControlName="spentTime"
                                                matInput>
-                                        <mat-error ngxValidationMessages [for]="taskForm.get('spentTime')"></mat-error>
                                     </mat-form-field>
+                                    <ngx-validation-messages [for]="taskForm.get('spentTime')"></ngx-validation-messages>
                                 </div>
                                 <div class="col-4 align-self-center">
                                     <mat-checkbox class="w-100"
