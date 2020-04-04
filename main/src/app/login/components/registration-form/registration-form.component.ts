@@ -42,8 +42,7 @@ export class RegistrationFormComponent {
                 password: ['', [Validators.required, Validators.maxLength(100), CustomValidators.passwordStrength(8)]],
                 confirmPassword: ['', [Validators.required, Validators.maxLength(100), CustomValidators.passwordStrength(8)]]
             }, {validator: CustomValidators.passwordMatcher}),
-            email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
-            birthday: ['', CustomValidators.notFeatureDate]
+            email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]]
         });
     }
 
