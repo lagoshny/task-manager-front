@@ -4,6 +4,7 @@ import { CategoryFormComponent } from './categories/components/category-form/cat
 import { AuthGuard } from './core/guards/auth.guard';
 import { HomeComponent } from './home/home.component';
 import { TaskFormComponent } from './tasks/components/task-form/task-form.component';
+import { UserFromComponent } from './users/components/user-from/user-from.component';
 
 export const routes: Routes = [
     {
@@ -13,6 +14,10 @@ export const routes: Routes = [
             {
                 path: 'home',
                 component: HomeComponent
+            },
+            {
+                path: 'users',
+                component: UserFromComponent
             },
             {
                 path: 'categories',
