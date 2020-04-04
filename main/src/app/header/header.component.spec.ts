@@ -12,7 +12,7 @@ import { HeaderComponent } from './header.component';
 })
 class MenuComponentStub {}
 
-describe('HeaderComponents', () => {
+describe('HeaderComponent', () => {
     let fixture: ComponentFixture<HeaderComponent>;
     let comp: HeaderComponent;
     let routerSpy: any;
