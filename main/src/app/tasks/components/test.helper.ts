@@ -8,7 +8,10 @@ export function getTestTask() {
     const task = new Task();
     task.totalTime = 10;
     task.startedDate = new Date();
-    task.category = new TaskCategory();
+    const taskCategory = new TaskCategory();
+    taskCategory.prefix = 'test';
+    taskCategory.name = 'Test';
+    task.category = taskCategory;
     task.author = new User();
     task.priority = TaskPriority.MIDDLE.code;
     task.status = TaskStatus.NEW.name;

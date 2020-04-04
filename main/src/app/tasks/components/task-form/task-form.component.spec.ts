@@ -16,7 +16,6 @@ import { of, throwError } from 'rxjs';
 import { CoreModule } from '../../../core/core.module';
 import { TaskStatus } from '../../../core/models/constants/task-status.items';
 import { TaskCategory } from '../../../core/models/task-category.model';
-import { Task } from '../../../core/models/task.model';
 import { NotificationService } from '../../../core/services/notification.service';
 import { ActivatedRouteStub } from '../../../utils/activated-route-stub';
 import { TemplateHelper } from '../../../utils/template.helper';
@@ -45,7 +44,8 @@ describe('TaskFormComponent', () => {
 
     beforeEach(async(() => {
         routerSpy = {
-            navigate: jasmine.createSpy('navigate')
+            navigate: jasmine.createSpy('navigate'),
+            isActive: jasmine.createSpy('isActive'),
         };
         activatedRouteStub = new ActivatedRouteStub({});
         taskServiceSpy = {
@@ -202,7 +202,7 @@ describe('TaskFormComponent', () => {
     it('should create task', () => {
         routerSpy.navigate.and.returnValue(Promise.resolve());
         taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
-        taskServiceSpy.create.and.returnValue(of(new Task()));
+        taskServiceSpy.create.and.returnValue(of(getTestTask()));
         fixture.detectChanges();
 
         comp.sendForm();
@@ -214,7 +214,7 @@ describe('TaskFormComponent', () => {
     it('NEW task should has "new" status', () => {
         routerSpy.navigate.and.returnValue(Promise.resolve());
         taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
-        taskServiceSpy.create.and.returnValue(of(new Task()));
+        taskServiceSpy.create.and.returnValue(of(getTestTask()));
         fixture.detectChanges();
 
         comp.sendForm();
@@ -223,15 +223,29 @@ describe('TaskFormComponent', () => {
         expect(taskServiceSpy.create.calls.argsFor(0)[0].status).toBe(TaskStatus.NEW.code);
     });
 
-    it('after create task should navigate to "home" page', () => {
+    it('after create task should navigate to "edit" task page', () => {
         routerSpy.navigate.and.returnValue(Promise.resolve());
         taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
-        taskServiceSpy.create.and.returnValue(of(new Task()));
+        const newTask = getTestTask();
+                taskServiceSpy.create.and.returnValue(of(newTask));
         fixture.detectChanges();
 
         comp.sendForm();
 
-        expect(routerSpy.navigate).toHaveBeenCalledWith(['home']);
+        expect(routerSpy.navigate)
+            .toHaveBeenCalledWith(['tasks/edit', `${newTask.category.prefix}-${newTask.number}`]);
+    });
+
+    it('after create task should show success notification', () => {
+        routerSpy.navigate.and.returnValue(Promise.resolve());
+        taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
+        const newTask = getTestTask();
+        taskServiceSpy.create.and.returnValue(of(newTask));
+        fixture.detectChanges();
+
+        comp.sendForm();
+
+        expect(notificationServiceSpy.showSuccess.calls.count()).toBe(1);
     });
 
     it('should update task', fakeAsync(() => {
@@ -470,6 +484,64 @@ describe('TaskFormComponent', () => {
 
         expect(notificationServiceSpy.showErrors.calls.count()).toBe(1);
         expect(notificationServiceSpy.showSuccess.calls.count()).toBe(0);
+    });
+
+    it('task status component should be hidden for new task', () => {
+        routerSpy.navigate.and.returnValue(Promise.resolve());
+        taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
+
+        fixture.detectChanges();
+
+        const templateHelper = new TemplateHelper(fixture);
+        expect(templateHelper.query('tm-task-status')).toBeNull();
+    });
+
+    it('task status component should be visible when edit task', () => {
+        taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
+        const taskToEdit = {
+            ...getTestTask(),
+            status: TaskStatus.IN_PROGRESS.code,
+            getRelation: jasmine.createSpy('getRelation')
+        };
+        taskToEdit.getRelation.and.returnValue(of(new TaskCategory()));
+        taskServiceSpy.getByCategoryPrefixAndNumber.and.returnValue(of(taskToEdit));
+        activatedRouteStub.setParamMap({
+            taskCategoryNumber: 'TEST-1'
+        });
+
+        fixture.detectChanges();
+
+        const templateHelper = new TemplateHelper(fixture);
+        expect(templateHelper.query('tm-task-status')).toBeDefined();
+    });
+
+    it('needTimeManagement ui element should be hidden for new task', () => {
+        routerSpy.navigate.and.returnValue(Promise.resolve());
+        taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
+
+        fixture.detectChanges();
+
+        const templateHelper = new TemplateHelper(fixture);
+        expect(templateHelper.query('.task_form__need_time_management')).toBeNull();
+    });
+
+    it('needTimeManagement ui element should be visible when edit task', () => {
+        taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
+        const taskToEdit = {
+            ...getTestTask(),
+            status: TaskStatus.IN_PROGRESS.code,
+            getRelation: jasmine.createSpy('getRelation')
+        };
+        taskToEdit.getRelation.and.returnValue(of(new TaskCategory()));
+        taskServiceSpy.getByCategoryPrefixAndNumber.and.returnValue(of(taskToEdit));
+        activatedRouteStub.setParamMap({
+            taskCategoryNumber: 'TEST-1'
+        });
+
+        fixture.detectChanges();
+
+        const templateHelper = new TemplateHelper(fixture);
+        expect(templateHelper.query('.task_form__need_time_management')).toBeDefined();
     });
 
 });
