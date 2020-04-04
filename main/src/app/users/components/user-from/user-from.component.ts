@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NGXLogger } from 'ngx-logger';
@@ -12,7 +12,7 @@ import { UserService } from '../../services/user.service';
     styleUrls: ['./user-from.component.scss'],
     animations: [dropDownAnimation]
 })
-export class UserFromComponent {
+export class UserFromComponent implements OnInit {
 
     public userForm: FormGroup;
 
@@ -21,6 +21,9 @@ export class UserFromComponent {
                 private logger: NGXLogger,
                 private authService: AuthService,
                 private userService: UserService) {
+    }
+
+    public ngOnInit(): void {
         this.userForm = this.buildForm();
         this.userService.get(this.authService.getUser().id).subscribe((u: User) => {
             this.userForm.patchValue(u);
@@ -34,7 +37,7 @@ export class UserFromComponent {
         };
 
         this.userService.patch(updatedUser).subscribe((u: User) => {
-            this.authService.setAuthUser(u);
+            this.authService.setUser(u);
             this.router.navigate(['home']).catch(reason => {
                 this.logger.error(reason);
             });

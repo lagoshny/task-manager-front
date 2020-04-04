@@ -17,7 +17,7 @@ export class AuthService {
     /**
      * Set user's data to local storage.
      */
-    public setAuthUser(user: User) {
+    public setUser(user: User) {
         UserStorageUtils.saveUser(user);
     }
 

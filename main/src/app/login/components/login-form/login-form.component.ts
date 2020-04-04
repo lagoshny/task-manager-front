@@ -35,7 +35,7 @@ export class LoginFormComponent {
         this.loginService.login(user)
             .subscribe((authUser: User) => {
                     this.authService.setCredentials(btoa(user.username + ':' + user.password));
-                    this.authService.setAuthUser(authUser);
+                    this.authService.setUser(authUser);
                     this.router.navigate(['home'])
                         .catch(reason => this.logger.error(reason));
                 },
