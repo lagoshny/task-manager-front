@@ -46,32 +46,6 @@ export class CustomValidators {
     }
 
     /**
-     * Check that value contains only Cyrillic symbols.
-     */
-    public static cyrillic(c: AbstractControl): { [key: string]: boolean } {
-        if (!c || !c.value || /^[а-яёЁА-Я]+$/.test(c.value)) {
-            return undefined;
-        }
-
-        return {
-            cyrillic: true
-        };
-    }
-
-    /**
-     * Check that value contains only Latin symbols.
-     */
-    public static latin(c: AbstractControl): { [key: string]: boolean } {
-        if (!c || !c.value || /^[a-zA-Z]+$/.test(c.value)) {
-            return undefined;
-        }
-
-        return {
-            latin: true
-        };
-    }
-
-    /**
      * Check that value contains only numbers.
      */
     public static number(c: AbstractControl): { [key: string]: boolean } {
@@ -81,19 +55,6 @@ export class CustomValidators {
 
         return {
             number: true
-        };
-    }
-
-    /**
-     * Check that value contains only Latin or only Cyrillic symbols.
-     */
-    public static latinOrCyrillic(c: AbstractControl): { [key: string]: boolean } {
-        if (!c || !c.value || !CustomValidators.latin(c) || !CustomValidators.cyrillic(c)) {
-            return undefined;
-        }
-
-        return {
-            latinOrCyrillic: true
         };
     }
 
@@ -110,16 +71,17 @@ export class CustomValidators {
         };
     }
 
-    /**
-     * Check that value contains only Cyrillic / Latin symbols and numbers.
-     */
-    public static symbolsWithNumbers(c: AbstractControl): { [key: string]: boolean } {
-        if (!c || !c.value || /^[a-zA-Zа-яеЁА-Я0-9]+$/.test(c.value)) {
-            return undefined;
-        }
+    public static latinWithNumbersAnd(additionalSymbols: Array<string>): ValidatorFn {
+        return (c: AbstractControl) => {
+            if (!c || !c.value || new RegExp(`^[a-zA-Z0-9${additionalSymbols}]+$`).test(c.value)) {
+                return undefined;
+            }
 
-        return {
-            symbolsWithNumbers: true
+            return {
+                latinWithNumbersAnd: {
+                    additionalSymbols
+                }
+            };
         };
     }
 

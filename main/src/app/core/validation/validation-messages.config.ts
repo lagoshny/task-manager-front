@@ -14,6 +14,7 @@ export class ValidationMessagesConfig {
             latin: 'Only latin characters are allowed',
             latinOrCyrillic: 'Only latin or cyrillic characters are allowed',
             latinWithNumbers: 'Only latin characters and numbers are allowed',
+            latinWithNumbersAnd: 'Only latin characters, numbers and symbols: [#[additionalSymbols]] are allowed',
             symbolsWithNumbers: 'The value should consist only of latin / cyrillic characters and numbers',
             notFeatureDate: 'The value must not be greater than the current date',
             number: 'Only numbers allowed'

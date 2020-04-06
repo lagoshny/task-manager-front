@@ -101,8 +101,9 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
 
     private buildForm(): FormGroup {
         return this.formBuilder.group({
-            name: ['', [Validators.required, Validators.maxLength(100), CustomValidators.symbolsWithNumbers]],
-            prefix: ['', [Validators.required, Validators.maxLength(50), CustomValidators.latinWithNumbers]],
+            name: ['', [Validators.required, Validators.maxLength(100)]],
+            prefix: ['', [Validators.required, Validators.maxLength(50),
+                CustomValidators.latinWithNumbersAnd(['-'])]],
             description: ['', Validators.maxLength(255)],
             icon: 'fa-certificate'
         })

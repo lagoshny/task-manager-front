@@ -47,9 +47,9 @@ export class UserFromComponent implements OnInit {
 
     private buildForm(): FormGroup {
         return this.formBuilder.group({
-            firstName: ['', [Validators.maxLength(100), CustomValidators.latinOrCyrillic]],
-            middleName: ['', [Validators.maxLength(100), CustomValidators.latinOrCyrillic]],
-            lastName: ['', [Validators.maxLength(100), CustomValidators.latinOrCyrillic]],
+            firstName: ['', [Validators.maxLength(100)]],
+            middleName: ['', [Validators.maxLength(100)]],
+            lastName: ['', [Validators.maxLength(100)]],
             birthday: ['', CustomValidators.notFeatureDate],
             city: ['', Validators.maxLength(50)],
             email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]]

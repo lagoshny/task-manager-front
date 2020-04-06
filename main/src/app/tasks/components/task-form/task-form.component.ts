@@ -153,7 +153,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
 
     private buildForm(): void {
         this.taskForm = this.formBuilder.group({
-            name: ['', [Validators.required, Validators.maxLength(255), CustomValidators.symbolsWithNumbers]],
+            name: ['', [Validators.required, Validators.maxLength(255)]],
             status: [{value: TaskStatus.NEW.name, disabled: true}],
             category: ['', Validators.required],
             description: ['', Validators.maxLength(255)],
