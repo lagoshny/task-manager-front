@@ -18,6 +18,7 @@ import { TaskCategory } from '../../../core/models/task-category.model';
 import { Task } from '../../../core/models/task.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { NotificationService } from '../../../core/services/notification.service';
+import { CustomValidators } from '../../../core/validation/custom.validators';
 import { CategoryService } from '../../services/category.service';
 import { TaskService } from '../../services/task.service';
 import { TaskUtils } from '../../utils/task.utils';
@@ -152,15 +153,15 @@ export class TaskFormComponent implements OnInit, OnDestroy {
 
     private buildForm(): void {
         this.taskForm = this.formBuilder.group({
-            name: ['', [Validators.required]],
+            name: ['', [Validators.required, Validators.maxLength(255)]],
             status: [{value: TaskStatus.NEW.name, disabled: true}],
-            category: ['', [Validators.required]],
-            description: [''],
-            priority: ['', [Validators.required]],
+            category: ['', Validators.required],
+            description: ['', Validators.maxLength(255)],
+            priority: ['', Validators.required],
             needTimeManagement: [{value: false, disabled: true}],
-            totalTime: '',
-            spentTime: '',
-            autoReduce: ''
+            totalTime: [0, [Validators.min(0), CustomValidators.number]],
+            spentTime: [0, [Validators.min(0), CustomValidators.number]],
+            autoReduce: false
         });
     }
 
