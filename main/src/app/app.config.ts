@@ -43,10 +43,6 @@ export class ServerApi {
         path: `${ServerApi.BASE_API}/auth/user`
     };
 
-    public static readonly LOGOUT = {
-        path: `${ServerApi.BASE_API}/logout`
-    };
-
     public static readonly USERS = {
         resource: 'users'
     };
