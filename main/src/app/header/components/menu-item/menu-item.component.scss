@@ -11,10 +11,6 @@
   background-color: #46a6c9;
 }
 
-.menu-item__active {
-  background-color: #46a6c9;
-}
-
 /* MEDIA STYLES */
 /* Large Devices, Wide Screens */
 @media only screen and (max-width: 1200px) {
@@ -31,7 +27,6 @@
     /*CSS transitions*/
     -o-transition-property: none !important;
     -moz-transition-property: none !important;
-    -ms-transition-property: none !important;
     -webkit-transition-property: none !important;
     transition-property: none !important;
     /*CSS transforms*/
