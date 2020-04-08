@@ -8,7 +8,7 @@ import { UserService } from '../../../users/services/user.service';
 
 @Component({
     templateUrl: './registration-form.component.html',
-    styleUrls: ['../../login.component.scss', './registration-form.component.scss']
+    styleUrls: ['../../login.component.scss']
 })
 export class RegistrationFormComponent {
 

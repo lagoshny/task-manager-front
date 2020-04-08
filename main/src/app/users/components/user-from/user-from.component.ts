@@ -10,7 +10,6 @@ import { UserService } from '../../services/user.service';
 
 @Component({
     templateUrl: './user-from.component.html',
-    styleUrls: ['./user-from.component.scss'],
     animations: [dropDownAnimation]
 })
 export class UserFromComponent implements OnInit {

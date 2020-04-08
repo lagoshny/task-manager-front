@@ -82,50 +82,6 @@
   color: rgb(50, 157, 3);
 }
 
-.task__action_button {
-  display: inline-block;
-  width: 50%;
-  height: 1.9em;
-  color: rgb(255, 255, 255);
-  text-align: center;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-.task__action_button__text {
-  padding-top: 4px;
-  display: inline-block;
-}
-
-.task__action_button__start {
-  background-color: #7C7C7C;
-}
-
-.task__action_button__complete {
-  background-color: rgba(70, 166, 201, 1);
-}
-
-.task__menu {
-  position: absolute;
-  right: 10px;
-  z-index: 100;
-}
-
-.task__menu_item {
-  width: 8em;
-  height: 2em;
-  padding-top: 4px;
-  background-color: rgba(97, 97, 97, 1);
-  //background-color: #0f6674;
-  cursor: pointer;
-  color: rgb(255, 255, 255);
-  text-align: center;
-}
-
-.task__menu_item:hover {
-  background-color: rgba(70, 166, 201, 1);
-}
-
 .task__remove_button {
   position: absolute;
   right: 27px;
@@ -146,9 +102,6 @@
   .task__remove_button {
     right: 24px;
   }
-  .task__menu {
-    right: 0;
-  }
 }
 
 /* Medium Devices, Desktops */
@@ -159,9 +112,6 @@
   .task__remove_button {
     right: 22px;
   }
-  .task__menu {
-    right: 35px;
-  }
 }
 
 /* Small Devices, Tablets */
@@ -171,7 +121,6 @@
     /*CSS transitions*/
     -o-transition-property: none !important;
     -moz-transition-property: none !important;
-    -ms-transition-property: none !important;
     -webkit-transition-property: none !important;
     transition-property: none !important;
     /*CSS transforms*/
@@ -185,17 +134,9 @@
     animation: none !important;
   }
 
-  .task__action_button {
-    height: 2.2em;
-  }
-
   .task__info {
     position: relative;
     top: 3.2em;
-  }
-
-  .task__progress {
-    position: relative;
   }
 
   .task__progress_total_time {
@@ -210,38 +151,14 @@
     left: 16.4em;
   }
 
-  .task__menu_button {
-    position: absolute;
-    right: 1em;
-    width: 80px;
-  }
-
   .task__remove_button {
     top: 16px;
-  }
-
-  .task__menu {
-    right: 4px;
   }
 
 }
 
 /* Extra Small Devices, Phones */
 @media only screen and (max-width: 480px) {
-
-  .task__action_button {
-    width: 60%;
-  }
-
-  .task__progress {
-    bottom: 2.1em;
-  }
-
-  .task__menu_button {
-    display: none;
-    //top: 0.2em;
-    //width: 65px;
-  }
 
   .task__progress_total_time {
     bottom: 0.65em;
@@ -255,11 +172,6 @@
 
 /* Custom, iPhone Retina */
 @media only screen and (max-width: 320px) {
-
-  .task__menu_button {
-    width: 68px;
-    top: 0.3em;
-  }
 
   .task__progress_total_time {
     left: 11.3em;

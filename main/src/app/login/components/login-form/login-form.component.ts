@@ -9,7 +9,7 @@ import { LoginService } from '../../services/login.service';
 
 @Component({
     templateUrl: './login-form.component.html',
-    styleUrls: ['../../login.component.scss', './login-form.component.scss']
+    styleUrls: ['../../login.component.scss']
 })
 export class LoginFormComponent {
 

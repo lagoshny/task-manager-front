@@ -21,7 +21,6 @@
     /*CSS transitions*/
     -o-transition-property: none !important;
     -moz-transition-property: none !important;
-    -ms-transition-property: none !important;
     -webkit-transition-property: none !important;
     transition-property: none !important;
     /*CSS transforms*/
@@ -34,34 +33,10 @@
     animation: none !important;
   }
 
-  .main-menu > > > .menu-item__name {
-    display: none;
-  }
 }
 
 /* Extra Small Devices, Phones */
 @media only screen and (max-width: 480px) {
-
-  .main-menu__mobile_icon {
-    font-size: 0.8em;
-    cursor: pointer;
-  }
-
-  .main-menu__mobile {
-    position: absolute;
-    left: 0;
-    top: 38px;
-    padding: 0;
-    margin: 0;
-    background-color: rgba(97, 97, 97, 0.82);
-    list-style-type: none;
-    display: block;
-    z-index: 10;
-  }
-
-  .main-menu__mobile > > > .menu-item {
-    display: block;
-  }
 }
 
 /* Custom, iPhone Retina */

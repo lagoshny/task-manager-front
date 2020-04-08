@@ -3,8 +3,7 @@ import { TaskStatus } from '../../../core/models/constants/task-status.items';
 
 @Component({
     selector: 'tm-task-status',
-    templateUrl: './task-status.component.html',
-    styleUrls: ['./task-status.component.scss']
+    templateUrl: './task-status.component.html'
 })
 export class TaskStatusComponent {
 
