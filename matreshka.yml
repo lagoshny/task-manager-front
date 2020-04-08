@@ -12,7 +12,7 @@ project:
       styles:
         useSass: true
         files:
-          - ./resources/styles/styles.css
+          - ./resources/styles/styles.scss
           - ./vendors/styles/*.css
       scripts:
         modules: true
