@@ -116,6 +116,7 @@
     "postcss-url": "^8.0.0",
     "raw-loader": "^1.0.0",
     "sass-loader": "^7.1.0",
+    "sass-resources-loader": "^2.0.3",
     "stream-combiner2": "^1.1.1",
     "through2": "^3.0.1",
     "ts-loader": "^5.3.3",

@@ -39,7 +39,7 @@ function getCss() {
             if (isAngular) {
                 return [path.resolve(src.getSrcDir(), '**/*.css')];
             }
-            return src.getStyleFiles();
+            return src.getCommonStyleFiles();
         },
         result: {},
         get cacheFile() {

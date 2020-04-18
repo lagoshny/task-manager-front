@@ -64,17 +64,17 @@ function getVendorsWatch() {
 }
 
 function getStyleWatch() {
-    if (_.isArray(src.getStyleFiles())) {
-        const watchFiles = src.getStyleFiles().map((file) => path.resolve(path.dirname(file), '*.css'));
+    if (_.isArray(src.getCommonStyleFiles())) {
+        const watchFiles = src.getCommonStyleFiles().map((file) => path.resolve(path.dirname(file), '*.css'));
         if (src.isUseSass()) {
-            watchFiles.push(...src.getStyleFiles().map((file) => path.resolve(path.dirname(file), '*.scss')));
+            watchFiles.push(...src.getCommonStyleFiles().map((file) => path.resolve(path.dirname(file), '*.scss')));
         }
         return watchFiles;
     }
 
-    const watchFiles = path.resolve(path.dirname(src.getStyleFiles()), '*.css');
+    const watchFiles = path.resolve(path.dirname(src.getCommonStyleFiles()), '*.css');
     if (src.isUseSass()) {
-        watchFiles.push(...path.resolve(path.dirname(src.getStyleFiles()), '*.scss'));
+        watchFiles.push(...path.resolve(path.dirname(src.getCommonStyleFiles()), '*.scss'));
     }
     return watchFiles;
 }

@@ -50,7 +50,7 @@ const tasksConf = {
         }
     },
     styleBuildConfig: {
-        src: projectConf.src.getStyleFiles(),
+        src: projectConf.src.getCommonStyleFiles(),
         useSass: projectConf.src.isUseSass(),
         out: projectConf.outputs.getStylesOutName(),
         devDst: projectConf.dev.getStylesDir(),

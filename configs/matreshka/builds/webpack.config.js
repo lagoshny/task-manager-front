@@ -100,24 +100,9 @@ if (projectConf.src.scripts.isTs() || projectConf.isUseFrameworkByName('angular'
         if (projectConf.getFrameWorkConfigByName('angular').isAngularInlineStyles()) {
             module.exports.module.rules.push(
                 {
-                    test: /\.(css|scss)$/,
+                    test: /\.(css|s[ac]ss)$/,
                     use: [
-                        'raw-loader'
-                    ],
-                    include: [projectConf.src.getSrcDir()]
-                },
-                {
-                    test: /\.(scss)$/,
-                    use: [
-                        'sass-loader'
-                    ],
-                    include: [projectConf.src.getSrcDir()]
-                }
-            );
-            module.exports.module.rules.push(
-                {
-                    test: /\.(css|scss)$/,
-                    use: [
+                        'raw-loader',
                         {
                             loader: 'img-url-resolver-loader',
                             options: {
@@ -128,8 +113,28 @@ if (projectConf.src.scripts.isTs() || projectConf.isUseFrameworkByName('angular'
                         }
                     ],
                     include: [projectConf.src.getSrcDir()]
+                },
+                {
+                    test: /\.s[ac]ss$/i,
+                    use: ['sass-loader'],
+                    include: [projectConf.src.getSrcDir()]
                 }
             );
+            if (projectConf.src.getGlobalStyleFiles().length > 0) {
+                module.exports.module.rules.push(
+                    {
+                        test: /\.s[ac]ss$/i,
+                        use: [
+                            {
+                                loader: 'sass-resources-loader',
+                                options: {
+                                    resources: projectConf.src.getGlobalStyleFiles()
+                                }
+                            }
+                        ]
+                    }
+                )
+            }
         }
         if (projectConf.getFrameWorkConfigByName('angular').isAngularInlineTemplate()) {
             module.exports.module.rules.push(
@@ -148,7 +153,6 @@ if (projectConf.src.scripts.isTs() || projectConf.isUseFrameworkByName('angular'
                         {
                             loader: 'img-url-resolver-loader',
                             options: {
-                                // path: buildConf.folders.main.builds.dev.img.relative,
                                 path: projectConf.dev.getImgDirRelative(),
                                 type: 'html'
                             }

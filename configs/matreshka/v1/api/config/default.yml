@@ -11,8 +11,11 @@ project:
         - ./fonts/**.*
       styles:
         useSass: false
-        files:
-          - ./styles/*.css
+        common:
+          files:
+            - ./styles/*.css
+        global:
+          files:
       scripts:
         modules: false
         js:

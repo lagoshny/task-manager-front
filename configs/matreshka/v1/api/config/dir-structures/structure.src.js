@@ -14,7 +14,8 @@ exports.getMethods = function (currDir, srcConf, isAngularParam) {
         getHtmlFiles: getHtmlFiles,
         getImgFiles: getImgFiles,
         getFontFiles: getFontFiles,
-        getStyleFiles: getStyleFiles,
+        getCommonStyleFiles: getCommonStyleFiles,
+        getGlobalStyleFiles: getGlobalStyleFiles,
         isUseSass: isUseSass,
         getResourceFiles: getResourceFiles,
         scripts: scriptsStruct.getMethods(getSrcDir(), src.entries.scripts, isAngularParam)
@@ -39,9 +40,18 @@ function getFontFiles() {
     return getFiles(src.entries.fonts);
 }
 
-function getStyleFiles() {
-    return getFiles(src.entries.styles.files);
+function getCommonStyleFiles() {
+    return getFiles(src.entries.styles.common.files);
 }
+
+function getGlobalStyleFiles() {
+    if (src.entries.styles && src.entries.styles.global && src.entries.styles.global.files) {
+        return getFiles(src.entries.styles.global.files);
+    }
+
+    return [];
+}
+
 
 function isUseSass() {
     return src.entries.styles.useSass;

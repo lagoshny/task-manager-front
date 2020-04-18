@@ -11,9 +11,12 @@ project:
         - ./resources/fonts/**/*.*
       styles:
         useSass: true
-        files:
-          - ./resources/styles/styles.scss
-          - ./vendors/styles/*.css
+        global:
+          files:
+            - ./resources/styles/vars.scss
+        common:
+          files:
+            - ./resources/styles/styles.scss
       scripts:
         modules: true
         ts:
