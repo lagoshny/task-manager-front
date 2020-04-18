@@ -116,7 +116,14 @@ if (projectConf.src.scripts.isTs() || projectConf.isUseFrameworkByName('angular'
                 },
                 {
                     test: /\.s[ac]ss$/i,
-                    use: ['sass-loader'],
+                    use: [
+                        {
+                            loader: 'sass-loader',
+                            options: {
+                                includePaths: projectConf.src.getCommonIncludePaths()
+                            }
+                        }
+                    ],
                     include: [projectConf.src.getSrcDir()]
                 }
             );
