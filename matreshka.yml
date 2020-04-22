@@ -13,7 +13,7 @@ project:
         useSass: true
         common:
           includePaths:
-            - ./resources/styles
+            - ./resources/styles/global
           files:
             - ./resources/styles/styles.scss
       scripts:
