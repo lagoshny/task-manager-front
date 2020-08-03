@@ -14,7 +14,6 @@
             <div class="category-list__add_button"
                  (click)="onAddCategory()">
                 <i class="category-list__add_button__icon fa fa-plus"></i>
-                <div>Add new</div>
             </div>
             <ng-container *ngFor="let category of categories">
                 <tm-category [category]="category"

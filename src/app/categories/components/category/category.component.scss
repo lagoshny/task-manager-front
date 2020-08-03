@@ -17,22 +17,26 @@
 }
 
 .category__prefix {
+  padding-top: 2px;
   white-space: nowrap;
-  font-weight: bold;
+  font-weight: 700;
   background-color: $primary-blue;
   border-radius: 5px 5px 0 0;
+  font-family: $h-font;
+  text-transform: uppercase;
 }
 
 .category__link {
   display: inline-block;
   min-width: 65px;
-  min-height: 65px;
+  min-height: 63px;
   padding: 9px 5px 5px 5px;
   text-align: center;
   color: rgb(0, 0, 0);
   text-decoration: none;
   border-radius: 0 0 5px 5px;
   cursor: pointer;
+  font-family: $h-font;
 }
 
 .category__link_icon {
