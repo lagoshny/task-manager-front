@@ -1,0 +1,29 @@
+<div *ngIf="messages.length > 0">
+  <div class="row">
+    <div class="server-notification__header_icon">
+      <i [ngClass]="['fa', type.icon, 'fa-2x']"
+         [style.color]="type.color">
+      </i>
+    </div>
+    <div class="col-sm-9 col-7 align-self-center pl-0">
+      {{ title }}
+    </div>
+    <div class="server-notification__header_close_icon">
+      <i (click)="onCloseClick()" class="fa fa-times"></i>
+    </div>
+  </div>
+  <hr class="server-notification__separate_line"/>
+  <div class="row">
+    <div class="col-12">
+      <div *ngIf="messages.length > 1; else singleMessage">
+        <div *ngFor="let msg of messages">
+          <i [style.color]="type.color" class="fa fa-caret-square-o-right"></i>
+          {{ msg }}
+        </div>
+      </div>
+      <ng-template #singleMessage>
+        {{ messages }}
+      </ng-template>
+    </div>
+  </div>
+</div>

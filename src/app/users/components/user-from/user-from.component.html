@@ -1,0 +1,111 @@
+<div [@dropDownAnimation]>
+  <tm-common-page>
+    <ng-container page-header>
+      <span class="user_form__header">User information</span>
+    </ng-container>
+    <ng-container page-body>
+      <form (keydown.enter)="$event.preventDefault()"
+            (submit)="saveUser()"
+            [formGroup]="userForm">
+        <div class="row mt-md-3 mt-0">
+          <div class="col-lg-4 col-12 mt-md-0 mt-2">
+            <mat-form-field class="w-100">
+              <input aria-label="First name"
+                     class="input_block"
+                     formControlName="firstName"
+                     matInput
+                     placeholder="First name"
+                     type="text">
+            </mat-form-field>
+            <ngx-validation-messages [for]="userForm.get('firstName')"></ngx-validation-messages>
+          </div>
+          <div class="col-lg-4 col-12 mt-md-0 mt-2">
+            <mat-form-field class="w-100">
+              <input aria-label="Middle name"
+                     class="input_block"
+                     formControlName="middleName"
+                     matInput
+                     placeholder="Middle name"
+                     type="text">
+            </mat-form-field>
+            <ngx-validation-messages [for]="userForm.get('middleName')"></ngx-validation-messages>
+          </div>
+          <div class="col-lg-4 col-12 mt-md-0 mt-2">
+            <mat-form-field class="w-100">
+              <input aria-label="Last name"
+                     class="input_block"
+                     formControlName="lastName"
+                     matInput
+                     placeholder="Last name"
+                     type="text">
+            </mat-form-field>
+            <ngx-validation-messages [for]="userForm.get('lastName')"></ngx-validation-messages>
+          </div>
+        </div>
+        <div class="row mt-md-3 mt-0">
+          <div class="col-lg-4 col-12 mt-md-0 mt-2">
+            <mat-form-field class="w-100">
+              <input aria-label="City"
+                     class="input_block"
+                     formControlName="city"
+                     matInput
+                     placeholder="City"
+                     type="text">
+            </mat-form-field>
+            <ngx-validation-messages [for]="userForm.get('city')"></ngx-validation-messages>
+          </div>
+          <div class="col-lg-4 col-12 mt-md-0 mt-2">
+            <mat-form-field class="w-100">
+              <mat-label>Date of Birth</mat-label>
+              <input [matDatepicker]="picker"
+                     aria-label="Choose a date"
+                     class="input_block"
+                     formControlName="birthday"
+                     matInput
+                     placeholder="Choose a date">
+              <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <ngx-validation-messages [for]="userForm.get('birthday')"></ngx-validation-messages>
+          </div>
+          <div class="col-lg-4 col-12 mt-md-0 mt-2">
+            <mat-form-field class="w-100">
+              <input aria-label="Email"
+                     class="input_block"
+                     formControlName="email"
+                     matInput
+                     placeholder="Email"
+                     required
+                     type="text">
+            </mat-form-field>
+            <ngx-validation-messages [for]="userForm.get('email')"></ngx-validation-messages>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-lg-2 col-12">
+            <div class="input_block">
+              <button [disabled]="!userForm.valid"
+                      class="w-100"
+                      color="accent"
+                      mat-raised-button
+                      type="submit">
+                Save
+              </button>
+
+            </div>
+          </div>
+          <div class="col-lg-2 col-12 mt-md-0 mt-2">
+            <div class="input_block">
+              <button (click)="router.navigate(['/home'])"
+                      class="w-100"
+                      mat-raised-button
+                      type="button">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </tm-common-page>
+</div>

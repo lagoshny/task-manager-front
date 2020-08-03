@@ -1,0 +1,60 @@
+<div class="row justify-content-center align-items-center h-100">
+  <div class="col-xl-4 col-lg-5 col-md-6 col-sm-9 col-12">
+    <form (submit)="login()"
+          [formGroup]="loginForm">
+      <div class="login_controls">
+        <div class="row">
+          <div class="col-12">
+            <div class="login_header">
+              <span class="login_header_text">Task manager</span>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center mt-2">
+          <div class="col-sm-10 col-11">
+            <mat-form-field class="w-100">
+              <input aria-label="Username"
+                     class="login_input"
+                     formControlName="username"
+                     matInput
+                     placeholder="Username"
+                     required
+                     type="text">
+            </mat-form-field>
+            <ngx-validation-messages [for]="loginForm.get('username')"></ngx-validation-messages>
+          </div>
+        </div>
+        <div class="row justify-content-center mt-2">
+          <div class="col-sm-10 col-11">
+            <mat-form-field class="w-100">
+              <input aria-label="Password"
+                     class="login_input"
+                     formControlName="password"
+                     matInput
+                     placeholder="Password"
+                     required
+                     type="password">
+            </mat-form-field>
+            <ngx-validation-messages [for]="loginForm.get('password')"></ngx-validation-messages>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-sm-8 col-11">
+            <input [disabled]="!loginForm.valid"
+                   class="login_button login_button__blue"
+                   type="submit"
+                   value="Sing in">
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-sm-8 col-11">
+            <input class="login_button login_button__black"
+                   routerLink="/login/registration"
+                   type="button"
+                   value="Sign up">
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
