@@ -7,43 +7,43 @@ import { CustomValidators } from '../../../core/validation/custom.validators';
 import { UserService } from '../../../users/services/user.service';
 
 @Component({
-    templateUrl: './registration-form.component.html',
-    styleUrls: ['../../login.component.scss']
+  templateUrl: './registration-form.component.html',
+  styleUrls: ['../../login.component.scss']
 })
 export class RegistrationFormComponent {
 
-    public registrationForm: FormGroup;
+  public registrationForm: FormGroup;
 
-    constructor(private formBuilder: FormBuilder,
-                private router: Router,
-                private userService: UserService,
-                private logger: NGXLogger) {
-        this.buildForm();
-    }
+  constructor(private formBuilder: FormBuilder,
+              private router: Router,
+              private userService: UserService,
+              private logger: NGXLogger) {
+    this.buildForm();
+  }
 
-    public sendForm(): void {
-        const user = this.registrationForm.value as User;
-        user.password = this.registrationForm.get('passwordGroup.password').value;
+  public sendForm(): void {
+    const user = this.registrationForm.value as User;
+    user.password = this.registrationForm.get('passwordGroup.password').value;
 
-        this.userService.create(user)
-            .subscribe((/* u: User */) => {
-                    this.router.navigate(['login'])
-                        .catch(reason => this.logger.error(reason));
-                },
-                error => {
-                    this.logger.error(error);
-                });
-    }
-
-    private buildForm(): void {
-        this.registrationForm = this.formBuilder.group({
-            username: ['', [Validators.required, Validators.maxLength(100), CustomValidators.latinWithNumbers]],
-            passwordGroup: this.formBuilder.group({
-                password: ['', [Validators.required, Validators.maxLength(100), CustomValidators.passwordStrength(8)]],
-                confirmPassword: ['', [Validators.required, Validators.maxLength(100), CustomValidators.passwordStrength(8)]]
-            }, {validator: CustomValidators.passwordMatcher}),
-            email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]]
+    this.userService.create(user)
+      .subscribe((/* u: User */) => {
+          this.router.navigate(['login'])
+            .catch(reason => this.logger.error(reason));
+        },
+        error => {
+          this.logger.error(error);
         });
-    }
+  }
+
+  private buildForm(): void {
+    this.registrationForm = this.formBuilder.group({
+      username: ['', [Validators.required, Validators.maxLength(100), CustomValidators.latinWithNumbers]],
+      passwordGroup: this.formBuilder.group({
+        password: ['', [Validators.required, Validators.maxLength(100), CustomValidators.passwordStrength(8)]],
+        confirmPassword: ['', [Validators.required, Validators.maxLength(100), CustomValidators.passwordStrength(8)]]
+      }, {validator: CustomValidators.passwordMatcher}),
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]]
+    });
+  }
 
 }

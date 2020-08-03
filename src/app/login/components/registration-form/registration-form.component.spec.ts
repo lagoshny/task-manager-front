@@ -13,60 +13,60 @@ import { UserService } from '../../../users/services/user.service';
 import { RegistrationFormComponent } from './registration-form.component';
 
 describe('RegistrationFormComponent', () => {
-    let fixture: ComponentFixture<RegistrationFormComponent>;
-    let comp: RegistrationFormComponent;
-    let routerSpy: any;
-    let userServiceSpy: any;
-    let authServiceSpy: any;
+  let fixture: ComponentFixture<RegistrationFormComponent>;
+  let comp: RegistrationFormComponent;
+  let routerSpy: any;
+  let userServiceSpy: any;
+  let authServiceSpy: any;
 
-    beforeEach(async(() => {
-        routerSpy = {
-            navigate: jasmine.createSpy('navigate')
-        };
-        userServiceSpy = {
-            create: jasmine.createSpy('create')
-        };
-        authServiceSpy = {
-            setCredentials: jasmine.createSpy('setCredentials'),
-            setUser: jasmine.createSpy('setUser')
-        };
+  beforeEach(async(() => {
+    routerSpy = {
+      navigate: jasmine.createSpy('navigate')
+    };
+    userServiceSpy = {
+      create: jasmine.createSpy('create')
+    };
+    authServiceSpy = {
+      setCredentials: jasmine.createSpy('setCredentials'),
+      setUser: jasmine.createSpy('setUser')
+    };
 
-        TestBed.configureTestingModule({
-            imports: [
-                ReactiveFormsModule,
-                MatInputModule,
-                MatMomentDateModule,
-                MatDatepickerModule,
-                NgxValidationMessagesModule.forRoot({
-                    messages: {}
-                })
-            ],
-            declarations: [
-                RegistrationFormComponent
-            ],
-            providers: [
-                {provide: Router, useValue: routerSpy},
-                {provide: NGXLogger, useClass: NGXLoggerMock},
-                {provide: UserService, useValue: userServiceSpy},
-                {provide: AuthService, useValue: authServiceSpy}
-            ]
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        MatInputModule,
+        MatMomentDateModule,
+        MatDatepickerModule,
+        NgxValidationMessagesModule.forRoot({
+          messages: {}
         })
-            .compileComponents()
-            .then(() => {
-                fixture = TestBed.createComponent(RegistrationFormComponent);
-                comp = fixture.componentInstance;
-            });
-    }));
+      ],
+      declarations: [
+        RegistrationFormComponent
+      ],
+      providers: [
+        {provide: Router, useValue: routerSpy},
+        {provide: NGXLogger, useClass: NGXLoggerMock},
+        {provide: UserService, useValue: userServiceSpy},
+        {provide: AuthService, useValue: authServiceSpy}
+      ]
+    })
+      .compileComponents()
+      .then(() => {
+        fixture = TestBed.createComponent(RegistrationFormComponent);
+        comp = fixture.componentInstance;
+      });
+  }));
 
-    it('should navigate to login form after success registration', () => {
-        userServiceSpy.create.and.returnValue(of(new User()));
-        routerSpy.navigate.and.returnValue(Promise.resolve());
+  it('should navigate to login form after success registration', () => {
+    userServiceSpy.create.and.returnValue(of(new User()));
+    routerSpy.navigate.and.returnValue(Promise.resolve());
 
-        comp.sendForm();
+    comp.sendForm();
 
-        expect(routerSpy.navigate.calls.count()).toBe(1);
-        expect(routerSpy.navigate.calls.first().args[0]).toEqual(['login']);
-    });
+    expect(routerSpy.navigate.calls.count()).toBe(1);
+    expect(routerSpy.navigate.calls.first().args[0]).toEqual(['login']);
+  });
 
 });
 

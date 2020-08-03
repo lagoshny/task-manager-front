@@ -6,8 +6,8 @@ import { User } from '../../core/models/user.model';
 @Injectable()
 export class UserService extends RestService<User> {
 
-    constructor(injector: Injector) {
-        super(User, ServerApi.USERS.resource, injector);
-    }
+  constructor(injector: Injector) {
+    super(User, ServerApi.USERS.resource, injector);
+  }
 
 }

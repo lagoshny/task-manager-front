@@ -1,94 +1,94 @@
 <div class="row justify-content-center align-items-center mt-4 mb-4">
-    <div class="col-xl-4 col-lg-5 col-md-6 col-sm-9 col-12">
-        <form [formGroup]="registrationForm"
-              (submit)="sendForm()">
-            <div class="login_controls">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="login_header">
-                            <span class="login_header_text">Registration</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-center mt-2">
-                    <div class="col-sm-10 col-11">
-                        <mat-form-field class="w-100">
-                            <input type="text"
-                                   class="login_input"
-                                   aria-label="Username"
-                                   placeholder="Username"
-                                   formControlName="username"
-                                   required
-                                   matInput>
-                        </mat-form-field>
-                        <ngx-validation-messages [for]="registrationForm.get('username')"></ngx-validation-messages>
-                    </div>
-                </div>
-                <div formGroupName="passwordGroup">
-                    <div class="row justify-content-center mt-2">
-                        <div class="col-sm-10 col-11">
-                            <mat-form-field class="w-100">
-                                <input type="password"
-                                       class="login_input"
-                                       aria-label="Password"
-                                       placeholder="Password"
-                                       formControlName="password"
-                                       required
-                                       matInput>
-                            </mat-form-field>
-                            <ngx-validation-messages
-                                    [for]="registrationForm.get('passwordGroup.password')"></ngx-validation-messages>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center mt-2">
-                        <div class="col-sm-10 col-11">
-                            <mat-form-field class="w-100">
-                                <input type="password"
-                                       class="login_input"
-                                       aria-label="Confirm password"
-                                       placeholder="Confirm password"
-                                       formControlName="confirmPassword"
-                                       required
-                                       matInput>
-                            </mat-form-field>
-                            <ngx-validation-messages
-                                    [for]="registrationForm.get('passwordGroup.confirmPassword')"></ngx-validation-messages>
-                            <ngx-validation-messages
-                                    [for]="registrationForm.get('passwordGroup')"></ngx-validation-messages>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-center mt-2">
-                    <div class="col-sm-10 col-11">
-                        <mat-form-field class="w-100">
-                            <input type="text"
-                                   class="login_input"
-                                   aria-label="Email"
-                                   placeholder="Email"
-                                   formControlName="email"
-                                   required
-                                   matInput>
-                        </mat-form-field>
-                        <ngx-validation-messages [for]="registrationForm.get('email')"></ngx-validation-messages>
-                    </div>
-                </div>
-                <div class="row justify-content-center mt-2">
-                    <div class="col-sm-8 col-11">
-                        <input class="login_button login_button__blue"
-                               type="submit"
-                               [disabled]="!registrationForm.valid"
-                               value="Sign up">
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-sm-8 col-11">
-                        <input class="login_button login_button__black"
-                               type="button"
-                               routerLink="/login"
-                               value="Back to login form">
-                    </div>
-                </div>
+  <div class="col-xl-4 col-lg-5 col-md-6 col-sm-9 col-12">
+    <form (submit)="sendForm()"
+          [formGroup]="registrationForm">
+      <div class="login_controls">
+        <div class="row">
+          <div class="col-12">
+            <div class="login_header">
+              <span class="login_header_text">Registration</span>
             </div>
-        </form>
-    </div>
+          </div>
+        </div>
+        <div class="row justify-content-center mt-2">
+          <div class="col-sm-10 col-11">
+            <mat-form-field class="w-100">
+              <input aria-label="Username"
+                     class="login_input"
+                     formControlName="username"
+                     matInput
+                     placeholder="Username"
+                     required
+                     type="text">
+            </mat-form-field>
+            <ngx-validation-messages [for]="registrationForm.get('username')"></ngx-validation-messages>
+          </div>
+        </div>
+        <div formGroupName="passwordGroup">
+          <div class="row justify-content-center mt-2">
+            <div class="col-sm-10 col-11">
+              <mat-form-field class="w-100">
+                <input aria-label="Password"
+                       class="login_input"
+                       formControlName="password"
+                       matInput
+                       placeholder="Password"
+                       required
+                       type="password">
+              </mat-form-field>
+              <ngx-validation-messages
+                [for]="registrationForm.get('passwordGroup.password')"></ngx-validation-messages>
+            </div>
+          </div>
+          <div class="row justify-content-center mt-2">
+            <div class="col-sm-10 col-11">
+              <mat-form-field class="w-100">
+                <input aria-label="Confirm password"
+                       class="login_input"
+                       formControlName="confirmPassword"
+                       matInput
+                       placeholder="Confirm password"
+                       required
+                       type="password">
+              </mat-form-field>
+              <ngx-validation-messages
+                [for]="registrationForm.get('passwordGroup.confirmPassword')"></ngx-validation-messages>
+              <ngx-validation-messages
+                [for]="registrationForm.get('passwordGroup')"></ngx-validation-messages>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center mt-2">
+          <div class="col-sm-10 col-11">
+            <mat-form-field class="w-100">
+              <input aria-label="Email"
+                     class="login_input"
+                     formControlName="email"
+                     matInput
+                     placeholder="Email"
+                     required
+                     type="text">
+            </mat-form-field>
+            <ngx-validation-messages [for]="registrationForm.get('email')"></ngx-validation-messages>
+          </div>
+        </div>
+        <div class="row justify-content-center mt-2">
+          <div class="col-sm-8 col-11">
+            <input [disabled]="!registrationForm.valid"
+                   class="login_button login_button__blue"
+                   type="submit"
+                   value="Sign up">
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-sm-8 col-11">
+            <input class="login_button login_button__black"
+                   routerLink="/login"
+                   type="button"
+                   value="Back to login form">
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>

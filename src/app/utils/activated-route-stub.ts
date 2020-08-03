@@ -6,23 +6,22 @@ import { ReplaySubject } from 'rxjs';
  * Use the `setParamMap()` method to add the next `paramMap` value.
  */
 export class ActivatedRouteStub {
-    // Use a ReplaySubject to share previous values with subscribers
-    // and pump new values into the `paramMap` observable
-    private subject = new ReplaySubject<ParamMap>();
+  // Use a ReplaySubject to share previous values with subscribers
+  // and pump new values into the `paramMap` observable
+  private subject = new ReplaySubject<ParamMap>();
+  /** The mock paramMap observable */
+  readonly paramMap = this.subject.asObservable();
 
-    constructor(initialParams?: Params) {
-        this.setParamMap(initialParams);
-    }
+  readonly snapshot: any = {};
 
-    /** The mock paramMap observable */
-    readonly paramMap = this.subject.asObservable();
+  constructor(initialParams?: Params) {
+    this.setParamMap(initialParams);
+  }
 
-    readonly snapshot: any = {};
-
-    /** Set the paramMap observables's next value */
-    setParamMap(params?: Params) {
-        this.subject.next(convertToParamMap(params));
-        this.snapshot.paramMap = convertToParamMap(params);
-    };
+  /** Set the paramMap observables's next value */
+  public setParamMap(params?: Params): void {
+    this.subject.next(convertToParamMap(params));
+    this.snapshot.paramMap = convertToParamMap(params);
+  }
 
 }

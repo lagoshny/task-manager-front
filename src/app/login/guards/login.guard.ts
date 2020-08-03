@@ -10,21 +10,21 @@ import { AuthService } from '../../core/services/auth.service';
 @Injectable()
 export class LoginGuard implements CanActivate {
 
-    constructor(private router: Router,
-                private logger: NGXLogger,
-                private authService: AuthService) {
+  constructor(private router: Router,
+              private logger: NGXLogger,
+              private authService: AuthService) {
+  }
+
+  public canActivate(route: ActivatedRouteSnapshot,
+                     state: RouterStateSnapshot): boolean {
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['home']).catch(reason => {
+        this.logger.error(reason);
+      });
+      return false;
     }
 
-    public canActivate(route: ActivatedRouteSnapshot,
-                       state: RouterStateSnapshot): boolean {
-        if (this.authService.isAuthenticated()) {
-            this.router.navigate(['home']).catch(reason => {
-                this.logger.error(reason);
-            });
-            return false;
-        }
-
-        return true;
-    }
+    return true;
+  }
 
 }

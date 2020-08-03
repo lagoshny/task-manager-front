@@ -6,18 +6,18 @@ import { MenuComponent } from './components/menu/menu.component';
 import { HeaderComponent } from './header.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-    ],
-    declarations: [
-        MenuItemComponent,
-        MenuComponent,
-        HeaderComponent
-    ],
-    exports: [
-        HeaderComponent
-    ]
+  imports: [
+    CommonModule,
+    RouterModule,
+  ],
+  declarations: [
+    MenuItemComponent,
+    MenuComponent,
+    HeaderComponent
+  ],
+  exports: [
+    HeaderComponent
+  ]
 })
 export class HeaderModule {
 }

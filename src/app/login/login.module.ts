@@ -16,30 +16,30 @@ import { LoginRoutingModule } from './login.routing.module';
 import { LoginService } from './services/login.service';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        RouterModule,
-        CoreModule,
-        LoginRoutingModule,
-        UsersModule,
-        NgxValidationMessagesModule,
-        MatInputModule,
-        MatMomentDateModule,
-        MatDatepickerModule
-    ],
-    declarations: [
-        LoginComponent,
-        LoginFormComponent,
-        RegistrationFormComponent
-    ],
-    providers: [
-        LoginGuard,
-        LoginService
-    ],
-    exports: [
-        LoginComponent
-    ]
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    CoreModule,
+    LoginRoutingModule,
+    UsersModule,
+    NgxValidationMessagesModule,
+    MatInputModule,
+    MatMomentDateModule,
+    MatDatepickerModule
+  ],
+  declarations: [
+    LoginComponent,
+    LoginFormComponent,
+    RegistrationFormComponent
+  ],
+  providers: [
+    LoginGuard,
+    LoginService
+  ],
+  exports: [
+    LoginComponent
+  ]
 })
 export class LoginModule {
 }

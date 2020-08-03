@@ -6,22 +6,22 @@ import { StringUtils } from '../utils/string.utils';
  * If string exceeds max characters passed to pipe then exceeded part of the string replace with ellipsis.
  */
 @Pipe({
-    name: 'amountCharacters'
+  name: 'amountCharacters'
 })
 export class AmountCharactersPipe implements PipeTransform {
 
-    public transform(str: string, maxCharacters: number): string {
-        if (!str || !maxCharacters || str.length <= maxCharacters) {
-            return str;
-        }
-        const maxCharactersWithEllipsis = maxCharacters - 3;
-        if (str.length > maxCharactersWithEllipsis) {
-            const separatedString = str.slice(0, maxCharactersWithEllipsis).split(StringUtils.SPACE);
-            separatedString.slice(separatedString.length - 1, 1);
-            return separatedString.join(StringUtils.SPACE).trim() + StringUtils.ELLIPSIS;
-        }
-
-        return str;
+  public transform(str: string, maxCharacters: number): string {
+    if (!str || !maxCharacters || str.length <= maxCharacters) {
+      return str;
     }
+    const maxCharactersWithEllipsis = maxCharacters - 3;
+    if (str.length > maxCharactersWithEllipsis) {
+      const separatedString = str.slice(0, maxCharactersWithEllipsis).split(StringUtils.SPACE);
+      separatedString.slice(separatedString.length - 1, 1);
+      return separatedString.join(StringUtils.SPACE).trim() + StringUtils.ELLIPSIS;
+    }
+
+    return str;
+  }
 
 }

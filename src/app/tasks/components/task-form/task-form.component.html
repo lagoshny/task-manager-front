@@ -1,179 +1,179 @@
 <div [@dropDownAnimation]>
-    <tm-common-page>
-        <ng-container page-header>
-            {{ formHeader }}
-        </ng-container>
-        <ng-container page-body>
-            <form [formGroup]="taskForm"
-                  (submit)="sendForm()">
-                <div class="row">
-                    <div class="col-12">
-                        <ng-container *ngIf="router.isActive('tasks/edit', false)">
-                            <div class="row">
-                                <div class="col-2">
-                                    <mat-form-field class="w-100">
-                                        <input type="text"
-                                               aria-label="Status"
-                                               placeholder="Task status"
-                                               formControlName="status"
-                                               [style.color]="getStatusColor()"
-                                               matInput>
-                                    </mat-form-field>
-                                </div>
-                                <div class="col-10">
-                                    <tm-task-status [status]="taskForm.get('status').value"
-                                                    (changeStatus)="onChangeStatus($event)">
-                                    </tm-task-status>
-                                </div>
-                            </div>
-                        </ng-container>
-                        <div class="row mt-4">
-                            <div class="col-6">
-                                <mat-form-field class="w-100">
-                                    <input type="text"
-                                           aria-label="Name"
-                                           placeholder="Task name"
-                                           formControlName="name"
-                                           matInput
-                                           required>
-                                </mat-form-field>
-                                <ngx-validation-messages [for]="taskForm.get('name')"></ngx-validation-messages>
-                            </div>
-                            <div class="col-6">
-                                <mat-form-field class="w-100">
-                                    <input type="text"
-                                           aria-label="Category"
-                                           placeholder="Choose category"
-                                           formControlName="category"
-                                           matInput
-                                           required
-                                           [matAutocomplete]="auto">
-                                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCategory">
-                                        <mat-option *ngFor="let option of filteredCategories | async" [value]="option">
-                                            {{option.name}}
-                                        </mat-option>
-                                    </mat-autocomplete>
-                                </mat-form-field>
+  <tm-common-page>
+    <ng-container page-header>
+      {{ formHeader }}
+    </ng-container>
+    <ng-container page-body>
+      <form (submit)="sendForm()"
+            [formGroup]="taskForm">
+        <div class="row">
+          <div class="col-12">
+            <ng-container *ngIf="router.isActive('tasks/edit', false)">
+              <div class="row">
+                <div class="col-2">
+                  <mat-form-field class="w-100">
+                    <input [style.color]="getStatusColor()"
+                           aria-label="Status"
+                           formControlName="status"
+                           matInput
+                           placeholder="Task status"
+                           type="text">
+                  </mat-form-field>
+                </div>
+                <div class="col-10">
+                  <tm-task-status (changeStatus)="onChangeStatus($event)"
+                                  [status]="taskForm.get('status').value">
+                  </tm-task-status>
+                </div>
+              </div>
+            </ng-container>
+            <div class="row mt-4">
+              <div class="col-6">
+                <mat-form-field class="w-100">
+                  <input aria-label="Name"
+                         formControlName="name"
+                         matInput
+                         placeholder="Task name"
+                         required
+                         type="text">
+                </mat-form-field>
+                <ngx-validation-messages [for]="taskForm.get('name')"></ngx-validation-messages>
+              </div>
+              <div class="col-6">
+                <mat-form-field class="w-100">
+                  <input [matAutocomplete]="auto"
+                         aria-label="Category"
+                         formControlName="category"
+                         matInput
+                         placeholder="Choose category"
+                         required
+                         type="text">
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCategory">
+                    <mat-option *ngFor="let option of filteredCategories | async" [value]="option">
+                      {{option.name}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
 
-                                <ngx-validation-messages [for]="taskForm.get('category')"></ngx-validation-messages>
-                            </div>
-                        </div>
+                <ngx-validation-messages [for]="taskForm.get('category')"></ngx-validation-messages>
+              </div>
+            </div>
 
-                        <div class="row mt-2">
-                            <div class="col-12">
-                                <mat-form-field class="w-100">
+            <div class="row mt-2">
+              <div class="col-12">
+                <mat-form-field class="w-100">
                                     <textarea aria-label="Description"
-                                              placeholder="Task description"
                                               formControlName="description"
-                                              matTextareaAutosize
-                                              matAutosizeMinRows="7"
                                               matAutosizeMaxRows="10"
-                                              matInput>
+                                              matAutosizeMinRows="7"
+                                              matInput
+                                              matTextareaAutosize
+                                              placeholder="Task description">
                                     </textarea>
-                                </mat-form-field>
-                                <ngx-validation-messages [for]="taskForm.get('description')"></ngx-validation-messages>
-                            </div>
-                        </div>
+                </mat-form-field>
+                <ngx-validation-messages [for]="taskForm.get('description')"></ngx-validation-messages>
+              </div>
+            </div>
 
-                        <div class="row mt-2">
-                            <div class="col-6">
-                                <mat-form-field class="w-100">
-                                    <mat-select placeholder="Task priority"
-                                                formControlName="priority"
-                                                required>
-                                        <mat-option *ngFor="let option of taskPriorities" [value]="option">
+            <div class="row mt-2">
+              <div class="col-6">
+                <mat-form-field class="w-100">
+                  <mat-select formControlName="priority"
+                              placeholder="Task priority"
+                              required>
+                    <mat-option *ngFor="let option of taskPriorities" [value]="option">
                                             <span [style.color]="option.color">
                                                 <i [ngClass]="['fa', option.icon]"></i> {{option.name}}
                                             </span>
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <ngx-validation-messages [for]="taskForm.get('priority')"></ngx-validation-messages>
-                            </div>
-                            <ng-container *ngIf="router.isActive('tasks/edit', false)">
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <ngx-validation-messages [for]="taskForm.get('priority')"></ngx-validation-messages>
+              </div>
+              <ng-container *ngIf="router.isActive('tasks/edit', false)">
 
-                                <div class="task_form__need_time_management col-4 align-self-center">
-                                    <mat-checkbox class="w-100"
-                                                  formControlName="needTimeManagement">
-                                        Need time management?
-                                    </mat-checkbox>
-                                    <i class="fa fa-question-circle-o task_form__tooltip"
-                                       matTooltip="Check it, if you want to set time to complete for the task">
-                                    </i>
-                                    <i *ngIf="taskForm.get('needTimeManagement').disabled"
-                                       class="fa fa-exclamation task_form__tooltip task_form__tooltip_extra"
-                                       [matTooltip]="'You can\'t change this option while the task has \''+ taskForm.get('status').value + '\' status'">
-                                    </i>
-                                </div>
-                            </ng-container>
-                        </div>
-
-                        <div [@showSection]="showTimeSection"
-                             [@changeHeight]="showTimeSection">
-                            <div *ngIf="showTimeSection"
-                                 class="row mt-2">
-                                <div class="col-4">
-                                    <mat-form-field class="w-100">
-                                        <input type="number"
-                                               aria-label="Duration"
-                                               placeholder="Duration (minutes)"
-                                               formControlName="totalTime"
-                                               matInput>
-                                    </mat-form-field>
-                                    <ngx-validation-messages
-                                            [for]="taskForm.get('totalTime')"></ngx-validation-messages>
-                                </div>
-                                <div class="col-4">
-                                    <mat-form-field class="w-100">
-                                        <input type="number"
-                                               aria-label="Spent time (minutes)"
-                                               placeholder="Spent time (minutes)"
-                                               formControlName="spentTime"
-                                               matInput>
-                                    </mat-form-field>
-                                    <ngx-validation-messages
-                                            [for]="taskForm.get('spentTime')"></ngx-validation-messages>
-                                </div>
-                                <div class="col-4 align-self-center">
-                                    <mat-checkbox class="w-100"
-                                                  formControlName="autoReduce">
-                                        Need auto reduce time?
-                                    </mat-checkbox>
-                                    <i class="fa fa-question-circle-o task_form__tooltip"
-                                       matTooltip="Check it, if you want to allow system reducing the left
-                                                   time of the task automatically or unchecked it for manage the task time manually">
-                                    </i>
-                                    <i *ngIf="taskForm.get('needTimeManagement').disabled"
-                                       class="fa fa-exclamation task_form__tooltip task_form__tooltip_extra"
-                                       [matTooltip]="'You can\'t change this option while the task has \''+ taskForm.get('status').value + '\' status'">
-                                    </i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mt-2">
-                            <div class="col-2">
-                                <button type="submit"
-                                        [disabled]="taskForm.invalid"
-                                        class="w-100"
-                                        mat-raised-button
-                                        color="accent">
-                                    {{buttonName}}
-                                </button>
-                            </div>
-                            <div class="col-2">
-                                <button type="button"
-                                        class="w-100"
-                                        mat-raised-button
-                                        (click)="router.navigate(['/home'])">
-                                    Close
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
+                <div class="task_form__need_time_management col-4 align-self-center">
+                  <mat-checkbox class="w-100"
+                                formControlName="needTimeManagement">
+                    Need time management?
+                  </mat-checkbox>
+                  <i class="fa fa-question-circle-o task_form__tooltip"
+                     matTooltip="Check it, if you want to set time to complete for the task">
+                  </i>
+                  <i *ngIf="taskForm.get('needTimeManagement').disabled"
+                     [matTooltip]="'You can\'t change this option while the task has \''+ taskForm.get('status').value + '\' status'"
+                     class="fa fa-exclamation task_form__tooltip task_form__tooltip_extra">
+                  </i>
                 </div>
-            </form>
-        </ng-container>
-    </tm-common-page>
+              </ng-container>
+            </div>
+
+            <div [@changeHeight]="showTimeSection"
+                 [@showSection]="showTimeSection">
+              <div *ngIf="showTimeSection"
+                   class="row mt-2">
+                <div class="col-4">
+                  <mat-form-field class="w-100">
+                    <input aria-label="Duration"
+                           formControlName="totalTime"
+                           matInput
+                           placeholder="Duration (minutes)"
+                           type="number">
+                  </mat-form-field>
+                  <ngx-validation-messages
+                    [for]="taskForm.get('totalTime')"></ngx-validation-messages>
+                </div>
+                <div class="col-4">
+                  <mat-form-field class="w-100">
+                    <input aria-label="Spent time (minutes)"
+                           formControlName="spentTime"
+                           matInput
+                           placeholder="Spent time (minutes)"
+                           type="number">
+                  </mat-form-field>
+                  <ngx-validation-messages
+                    [for]="taskForm.get('spentTime')"></ngx-validation-messages>
+                </div>
+                <div class="col-4 align-self-center">
+                  <mat-checkbox class="w-100"
+                                formControlName="autoReduce">
+                    Need auto reduce time?
+                  </mat-checkbox>
+                  <i class="fa fa-question-circle-o task_form__tooltip"
+                     matTooltip="Check it, if you want to allow system reducing the left
+                                                   time of the task automatically or unchecked it for manage the task time manually">
+                  </i>
+                  <i *ngIf="taskForm.get('needTimeManagement').disabled"
+                     [matTooltip]="'You can\'t change this option while the task has \''+ taskForm.get('status').value + '\' status'"
+                     class="fa fa-exclamation task_form__tooltip task_form__tooltip_extra">
+                  </i>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-2">
+                <button [disabled]="taskForm.invalid"
+                        class="w-100"
+                        color="accent"
+                        mat-raised-button
+                        type="submit">
+                  {{buttonName}}
+                </button>
+              </div>
+              <div class="col-2">
+                <button (click)="router.navigate(['/home'])"
+                        class="w-100"
+                        mat-raised-button
+                        type="button">
+                  Close
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </tm-common-page>
 </div>

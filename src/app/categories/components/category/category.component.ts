@@ -2,35 +2,35 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TaskCategory } from '../../../core/models/task-category.model';
 
 @Component({
-    selector: 'tm-category',
-    templateUrl: './category.component.html',
-    styleUrls: ['./category.component.scss']
+  selector: 'tm-category',
+  templateUrl: './category.component.html',
+  styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent {
 
-    @Input()
-    public category: TaskCategory;
+  @Input()
+  public category: TaskCategory;
 
-    @Output()
-    public readonly categoryClick = new EventEmitter<TaskCategory>();
+  @Output()
+  public readonly categoryClick = new EventEmitter<TaskCategory>();
 
-    @Output()
-    public readonly categoryEdit = new EventEmitter<TaskCategory>();
+  @Output()
+  public readonly categoryEdit = new EventEmitter<TaskCategory>();
 
-    @Output()
-    public readonly categoryDelete = new EventEmitter<TaskCategory>();
+  @Output()
+  public readonly categoryDelete = new EventEmitter<TaskCategory>();
 
-    public categoryMenuOpacity = 0;
+  public categoryMenuOpacity = 0;
 
-    public isCategoryActive = false;
+  public isCategoryActive = false;
 
-    public onChangeCategoryMenuOpacity(value: number): void {
-        this.categoryMenuOpacity = value;
-    }
+  public onChangeCategoryMenuOpacity(value: number): void {
+    this.categoryMenuOpacity = value;
+  }
 
-    public onCategoryClick(): void {
-        this.isCategoryActive = !this.isCategoryActive;
-        this.categoryClick.emit(this.category);
-    }
+  public onCategoryClick(): void {
+    this.isCategoryActive = !this.isCategoryActive;
+    this.categoryClick.emit(this.category);
+  }
 
 }

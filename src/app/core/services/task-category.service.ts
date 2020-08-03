@@ -8,33 +8,33 @@ import { TaskCategory } from '../models/task-category.model';
 @Injectable()
 export class TaskCategoryService {
 
-    public categoriesByFilter = new Subject<Array<TaskCategory>>();
+  public categoriesByFilter = new Subject<Array<TaskCategory>>();
 
-    public tasks = new Subject<void>();
+  public tasks = new Subject<void>();
 
-    public categories = new Subject<void>();
+  public categories = new Subject<void>();
 
-    /**
-     * Generates a filtering event for the selected category list.
-     *
-     * @param categories list of categories for filtering
-     */
-    public updateCategoriesByFilter(categories: Array<TaskCategory>): void {
-        this.categoriesByFilter.next(categories);
-    }
+  /**
+   * Generates a filtering event for the selected category list.
+   *
+   * @param categories list of categories for filtering
+   */
+  public updateCategoriesByFilter(categories: Array<TaskCategory>): void {
+    this.categoriesByFilter.next(categories);
+  }
 
-    /**
-     * Generates an event that needs to update the task list.
-     */
-    public refreshTasks(): void {
-        this.tasks.next();
-    }
+  /**
+   * Generates an event that needs to update the task list.
+   */
+  public refreshTasks(): void {
+    this.tasks.next();
+  }
 
-    /**
-     * Generates an event that needs to update the categories list.
-     */
-    public refreshCategories(): void {
-        this.categories.next();
-    }
+  /**
+   * Generates an event that needs to update the categories list.
+   */
+  public refreshCategories(): void {
+    this.categories.next();
+  }
 
 }

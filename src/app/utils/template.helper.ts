@@ -5,15 +5,15 @@ import { ComponentFixture } from '@angular/core/testing';
  */
 export class TemplateHelper<T> {
 
-    constructor(public fixture: ComponentFixture<T>) {
-    }
+  constructor(public fixture: ComponentFixture<T>) {
+  }
 
-    public query<T>(selector: string): T {
-        return this.fixture.nativeElement.querySelector(selector);
-    }
+  public query<E>(selector: string): E {
+    return this.fixture.nativeElement.querySelector(selector);
+  }
 
-    public queryAll<T>(selector: string): T[] {
-        return this.fixture.nativeElement.querySelectorAll(selector);
-    }
+  public queryAll<E>(selector: string): E[] {
+    return this.fixture.nativeElement.querySelectorAll(selector);
+  }
 
 }

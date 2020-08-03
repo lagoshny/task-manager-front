@@ -7,31 +7,31 @@ import { NotificationType } from '../models/notification-type.model';
 @Injectable()
 export class NotificationService {
 
-    constructor(private snackBar: MatSnackBar) {
-    }
+  constructor(private snackBar: MatSnackBar) {
+  }
 
-    public showSuccess(messages: Array<string>, duration: number = 2000): void {
-        if (!_.isEmpty(messages)) {
-            this.snackBar.openFromComponent(NotificationLayoutComponent,
-                {
-                    data: {title: 'Success', messages, type: NotificationType.SUCCESS},
-                    verticalPosition: 'top',
-                    horizontalPosition: 'right',
-                    duration: duration
-                });
-        }
+  public showSuccess(messages: Array<string>, duration: number = 2000): void {
+    if (!_.isEmpty(messages)) {
+      this.snackBar.openFromComponent(NotificationLayoutComponent,
+        {
+          data: {title: 'Success', messages, type: NotificationType.SUCCESS},
+          verticalPosition: 'top',
+          horizontalPosition: 'right',
+          duration
+        });
     }
+  }
 
-    public showErrors(messages: Array<string>, duration: number = 2000): void {
-        if (!_.isEmpty(messages)) {
-            this.snackBar.openFromComponent(NotificationLayoutComponent,
-                {
-                    data: {title: 'Error', messages, type: NotificationType.ERROR},
-                    verticalPosition: 'top',
-                    horizontalPosition: 'right',
-                    duration: duration
-                });
-        }
+  public showErrors(messages: Array<string>, duration: number = 2000): void {
+    if (!_.isEmpty(messages)) {
+      this.snackBar.openFromComponent(NotificationLayoutComponent,
+        {
+          data: {title: 'Error', messages, type: NotificationType.ERROR},
+          verticalPosition: 'top',
+          horizontalPosition: 'right',
+          duration
+        });
     }
+  }
 
 }

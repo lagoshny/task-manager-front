@@ -21,33 +21,33 @@ import { CategoryService } from './services/category.service';
 import { TaskService } from './services/task.service';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        CoreModule,
-        ReactiveFormsModule,
-        NgxValidationMessagesModule,
-        MatInputModule,
-        MatAutocompleteModule,
-        MatSelectModule,
-        MatDatepickerModule,
-        MatCheckboxModule,
-        MatButtonModule,
-        MatTooltipModule,
-        MatSnackBarModule
-    ],
-    declarations: [
-        QuickTaskCreateComponent,
-        TaskComponent,
-        TimeIconComponent,
-        TaskListComponent,
-        TaskFormComponent,
-        TaskStatusComponent
-    ],
-    providers: [
-        TaskService,
-        CategoryService
-    ],
-    exports: [TaskListComponent]
+  imports: [
+    CommonModule,
+    CoreModule,
+    ReactiveFormsModule,
+    NgxValidationMessagesModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatCheckboxModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatSnackBarModule
+  ],
+  declarations: [
+    QuickTaskCreateComponent,
+    TaskComponent,
+    TimeIconComponent,
+    TaskListComponent,
+    TaskFormComponent,
+    TaskStatusComponent
+  ],
+  providers: [
+    TaskService,
+    CategoryService
+  ],
+  exports: [TaskListComponent]
 })
 export class TasksModule {
 }

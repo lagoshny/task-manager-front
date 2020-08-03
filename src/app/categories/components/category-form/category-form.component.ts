@@ -30,6 +30,8 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
 
   private subs: Array<Subscription> = [];
 
+  private categoryToEdit: TaskCategory;
+
   constructor(public router: Router,
               private formBuilder: FormBuilder,
               private activatedRoute: ActivatedRoute,
@@ -38,8 +40,6 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
               private authService: AuthService,
               private categoryService: CategoryService) {
   }
-
-  private categoryToEdit: TaskCategory;
 
   public ngOnInit(): void {
     this.categoryForm = this.buildForm();
