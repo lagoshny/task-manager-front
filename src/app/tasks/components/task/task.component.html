@@ -1,0 +1,73 @@
+<div [ngClass]="['task', priorityClassName]">
+
+  <div class="row">
+    <div (click)="onClickTask()" class="col-xl-9 col-lg-9 col-md-7 task_select">
+      <div class="row ml-1 mr-1 pt-md-1 pt-0">
+        <div class="col-12 mt-md-0 mt-2">
+                     <span class="task__name">
+                        <i class="fa fa-arrow-circle-o-right"></i>
+                       {{ task.category.prefix | uppercase }} - {{ task.number }}
+                    </span>
+          <span class="task__description">
+                        {{ task.name }}
+                    </span>
+          <span [style.color]="getStatusColor()" class="task__status_name">
+                        [{{ task.status }}]
+                    </span>
+        </div>
+      </div>
+
+      <div class="row ml-1 mr-1 pb-md-2 mb-0">
+        <div class="col-md-6 col-sm-12 order-md-0 order-12 mt-md-0 mb-md-0 mb-2 align-self-end">
+
+                    <span class="task__bottom task__creation_date mr-1">
+                        <i class="fa fa-clock-o"></i>
+                      {{ task.creationDate | date: 'shortDate' }}
+                    </span>
+          <span class="task__bottom task__creation_author mr-1">
+                        <i class="fa fa-user"></i>
+                        Author: {{ task.author.username }}
+                        </span>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-3 col-12 align-self-center text-md-right ">
+      <div class="row ml-md-0 mr-md-0 ml-1 mr-1">
+
+        <div class="col-md-12">
+                    <span class="task__total_time task__progress_total_time">
+                        <span class="task__total_time_icon">
+                            <ng-container *ngIf="task.needTimeManagement && task.totalTime; else withoutTimeIcon">
+                                <i class="fa fa-history"></i>
+                            </ng-container>
+                            <ng-template #withoutTimeIcon>
+                                <i class="fa fa-info-circle"></i>
+                            </ng-template>
+                        </span>
+                      {{ totalMinutesAsString }}
+                    </span>
+        </div>
+        <div *ngIf="task.needTimeManagement && task.totalTime" class="col-md-12">
+                    <span class="task__left_time task__progress_left_time">
+                    <span class="task__left_time_icon">
+                        <tm-time-icon [leftTime]="task.leftTime"
+                                      [status]="task.status"
+                                      [totalTime]="task.totalTime">
+                        </tm-time-icon>
+                    </span>
+                      {{ leftTimeAsString}}
+                    </span>
+        </div>
+      </div>
+
+    </div>
+
+    <div (click)="removeTask.emit(task)" class="task__remove_button">
+      <i class="fa fa-trash"></i>
+    </div>
+  </div>
+
+</div>
+

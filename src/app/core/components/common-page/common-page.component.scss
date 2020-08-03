@@ -1,0 +1,42 @@
+@import "media-queries";
+@import "vars";
+
+.common_page {
+  margin: 3em 1em;
+  @include df-xs {
+    margin: 2em 1em;
+  }
+}
+
+.common_page__header {
+  width: 80%;
+  height: 2.3em;
+  margin: 0 auto;
+  padding-top: 0.4em;
+  padding-left: 1em;
+  color: rgb(255, 255, 255);
+  background-color: $primary-blue;
+  font-size: 1.2em;
+  font-family: $h-font;
+  @include df-md {
+    width: 90%;
+  }
+  @include df-xs {
+    font-size: 1em;
+    width: 100%;
+  }
+}
+
+.common_page__body {
+  width: 80%;
+  margin: 0 auto;
+  padding: 1em 1.5em 1.8em;
+  background: rgb(255, 255, 255);
+  font-family: RobotoRegular, SansSerif sans-serif;
+  @include df-md {
+    width: 90%;
+  }
+  @include df-xs {
+    width: 100%;
+  }
+}

@@ -1,0 +1,25 @@
+<div class="category"
+     (mouseenter)="onChangeCategoryMenuOpacity(1)"
+     (mouseleave)="onChangeCategoryMenuOpacity(0)">
+  <div class="category__item"
+       [style.opacity]="isCategoryActive || categoryMenuOpacity > 0 ? 1 : 0.7"
+       (click)="onCategoryClick()">
+    <div class="category__prefix" [title]="category.prefix">{{ category.prefix | amountCharacters: 10 }}</div>
+    <div class="category__link">
+      <i [ngClass]="['category__link_icon', 'fa', category.icon ? category.icon : 'fa-certificate',
+                            isCategoryActive ? 'category__active' : 'category__inactive']">
+      </i>
+      <div [title]="category.name">{{ category.name | amountCharacters: 11 }}</div>
+    </div>
+  </div>
+  <div class="category_menu" [style.opacity]="categoryMenuOpacity">
+    <div class="category__item_menu category__item_menu__edit"
+         (click)="categoryEdit.emit(category)">
+      <i class="fa fa-pencil"></i>
+    </div>
+    <div class="category__item_menu category__item_menu__delete"
+         (click)="categoryDelete.emit(category)">
+      <i class="fa fa-trash"></i>
+    </div>
+  </div>
+</div>
