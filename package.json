@@ -38,7 +38,7 @@
     "npm": "^6.9.0",
     "angular-tslint-rules": "^1.12.1",
     "codelyzer": "^4.5.0",
-    "@lagoshny/ngx-hal-client": "^1.0.16",
+    "@lagoshny/ngx-hal-client": "^1.1.3",
     "@lagoshny/ngx-validation-messages": "^1.0.11"
   },
   "devDependencies": {
