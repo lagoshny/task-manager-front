@@ -10,8 +10,7 @@
                 <div class="row mt-md-3 mt-0">
                     <div class="col-lg-4 col-12 mt-md-0 mt-2">
                         <mat-form-field class="w-100">
-                            <input class="input_block"
-                                   type="text"
+                            <input type="text"
                                    aria-label="First name"
                                    placeholder="First name"
                                    formControlName="firstName"
@@ -21,8 +20,7 @@
                     </div>
                     <div class="col-lg-4 col-12 mt-md-0 mt-2">
                         <mat-form-field class="w-100">
-                            <input class="input_block"
-                                   type="text"
+                            <input type="text"
                                    aria-label="Middle name"
                                    placeholder="Middle name"
                                    formControlName="middleName"
@@ -32,8 +30,7 @@
                     </div>
                     <div class="col-lg-4 col-12 mt-md-0 mt-2">
                         <mat-form-field class="w-100">
-                            <input class="input_block"
-                                   type="text"
+                            <input type="text"
                                    aria-label="Last name"
                                    placeholder="Last name"
                                    formControlName="lastName"
@@ -45,8 +42,7 @@
                 <div class="row mt-md-3 mt-0">
                     <div class="col-lg-4 col-12 mt-md-0 mt-2">
                         <mat-form-field class="w-100">
-                            <input class="input_block"
-                                   type="text"
+                            <input type="text"
                                    aria-label="City"
                                    placeholder="City"
                                    formControlName="city"
@@ -57,8 +53,7 @@
                     <div class="col-lg-4 col-12 mt-md-0 mt-2">
                         <mat-form-field class="w-100">
                             <mat-label>Date of Birth</mat-label>
-                            <input class="input_block"
-                                   aria-label="Choose a date"
+                            <input aria-label="Choose a date"
                                    placeholder="Choose a date"
                                    formControlName="birthday"
                                    matInput
@@ -70,8 +65,7 @@
                     </div>
                     <div class="col-lg-4 col-12 mt-md-0 mt-2">
                         <mat-form-field class="w-100">
-                            <input class="input_block"
-                                   type="text"
+                            <input type="text"
                                    aria-label="Email"
                                    placeholder="Email"
                                    formControlName="email"
@@ -83,26 +77,21 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-lg-2 col-12">
-                        <div class="input_block">
-                            <button type="submit"
-                                    class="w-100"
-                                    [disabled]="!userForm.valid"
-                                    mat-raised-button
-                                    color="accent">
-                                Save
-                            </button>
-
-                        </div>
+                        <button type="submit"
+                                class="w-100"
+                                [disabled]="!userForm.valid"
+                                mat-raised-button
+                                color="accent">
+                            Save
+                        </button>
                     </div>
                     <div class="col-lg-2 col-12 mt-md-0 mt-2">
-                        <div class="input_block">
-                            <button type="button"
-                                    class="w-100"
-                                    mat-raised-button
-                                    (click)="router.navigate(['/home'])">
-                                Close
-                            </button>
-                        </div>
+                        <button type="button"
+                                class="w-100"
+                                mat-raised-button
+                                (click)="router.navigate(['/home'])">
+                            Close
+                        </button>
                     </div>
                 </div>
             </form>

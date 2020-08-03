@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
@@ -26,7 +27,8 @@ import { LoginService } from './services/login.service';
         NgxValidationMessagesModule,
         MatInputModule,
         MatMomentDateModule,
-        MatDatepickerModule
+        MatDatepickerModule,
+        MatButtonModule
     ],
     declarations: [
         LoginComponent,

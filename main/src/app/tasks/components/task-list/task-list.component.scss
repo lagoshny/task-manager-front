@@ -1,4 +1,5 @@
 @import "media-queries";
+@import "vars";
 
 .task-list__content {
   font-size: 0.75em;
@@ -7,6 +8,7 @@
   }
 }
 
+// TODO
 .task-list__label {
   background-color: rgba(206, 6, 72, 1);
   margin-bottom: 2px;

@@ -1,14 +1,14 @@
 @import "media-queries";
+@import "vars";
 
 .header-page {
-  background-color: rgba(97, 97, 97, 0.82);
-  font-family: Exo2Regular, sans-serif;
+  background-color: change_color($gray, $alpha: 0.82);
+  font-family: $h-font;
   @include df-sm {
-    background-color: rgba(97, 97, 97, 0.92);
+    background-color: change_color($gray, $alpha: 0.92);
   }
   @include df-xs {
     height: 48px;
-    background-color: rgba(97, 97, 97, 0.92);
   }
 }
 

@@ -1,4 +1,5 @@
 @import "media-queries";
+@import "vars";
 
 .category {
   display: inline-block;
@@ -7,10 +8,18 @@
   font-size: 0.75em;
 }
 
+.category__active {
+  color: $primary-blue;
+}
+
+.category__inactive {
+  color: rgb(0, 0, 0);
+}
+
 .category__prefix {
   white-space: nowrap;
   font-weight: bold;
-  background-color: rgba(70, 166, 201, 1);
+  background-color: $primary-blue;
   border-radius: 5px 5px 0 0;
 }
 
@@ -20,7 +29,7 @@
   min-height: 65px;
   padding: 9px 5px 5px 5px;
   text-align: center;
-  color: rgba(0, 0, 0, 1);
+  color: rgb(0, 0, 0);
   text-decoration: none;
   border-radius: 0 0 5px 5px;
   cursor: pointer;
@@ -36,7 +45,7 @@
 .category__item {
   border-radius: 5px;
   width: 100px;
-  background-color: rgba(255, 255, 255, 1);
+  background-color: rgb(255, 255, 255);
   @include df-xs {
     width: 80px;
     height: 70px;
@@ -45,24 +54,24 @@
 
 .category__item_menu {
   display: inline-block;
-  background-color: rgba(70, 166, 201, 1);
+  background-color: $primary-blue;
   cursor: pointer;
 }
 
 .category__item_menu__edit {
   width: 50%;
-  border-radius: 5px 0px 0px 5px;
+  border-radius: 5px 0 0 5px;
 }
 
 .category__item_menu__delete {
   width: 50%;
-  border-radius: 0px 5px 5px 0px;
+  border-radius: 0 5px 5px 0;
 }
 
 .category__item_menu__edit:hover {
-  background-color: rgba(97, 97, 97, 1);
+  background-color: $gray;
 }
 
 .category__item_menu__delete:hover {
-  background-color: #761c19;
+  background-color: $dark-red;
 }

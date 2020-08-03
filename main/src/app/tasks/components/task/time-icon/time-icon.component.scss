@@ -1,15 +1,17 @@
+@import "vars";
+
 .time_icon__color_green {
-  color: rgb(50, 157, 3);
+  color: $task-priority-low;
 }
 
 .time_icon__color_orange {
-  color: rgb(214, 95, 43);
+  color: $task-priority-middle;
 }
 
 .time_icon__color_red {
-  color: rgb(159, 9, 9);
+  color: $task-priority-high;
 }
 
 .time_icon__color_blue {
-  color: rgb(40, 202, 212);
+  color: $primary-blue;
 }

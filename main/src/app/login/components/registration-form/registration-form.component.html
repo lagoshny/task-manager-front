@@ -72,20 +72,25 @@
                         <ngx-validation-messages [for]="registrationForm.get('email')"></ngx-validation-messages>
                     </div>
                 </div>
-                <div class="row justify-content-center mt-2">
+                <div class="row justify-content-center mt-0">
                     <div class="col-sm-8 col-11">
-                        <input class="login_button login_button__blue"
-                               type="submit"
-                               [disabled]="!registrationForm.valid"
-                               value="Sign up">
+                        <button type="submit"
+                                class="w-100 login_button"
+                                color="accent"
+                                [disabled]="!registrationForm.valid"
+                                mat-raised-button>
+                            Sign up
+                        </button>
                     </div>
                 </div>
-                <div class="row justify-content-center">
+                <div class="row justify-content-center mt-3">
                     <div class="col-sm-8 col-11">
-                        <input class="login_button login_button__black"
-                               type="button"
-                               routerLink="/login"
-                               value="Back to login form">
+                        <button type="button"
+                                class="w-100 login_button"
+                                mat-raised-button
+                                (click)="router.navigate(['/login'])">
+                            Back to login form
+                        </button>
                     </div>
                 </div>
             </div>

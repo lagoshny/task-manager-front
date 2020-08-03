@@ -1,4 +1,5 @@
 @import "media-queries";
+@import "vars";
 
 .category-list {
   font-size: 0.75em;
@@ -6,8 +7,9 @@
   color: #FFFFFF;
 }
 
+// TODO
 .category-list__label {
-  background-color: rgba(50, 157, 3, 1);
+  background-color: rgb(110, 174, 50);
   margin-bottom: 2px;
 }
 
@@ -20,11 +22,11 @@
   padding: 11px 5px 10px 5px;
   text-align: center;
   background-color: rgba(255, 255, 255, 0.7);
-  color: rgba(0, 0, 0, 1);
+  color: rgb(0, 0, 0);
   text-decoration: none;
   border-radius: 5px;
   cursor: pointer;
-  font-family: Exo2Regular, sans-serif;
+  font-family: $h-font;
   font-size: 0.9em;
   @include df-xs {
     width: 80px;
@@ -33,13 +35,13 @@
 }
 
 .category-list__add_button:hover {
-  background-color: rgba(255, 255, 255, 1);
+  background-color: rgb(255, 255, 255);
   border-radius: 5px;
 }
 
 .category-list__add_button__icon {
   font-size: 3em;
-  color: rgba(70, 166, 201, 1);
+  color: $primary-blue;
   @include df-xs {
     font-size: 2em;
   }
