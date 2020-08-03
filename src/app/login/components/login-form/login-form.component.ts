@@ -15,8 +15,8 @@ export class LoginFormComponent {
 
   public loginForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder,
-              private router: Router,
+  constructor(public router: Router,
+              private formBuilder: FormBuilder,
               private loginService: LoginService,
               private authService: AuthService,
               private logger: NGXLogger) {

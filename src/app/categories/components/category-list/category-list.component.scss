@@ -1,3 +1,6 @@
+@import "media-queries";
+@import "vars";
+
 .category-list {
   font-size: 0.75em;
   text-align: left;
@@ -5,8 +8,9 @@
 }
 
 .category-list__label {
-  background-color: rgba(50, 157, 3, 1);
+  background-color: rgb(110, 174, 50);
   margin-bottom: 2px;
+  font-family: $h-font;
 }
 
 .category-list__add_button {
@@ -15,25 +19,31 @@
   width: 90px;
   height: 78px;
   margin-right: 5px;
-  padding: 11px 5px 10px 5px;
   text-align: center;
   background-color: rgba(255, 255, 255, 0.7);
-  color: rgba(0, 0, 0, 1);
   text-decoration: none;
   border-radius: 5px;
   cursor: pointer;
-  font-family: Exo2Regular, sans-serif;
+  font-family: $h-font;
   font-size: 0.9em;
+  @include df-xs {
+    width: 80px;
+    height: 70px;
+  }
 }
 
 .category-list__add_button:hover {
-  background-color: rgba(255, 255, 255, 1);
+  background-color: rgb(255, 255, 255);
   border-radius: 5px;
 }
 
 .category-list__add_button__icon {
-  font-size: 3em;
-  color: rgba(70, 166, 201, 1);
+  margin-top: 16px;
+  font-size: 4em;
+  color: $primary-blue;
+  @include df-xs {
+    font-size: 2em;
+  }
 }
 
 .category-list__minimize_button__icon {
@@ -42,76 +52,3 @@
   margin-right: 8px;
   cursor: pointer;
 }
-
-/* MEDIA STYLES */
-/* Large Devices, Wide Screens */
-@media only screen and (max-width: 1200px) {
-}
-
-/* Medium Devices, Desktops */
-@media only screen and (max-width: 992px) {
-}
-
-/* Small Devices, Tablets */
-@media only screen and (max-width: 768px) {
-  /*Disable Animation on Mobile Devices*/
-  .animated {
-    /*CSS transitions*/
-    -o-transition-property: none !important;
-    -moz-transition-property: none !important;
-    -webkit-transition-property: none !important;
-    transition-property: none !important;
-    /*CSS transforms*/
-    -o-transform: none !important;
-    -moz-transform: none !important;
-    -ms-transform: none !important;
-    -webkit-transform: none !important;
-    transform: none !important;
-    /*CSS animations*/
-
-    animation: none !important;
-  }
-
-}
-
-/* Extra Small Devices, Phones */
-@media only screen and (max-width: 480px) {
-
-  .category-list__add_button {
-    width: 80px;
-    height: 70px;
-  }
-
-  .category-list__add_button__icon {
-    font-size: 2em;
-  }
-
-}
-
-/* Custom, iPhone Retina */
-@media only screen and (max-width: 320px) {
-}
-
-/*==========  Mobile First Method  ==========*/
-
-/* Custom, iPhone Retina */
-@media only screen and (min-width: 320px) {
-}
-
-/* Extra Small Devices, Phones */
-@media only screen and (min-width: 480px) {
-}
-
-/* Small Devices, Tablets */
-@media only screen and (min-width: 768px) {
-}
-
-/* Medium Devices, Desktops */
-@media only screen and (min-width: 992px) {
-}
-
-/* Large Devices, Wide Screens */
-@media only screen and (min-width: 1200px) {
-}
-
-/* MEDIA STYLES */

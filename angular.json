@@ -8,7 +8,7 @@
       "schematics": {},
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "tm",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -24,9 +24,17 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles/styles.css",
+              "src/styles/vendors/font-awesome-4.7.0/font-awesome.css",
+              "src/styles/vendors/bootstrap4/bootstrap.min.css",
+              "src/styles/vendors/bootstrap4/bootstrap-grid.min.css",
+              "src/styles/fonts.scss",
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/styles/global"
+              ]
+            },
             "scripts": [],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -94,9 +102,17 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles/styles.css",
+              "src/styles/vendors/font-awesome-4.7.0/font-awesome.css",
+              "src/styles/vendors/bootstrap4/bootstrap.min.css",
+              "src/styles/vendors/bootstrap4/bootstrap-grid.min.css",
+              "src/styles/fonts.scss",
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/styles/global"
+              ]
+            },
             "scripts": []
           }
         },

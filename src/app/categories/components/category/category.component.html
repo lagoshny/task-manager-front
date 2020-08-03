@@ -1,24 +1,24 @@
-<div (mouseenter)="onChangeCategoryMenuOpacity(1)"
-     (mouseleave)="onChangeCategoryMenuOpacity(0)"
-     class="category">
-  <div (click)="onCategoryClick()"
+<div class="category"
+     (mouseenter)="onChangeCategoryMenuOpacity(1)"
+     (mouseleave)="onChangeCategoryMenuOpacity(0)">
+  <div class="category__item"
        [style.opacity]="isCategoryActive || categoryMenuOpacity > 0 ? 1 : 0.7"
-       class="category__item">
-    <div [title]="category.prefix" class="category__prefix">{{ category.prefix | amountCharacters: 10 }}</div>
+       (click)="onCategoryClick()">
+    <div class="category__prefix" [title]="category.prefix">{{ category.prefix | amountCharacters: 10 }}</div>
     <div class="category__link">
-      <i [ngClass]="['category__link_icon', 'fa', category.icon ? category.icon : 'fa-certificate']"
-         [style.color]="isCategoryActive ? 'rgba(70, 166, 201, 1)' : 'rgba(0, 0, 0, 1)'">
+      <i [ngClass]="['category__link_icon', 'fa', category.icon ? category.icon : 'fa-certificate',
+                            isCategoryActive ? 'category__active' : 'category__inactive']">
       </i>
       <div [title]="category.name">{{ category.name | amountCharacters: 11 }}</div>
     </div>
   </div>
-  <div [style.opacity]="categoryMenuOpacity" class="category_menu">
-    <div (click)="categoryEdit.emit(category)"
-         class="category__item_menu category__item_menu__edit">
+  <div class="category_menu" [style.opacity]="categoryMenuOpacity">
+    <div class="category__item_menu category__item_menu__edit"
+         (click)="categoryEdit.emit(category)">
       <i class="fa fa-pencil"></i>
     </div>
-    <div (click)="categoryDelete.emit(category)"
-         class="category__item_menu category__item_menu__delete">
+    <div class="category__item_menu category__item_menu__delete"
+         (click)="categoryDelete.emit(category)">
       <i class="fa fa-trash"></i>
     </div>
   </div>

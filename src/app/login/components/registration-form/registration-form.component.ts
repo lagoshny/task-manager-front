@@ -14,8 +14,8 @@ export class RegistrationFormComponent {
 
   public registrationForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder,
-              private router: Router,
+  constructor(public router: Router,
+              private formBuilder: FormBuilder,
               private userService: UserService,
               private logger: NGXLogger) {
     this.buildForm();

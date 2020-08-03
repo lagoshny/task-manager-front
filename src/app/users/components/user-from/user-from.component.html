@@ -4,40 +4,37 @@
       <span class="user_form__header">User information</span>
     </ng-container>
     <ng-container page-body>
-      <form (keydown.enter)="$event.preventDefault()"
-            (submit)="saveUser()"
-            [formGroup]="userForm">
+      <form [formGroup]="userForm"
+            (keydown.enter)="$event.preventDefault()"
+            (submit)="saveUser()">
         <div class="row mt-md-3 mt-0">
           <div class="col-lg-4 col-12 mt-md-0 mt-2">
             <mat-form-field class="w-100">
-              <input aria-label="First name"
-                     class="input_block"
-                     formControlName="firstName"
-                     matInput
+              <input type="text"
+                     aria-label="First name"
                      placeholder="First name"
-                     type="text">
+                     formControlName="firstName"
+                     matInput>
             </mat-form-field>
             <ngx-validation-messages [for]="userForm.get('firstName')"></ngx-validation-messages>
           </div>
           <div class="col-lg-4 col-12 mt-md-0 mt-2">
             <mat-form-field class="w-100">
-              <input aria-label="Middle name"
-                     class="input_block"
-                     formControlName="middleName"
-                     matInput
+              <input type="text"
+                     aria-label="Middle name"
                      placeholder="Middle name"
-                     type="text">
+                     formControlName="middleName"
+                     matInput>
             </mat-form-field>
             <ngx-validation-messages [for]="userForm.get('middleName')"></ngx-validation-messages>
           </div>
           <div class="col-lg-4 col-12 mt-md-0 mt-2">
             <mat-form-field class="w-100">
-              <input aria-label="Last name"
-                     class="input_block"
-                     formControlName="lastName"
-                     matInput
+              <input type="text"
+                     aria-label="Last name"
                      placeholder="Last name"
-                     type="text">
+                     formControlName="lastName"
+                     matInput>
             </mat-form-field>
             <ngx-validation-messages [for]="userForm.get('lastName')"></ngx-validation-messages>
           </div>
@@ -45,64 +42,56 @@
         <div class="row mt-md-3 mt-0">
           <div class="col-lg-4 col-12 mt-md-0 mt-2">
             <mat-form-field class="w-100">
-              <input aria-label="City"
-                     class="input_block"
-                     formControlName="city"
-                     matInput
+              <input type="text"
+                     aria-label="City"
                      placeholder="City"
-                     type="text">
+                     formControlName="city"
+                     matInput>
             </mat-form-field>
             <ngx-validation-messages [for]="userForm.get('city')"></ngx-validation-messages>
           </div>
           <div class="col-lg-4 col-12 mt-md-0 mt-2">
             <mat-form-field class="w-100">
               <mat-label>Date of Birth</mat-label>
-              <input [matDatepicker]="picker"
-                     aria-label="Choose a date"
-                     class="input_block"
+              <input aria-label="Choose a date"
+                     placeholder="Choose a date"
                      formControlName="birthday"
                      matInput
-                     placeholder="Choose a date">
-              <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+                     [matDatepicker]="picker">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
             <ngx-validation-messages [for]="userForm.get('birthday')"></ngx-validation-messages>
           </div>
           <div class="col-lg-4 col-12 mt-md-0 mt-2">
             <mat-form-field class="w-100">
-              <input aria-label="Email"
-                     class="input_block"
-                     formControlName="email"
-                     matInput
+              <input type="text"
+                     aria-label="Email"
                      placeholder="Email"
+                     formControlName="email"
                      required
-                     type="text">
+                     matInput>
             </mat-form-field>
             <ngx-validation-messages [for]="userForm.get('email')"></ngx-validation-messages>
           </div>
         </div>
         <div class="row mt-3">
           <div class="col-lg-2 col-12">
-            <div class="input_block">
-              <button [disabled]="!userForm.valid"
-                      class="w-100"
-                      color="accent"
-                      mat-raised-button
-                      type="submit">
-                Save
-              </button>
-
-            </div>
+            <button type="submit"
+                    class="w-100"
+                    [disabled]="!userForm.valid"
+                    mat-raised-button
+                    color="accent">
+              Save
+            </button>
           </div>
           <div class="col-lg-2 col-12 mt-md-0 mt-2">
-            <div class="input_block">
-              <button (click)="router.navigate(['/home'])"
-                      class="w-100"
-                      mat-raised-button
-                      type="button">
-                Close
-              </button>
-            </div>
+            <button type="button"
+                    class="w-100"
+                    mat-raised-button
+                    (click)="router.navigate(['/home'])">
+              Close
+            </button>
           </div>
         </div>
       </form>

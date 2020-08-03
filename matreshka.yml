@@ -1,0 +1,61 @@
+version: 1
+project:
+  src:
+    dir: ./main/src
+    entries:
+      html:
+        - ./*.html
+      img:
+        - ./resources/img/*.*
+      fonts:
+        - ./resources/fonts/**/*.*
+      styles:
+        useSass: true
+        common:
+          includePaths:
+            - ./resources/styles/global
+          files:
+            - ./resources/styles/styles.scss
+      scripts:
+        modules: true
+        ts:
+          vendors:
+            - ./vendors/scripts/vendors.ts
+        polifyls:
+          - ./vendors/scripts/polyfills.ts
+          - ./vendors/scripts/polyfills.test.ts
+        test:
+          specs: ./app/**/*.spec.ts
+      resources:
+        - ./*.ico
+  devStruct:
+    dir: ./main/builds/development
+    html: ./
+    img: ./img
+    fonts: ./fonts
+    styles: ./css
+    scripts: ./js
+    resources: ./
+  prodStruct:
+    dir: ./main/builds/production
+    html: ./
+    img: ./img
+    fonts: ./fonts
+    styles: ./css
+    scripts: ./js
+    resources: ./
+  tempDir: ./main/builds/tmp
+  lints:
+    css: false
+    js: false
+    ts: false
+frameworks:
+  angular:
+    configs:
+      inlineStyles: true
+      inlineTemplate: true
+      redirectToIndex: true
+    compilation:
+      main: ./main.ts
+      mainTest: ./main.test.ts
+      mainAot: ./main.aot.ts

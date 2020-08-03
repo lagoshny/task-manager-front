@@ -1,7 +1,13 @@
+@import "media-queries";
+@import "vars";
+
 .task {
   background: rgba(255, 255, 255, 0.9);
   border-radius: .25em;
   padding-right: 1.2em;
+  @include df-md {
+    font-size: 0.9em;
+  }
 }
 
 .task:hover {
@@ -27,31 +33,25 @@
   margin-top: -0.5em;
 }
 
-.task__priority_default {
-  box-shadow: 0 .0625em .125em rgba(0, 0, 0, .125),
-  inset 0 -.25em 0 -.125em rgba(0, 0, 0, .125),
-  inset 1.1em 0 0 -.7em rgba(0, 95, 210, .7),
-  inset -0.5em 0 0 -.3em rgba(0, 0, 0, .05);
-}
-
 .task__priority_low {
   box-shadow: 0 .0625em .125em rgba(0, 0, 0, .125),
   inset 0 -.25em 0 -.125em rgba(0, 0, 0, .125),
-  inset 1.1em 0 0 -.7em rgba(20, 160, 0, .7),
+    // TODO
+  inset 1.1em 0 0 -.7em change_color($task-priority-low, $alpha: 0.9),
   inset -0.5em 0 0 -.3em rgba(0, 0, 0, .05);
 }
 
 .task__priority_middle {
   box-shadow: 0 .0625em .125em rgba(0, 0, 0, .125),
   inset 0 -.25em 0 -.125em rgba(0, 0, 0, .125),
-  inset 1.1em 0 0 -.7em rgba(214, 95, 43, 0.9),
+  inset 1.1em 0 0 -.7em change_color($task-priority-middle, $alpha: 0.9),
   inset -0.5em 0 0 -.3em rgba(0, 0, 0, .05);
 }
 
 .task__priority_high {
   box-shadow: 0 .0625em .125em rgba(0, 0, 0, .125),
   inset 0 -.25em 0 -.125em rgba(0, 0, 0, .125),
-  inset 1.1em 0 0 -.7em rgba(146, 23, 36, 0.9),
+  inset 1.1em 0 0 -.7em change_color($task-priority-high, $alpha: 0.9),
   inset -0.5em 0 0 -.3em rgba(0, 0, 0, .05);
 }
 
@@ -60,11 +60,12 @@
 }
 
 .task__name {
-  color: rgb(7, 165, 184);
+  color: $primary-blue;
+  font-weight: 700;
 }
 
 .task__description {
-  color: rgb(112, 120, 129);
+  color: $gray-text;
 }
 
 .task__status_name {
@@ -75,11 +76,11 @@
 }
 
 .task__total_time_icon {
-  color: rgb(50, 157, 3);
+  color: $green;
 }
 
 .task__left_time_icon {
-  color: rgb(50, 157, 3);
+  color: $green;
 }
 
 .task__remove_button {
@@ -88,122 +89,43 @@
   top: 13px;
   font-size: 1.3em;
   cursor: pointer;
-  color: rgb(144, 19, 72);
-}
-
-
-/* MEDIA STYLES */
-/* Super-Puper Large Devices (additional) */
-@media only screen and (max-width: 1580px) {
-}
-
-/* Large Devices, Wide Screens */
-@media only screen and (max-width: 1200px) {
-  .task__remove_button {
+  color: $dark-red;
+  @include df-lg {
     right: 24px;
   }
-}
-
-/* Medium Devices, Desktops */
-@media only screen and (max-width: 992px) {
-  .task {
-    font-size: 0.9em;
-  }
-  .task__remove_button {
+  @include df-md {
     right: 22px;
   }
+  @include df-sm {
+    top: 16px;
+  }
 }
 
-/* Small Devices, Tablets */
-@media only screen and (max-width: 768px) {
-  /*Disable Animation on Mobile Devices*/
-  .animated {
-    /*CSS transitions*/
-    -o-transition-property: none !important;
-    -moz-transition-property: none !important;
-    -webkit-transition-property: none !important;
-    transition-property: none !important;
-    /*CSS transforms*/
-    -o-transform: none !important;
-    -moz-transform: none !important;
-    -ms-transform: none !important;
-    -webkit-transform: none !important;
-    transform: none !important;
-    /*CSS animations*/
-
-    animation: none !important;
-  }
-
-  .task__info {
-    position: relative;
-    top: 3.2em;
-  }
-
-  .task__progress_total_time {
+.task__progress_total_time {
+  @include df-sm {
     position: absolute;
     bottom: 0.6em;
     left: 11em;
   }
+  @include df-xs {
+    bottom: 0.65em;
+  }
+  @include df-xxs {
+    left: 11.3em;
+    bottom: 0.8em;
+  }
+}
 
-  .task__progress_left_time {
+.task__progress_left_time {
+  @include df-sm {
     position: absolute;
     bottom: 0.6em;
     left: 16.4em;
   }
-
-  .task__remove_button {
-    top: 16px;
-  }
-
-}
-
-/* Extra Small Devices, Phones */
-@media only screen and (max-width: 480px) {
-
-  .task__progress_total_time {
+  @include df-xs {
     bottom: 0.65em;
   }
-
-  .task__progress_left_time {
-    bottom: 0.65em;
-  }
-
-}
-
-/* Custom, iPhone Retina */
-@media only screen and (max-width: 320px) {
-
-  .task__progress_total_time {
-    left: 11.3em;
+  @include df-xxs {
     bottom: 0.8em;
   }
-
-  .task__progress_left_time {
-    bottom: 0.8em;
-  }
-
 }
-
-/*==========  Mobile First Method  ==========*/
-
-/* Custom, iPhone Retina */
-@media only screen and (min-width: 320px) {
-}
-
-/* Extra Small Devices, Phones */
-@media only screen and (min-width: 480px) {
-}
-
-/* Small Devices, Tablets */
-@media only screen and (min-width: 768px) {
-}
-
-/* Medium Devices, Desktops */
-@media only screen and (min-width: 992px) {
-}
-
-/* Large Devices, Wide Screens */
-@media only screen and (min-width: 1200px) {
-}
-
-/* MEDIA STYLES */
