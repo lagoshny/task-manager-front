@@ -1,19 +1,19 @@
 @font-face {
     font-family: 'RobotoRegular';
-    src: url('src/assets/fonts/roboto/regular/roboto.eot') /* IE9 */;
-    src: url('src/assets/fonts/roboto/regular/roboto.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('src/assets/fonts/roboto/regular/roboto.woff') format('woff'),
-    url('src/assets/fonts/roboto/regular/roboto.ttf') format('true-type');
+    src: url('../assets/fonts/roboto/regular/roboto.eot') /* IE9 */;
+    src: url('../assets/fonts/roboto/regular/roboto.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../assets/fonts/roboto/regular/roboto.woff') format('woff'),
+    url('../assets/fonts/roboto/regular/roboto.ttf') format('true-type');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
   font-family: 'Baloo_2';
-  src: url('src/assets/fonts/baloo2/regular/baloo2-regular.eot') /* IE9 */;
-  src: url('src/assets/fonts/baloo2/regular/baloo2-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('src/assets/fonts/baloo2/regular/baloo2-regular.woff') format('woff'),
-  url('src/assets/fonts/baloo2/regular/baloo2-regular.ttf') format('true-type');
+  src: url('../assets/fonts/baloo2/regular/baloo2-regular.eot') /* IE9 */;
+  src: url('../assets/fonts/baloo2/regular/baloo2-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('../assets/fonts/baloo2/regular/baloo2-regular.woff') format('woff'),
+  url('../assets/fonts/baloo2/regular/baloo2-regular.ttf') format('true-type');
   font-weight: normal;
   font-style: normal;
 }
