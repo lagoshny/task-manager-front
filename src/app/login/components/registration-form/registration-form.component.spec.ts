@@ -28,7 +28,7 @@ describe('RegistrationFormComponent', () => {
         };
         authServiceSpy = {
             setCredentials: jasmine.createSpy('setCredentials'),
-            setAuthUser: jasmine.createSpy('setAuthUser')
+            setUser: jasmine.createSpy('setUser')
         };
 
         TestBed.configureTestingModule({

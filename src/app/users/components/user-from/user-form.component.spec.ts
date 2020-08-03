@@ -28,7 +28,7 @@ describe('UserFormComponent', () => {
         };
         authServiceSpy = {
             getUser: jasmine.createSpy('getUser'),
-            setUser: jasmine.createSpy('setAuthUser')
+            setUser: jasmine.createSpy('setUser')
         };
         userServiceSpy = {
             patch: jasmine.createSpy('patch'),
