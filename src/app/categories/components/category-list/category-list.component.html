@@ -1,28 +1,28 @@
 <div class="category-list">
-    <div class="row">
-        <div class="col-12">
-            <div class="menu_content_text_label category-list__label">
-                Category list
-                <i [ngClass]="['category-list__minimize_button__icon', 'fa',
-                                minimizeCategories ? 'fa-eye-slash' : 'fa-eye']"
-                   (click)="onMinimizeCategories()"></i>
-            </div>
-        </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="menu_content_text_label category-list__label">
+        Category list
+        <i (click)="onMinimizeCategories()"
+           [ngClass]="['category-list__minimize_button__icon', 'fa',
+                                minimizeCategories ? 'fa-eye-slash' : 'fa-eye']"></i>
+      </div>
     </div>
-    <div *ngIf="!minimizeCategories" class="row no-gutters">
-        <div class="col-12">
-            <div class="category-list__add_button"
-                 (click)="onAddCategory()">
-                <i class="category-list__add_button__icon fa fa-plus"></i>
-            </div>
-            <ng-container *ngFor="let category of categories">
-                <tm-category [category]="category"
-                             (categoryClick)="onCategoryClick($event)"
-                             (categoryEdit)="onCategoryEdit($event)"
-                             (categoryDelete)="onCategoryDelete($event)">
-                </tm-category>
-            </ng-container>
-        </div>
+  </div>
+  <div *ngIf="!minimizeCategories" class="row no-gutters">
+    <div class="col-12">
+      <div (click)="onAddCategory()"
+           class="category-list__add_button">
+        <i class="category-list__add_button__icon fa fa-plus"></i>
+      </div>
+      <ng-container *ngFor="let category of categories">
+        <tm-category (categoryClick)="onCategoryClick($event)"
+                     (categoryDelete)="onCategoryDelete($event)"
+                     (categoryEdit)="onCategoryEdit($event)"
+                     [category]="category">
+        </tm-category>
+      </ng-container>
+    </div>
 
-    </div>
+  </div>
 </div>

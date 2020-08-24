@@ -16,36 +16,36 @@ import { HomeModule } from './home/home.module';
 import { LoginModule } from './login/login.module';
 
 @NgModule({
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        NgxHalClientModule.forRoot(),
-        NgxValidationMessagesModule.forRoot({
-            messages: ValidationMessagesConfig.getMessages(),
-            validationMessagesStyle: {
-                blockClassNames: 'error_block'
-            }
-        }),
-        LoggerModule.forRoot({
-            level: NgxLoggerLevel.DEBUG
-        }),
-        HomeModule,
-        AppRoutingModule,
-        LoginModule,
-        HeaderModule
-    ],
-    declarations: [
-        AppComponent
-    ],
-    providers: [
-        {provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService},
-        {
-            provide: MAT_DATE_FORMATS,
-            useValue: DateUtils.getMaterialDateFormat()
-        }
-    ],
-    bootstrap: [AppComponent]
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    NgxHalClientModule.forRoot(),
+    NgxValidationMessagesModule.forRoot({
+      messages: ValidationMessagesConfig.getMessages(),
+      validationMessagesStyle: {
+        blockClassNames: 'error_block'
+      }
+    }),
+    LoggerModule.forRoot({
+      level: NgxLoggerLevel.DEBUG
+    }),
+    HomeModule,
+    AppRoutingModule,
+    LoginModule,
+    HeaderModule
+  ],
+  declarations: [
+    AppComponent
+  ],
+  providers: [
+    {provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService},
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: DateUtils.getMaterialDateFormat()
+    }
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }

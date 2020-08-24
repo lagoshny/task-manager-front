@@ -12,24 +12,24 @@ import { CategoryComponent } from './components/category/category.component';
 import { CategoryService } from './services/category.service';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        CoreModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        NgxValidationMessagesModule,
-        MatInputModule,
-        MatButtonModule
-    ],
-    declarations: [
-        CategoryComponent,
-        CategoryListComponent,
-        CategoryFormComponent
-    ],
-    providers: [
-        CategoryService
-    ],
-    exports: [CategoryListComponent, CategoryFormComponent]
+  imports: [
+    CommonModule,
+    CoreModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    NgxValidationMessagesModule,
+    MatInputModule,
+    MatButtonModule
+  ],
+  declarations: [
+    CategoryComponent,
+    CategoryListComponent,
+    CategoryFormComponent
+  ],
+  providers: [
+    CategoryService
+  ],
+  exports: [CategoryListComponent, CategoryFormComponent]
 })
 export class CategoriesModule {
 }

@@ -7,56 +7,56 @@ import { TaskFormComponent } from './tasks/components/task-form/task-form.compon
 import { UserFromComponent } from './users/components/user-from/user-from.component';
 
 export const routes: Routes = [
-    {
-        path: '',
-        canActivate: [AuthGuard],
+  {
+    path: '',
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'home',
+        component: HomeComponent
+      },
+      {
+        path: 'users',
+        component: UserFromComponent
+      },
+      {
+        path: 'categories',
         children: [
-            {
-                path: 'home',
-                component: HomeComponent
-            },
-            {
-                path: 'users',
-                component: UserFromComponent
-            },
-            {
-                path: 'categories',
-                children: [
-                    {
-                        path: 'new',
-                        component: CategoryFormComponent
-                    },
-                    {
-                        path: 'edit/:prefix',
-                        component: CategoryFormComponent
-                    }
-                ]
-            },
-            {
-                path: 'tasks',
-                children: [
-                    {
-                        path: 'new',
-                        component: TaskFormComponent
-                    },
-                    {
-                        path: 'edit/:taskCategoryNumber',
-                        component: TaskFormComponent
-                    }
-                ]
-            },
-            {
-                path: '',
-                redirectTo: '/home',
-                pathMatch: 'full'
-            }
+          {
+            path: 'new',
+            component: CategoryFormComponent
+          },
+          {
+            path: 'edit/:prefix',
+            component: CategoryFormComponent
+          }
         ]
-    }
+      },
+      {
+        path: 'tasks',
+        children: [
+          {
+            path: 'new',
+            component: TaskFormComponent
+          },
+          {
+            path: 'edit/:taskCategoryNumber',
+            component: TaskFormComponent
+          }
+        ]
+      },
+      {
+        path: '',
+        redirectTo: '/home',
+        pathMatch: 'full'
+      }
+    ]
+  }
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes, {useHash: true})],
-    exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes, {useHash: true})],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {
 }
