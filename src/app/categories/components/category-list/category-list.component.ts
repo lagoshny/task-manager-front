@@ -10,89 +10,89 @@ import { TaskCategoryService } from '../../../core/services/task-category.servic
 import { CategoryService } from '../../services/category.service';
 
 @Component({
-    selector: 'tm-categories',
-    templateUrl: './category-list.component.html',
-    styleUrls: ['./category-list.component.scss']
+  selector: 'tm-categories',
+  templateUrl: './category-list.component.html',
+  styleUrls: ['./category-list.component.scss']
 })
 export class CategoryListComponent implements OnInit, OnDestroy {
 
-    public categories: Array<TaskCategory> = [];
+  public categories: Array<TaskCategory> = [];
 
-    public minimizeCategories = false;
+  public minimizeCategories = false;
 
-    private selectedCategories: Array<TaskCategory> = [];
+  private selectedCategories: Array<TaskCategory> = [];
 
-    private subs: Array<Subscription> = [];
+  private subs: Array<Subscription> = [];
 
-    constructor(private router: Router,
-                private logger: NGXLogger,
-                private dialog: MatDialog,
-                private categoryService: CategoryService,
-                private taskCategoryService: TaskCategoryService) {
-    }
+  constructor(private router: Router,
+              private logger: NGXLogger,
+              private dialog: MatDialog,
+              private categoryService: CategoryService,
+              private taskCategoryService: TaskCategoryService) {
+  }
 
-    public ngOnInit(): void {
+  public ngOnInit(): void {
+    this.loadCategoriesByUser();
+    this.subs.push(
+      this.taskCategoryService.categories.subscribe(() => {
         this.loadCategoriesByUser();
-        this.subs.push(
-            this.taskCategoryService.categories.subscribe(() => {
-                this.loadCategoriesByUser();
-            }))
-    }
+      }));
+  }
 
-    public onMinimizeCategories(): void {
-        this.minimizeCategories = !this.minimizeCategories;
-    }
+  public onMinimizeCategories(): void {
+    this.minimizeCategories = !this.minimizeCategories;
+  }
 
-    public ngOnDestroy(): void {
-        this.subs.forEach((sub: Subscription) => {
-            sub.unsubscribe();
-        });
-    }
+  public ngOnDestroy(): void {
+    this.subs.forEach((sub: Subscription) => {
+      sub.unsubscribe();
+    });
+  }
 
-    private loadCategoriesByUser(): void {
-        this.subs.push(
-            this.categoryService.getAllByUser()
-                .subscribe((taskCategories: Array<TaskCategory>) => {
-                    this.categories = taskCategories;
-                })
-        );
+  public onCategoryClick(category: TaskCategory): void {
+    if (_.isEmpty(_.remove(this.selectedCategories, category))) {
+      this.selectedCategories.push(category);
     }
+    this.taskCategoryService.updateCategoriesByFilter(this.selectedCategories);
+  }
 
-    public onCategoryClick(category: TaskCategory): void {
-        if (_.isEmpty(_.remove(this.selectedCategories, category))) {
-            this.selectedCategories.push(category);
+  public onAddCategory(): void {
+    this.router.navigate(['categories/new'])
+      .catch(reason => this.logger.error(reason));
+  }
+
+  public onCategoryEdit(category: TaskCategory): void {
+    this.router.navigate(['categories/edit', category.prefix.toLocaleLowerCase()])
+      .catch(reason => this.logger.error(reason));
+  }
+
+  public onCategoryDelete(deletedCategory: TaskCategory): void {
+    this.dialog
+      .open(SimpleDialogComponent, {
+        data: {
+          title: 'Delete category',
+          content: 'During deletion of the category, all tasks in this category will be deleted too. ' +
+            'Do you want to continue?'
         }
-        this.taskCategoryService.updateCategoriesByFilter(this.selectedCategories);
-    }
+      })
+      .afterClosed()
+      .subscribe((accepted: boolean) => {
+        if (accepted) {
+          this.categoryService.delete(deletedCategory).subscribe(() => {
+            this.loadCategoriesByUser();
+            this.taskCategoryService.refreshTasks();
+          });
+        }
+      });
+  }
 
-    public onAddCategory(): void {
-        this.router.navigate(['categories/new'])
-            .catch(reason => this.logger.error(reason));
-    }
-
-    public onCategoryEdit(category: TaskCategory): void {
-        this.router.navigate(['categories/edit', category.prefix.toLocaleLowerCase()])
-            .catch(reason => this.logger.error(reason));
-    }
-
-    public onCategoryDelete(deletedCategory: TaskCategory): void {
-        this.dialog
-            .open(SimpleDialogComponent, {
-                data: {
-                    title: 'Delete category',
-                    content: 'During deletion of the category, all tasks in this category will be deleted too. ' +
-                        'Do you want to continue?'
-                }
-            })
-            .afterClosed()
-            .subscribe((accepted: boolean) => {
-                if (accepted) {
-                    this.categoryService.delete(deletedCategory).subscribe(() => {
-                        this.loadCategoriesByUser();
-                        this.taskCategoryService.refreshTasks();
-                    });
-                }
-            });
-    }
+  private loadCategoriesByUser(): void {
+    this.subs.push(
+      this.categoryService.getAllByUser()
+        .subscribe((taskCategories: Array<TaskCategory>) => {
+          this.categories = taskCategories;
+        })
+    );
+  }
 
 }

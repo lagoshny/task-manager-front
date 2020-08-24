@@ -7,12 +7,11 @@ import { ReplaySubject } from 'rxjs';
  */
 export class ActivatedRouteStub {
   // Use a ReplaySubject to share previous values with subscribers
+  readonly snapshot: any = {};
   // and pump new values into the `paramMap` observable
   private subject = new ReplaySubject<ParamMap>();
   /** The mock paramMap observable */
   readonly paramMap = this.subject.asObservable();
-
-  readonly snapshot: any = {};
 
   constructor(initialParams?: Params) {
     this.setParamMap(initialParams);

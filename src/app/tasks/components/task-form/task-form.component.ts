@@ -7,11 +7,7 @@ import { NGXLogger } from 'ngx-logger';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, startWith } from 'rxjs/operators';
 import { ServerApi } from '../../../app.config';
-import {
-  changeHeightAnimation,
-  dropDownAnimation,
-  showSectionAnimation
-} from '../../../core/animations/common.animation';
+import { changeHeightAnimation, dropDownAnimation, showSectionAnimation } from '../../../core/animations/common.animation';
 import { TaskPriority } from '../../../core/models/constants/task-priority.items';
 import { TaskStatus } from '../../../core/models/constants/task-status.items';
 import { TaskCategory } from '../../../core/models/task-category.model';
