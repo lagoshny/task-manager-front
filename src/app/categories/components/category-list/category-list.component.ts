@@ -36,7 +36,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
         this.subs.push(
             this.taskCategoryService.categories.subscribe(() => {
                 this.loadCategoriesByUser();
-            }))
+            }));
     }
 
     public onMinimizeCategories(): void {
@@ -87,7 +87,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
             .afterClosed()
             .subscribe((accepted: boolean) => {
                 if (accepted) {
-                    this.categoryService.delete(deletedCategory).subscribe(() => {
+                    this.categoryService.deleteResource(deletedCategory).subscribe(() => {
                         this.loadCategoriesByUser();
                         this.taskCategoryService.refreshTasks();
                     });

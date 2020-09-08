@@ -1,5 +1,5 @@
-import { Injectable, Injector } from '@angular/core';
-import { ResourcePage, RestService } from '@lagoshny/ngx-hal-client';
+import { Injectable } from '@angular/core';
+import { HateoasResourceOperation, PagedResourceCollection } from '@lagoshny/ngx-hateoas-client';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ServerApi } from '../../app.config';
@@ -8,50 +8,42 @@ import { Task } from '../../core/models/task.model';
 import { AuthService } from '../../core/services/auth.service';
 
 @Injectable()
-export class TaskService extends RestService<Task> {
+export class TaskService extends HateoasResourceOperation<Task> {
 
-  constructor(injector: Injector,
-              private authService: AuthService) {
-    super(Task, ServerApi.TASKS.resource, injector);
+  constructor(private authService: AuthService) {
+    super(ServerApi.TASKS.resource);
   }
 
   public getByCategoryPrefixAndNumber(categoryPrefix: string, num: number): Observable<Task> {
-    return this.searchSingle(ServerApi.TASKS.byNumberAndCategory.query, {
-      params: [
+    return this.searchResource(ServerApi.TASKS.byNumberAndCategory.query, {
+      params:
         {
-          key: ServerApi.TASKS.byNumberAndCategory.authorParam,
-          value: this.authService.getUser()
-        },
-        {
-          key: ServerApi.TASKS.byNumberAndCategory.numberParam,
-          value: num
-        },
-        {
-          key: ServerApi.TASKS.byNumberAndCategory.categoryParam,
-          value: categoryPrefix
+          [ServerApi.TASKS.byNumberAndCategory.authorParam]: this.authService.getUser(),
+          [ServerApi.TASKS.byNumberAndCategory.categoryParam]: categoryPrefix,
+          [ServerApi.TASKS.byNumberAndCategory.numberParam]: num
         }
-      ]
     });
   }
 
   public create(task: Task): Observable<Observable<never> | Task> {
     task.author = this.authService.getUser();
-    return super.create(task);
+    return super.createResource({body: task});
   }
 
-  public getAllUserTasks(taskPageSize: number): Observable<ResourcePage<Task>> {
+  public getAllUserTasks(taskPageSize: number): Observable<PagedResourceCollection<Task>> {
     return this.searchPage(ServerApi.TASKS.allByAuthor.query, {
-      size: taskPageSize,
-      params: [
+      pageParams: {
+        size: taskPageSize
+      },
+      params:
         {
-          key: ServerApi.TASKS.allByAuthor.authorParam,
-          value: this.authService.getUser()
-        },
-        ServerApi.TASKS.projections.taskProjection
-      ]
+          [ServerApi.TASKS.allByAuthor.authorParam]: this.authService.getUser(),
+          projection: ServerApi.TASKS.projections.taskProjection.value
+        }
+
     })
       .pipe(
-        tap((tasks: ResourcePage<Task>) => {
+        tap((tasks: PagedResourceCollection<Task>) => {
           tasks.resources.forEach((task: Task) => {
             task.status = TaskStatus.getByCode(task.status).name;
           });
@@ -60,25 +52,22 @@ export class TaskService extends RestService<Task> {
   }
 
   public getFilteredUserTasksByCategories(categoriesIds: string,
-                                          taskPageSize: number): Observable<ResourcePage<Task>> {
+                                          taskPageSize: number): Observable<PagedResourceCollection<Task>> {
     const author = this.authService.getUser();
     return this.searchPage(ServerApi.TASKS.allByAuthorAndCategories.query,
       {
-        size: taskPageSize,
-        params: [
+        pageParams: {
+          size: taskPageSize
+        },
+        params:
           {
-            key: ServerApi.TASKS.allByAuthorAndCategories.authorParam,
-            value: author.id
-          },
-          {
-            key: ServerApi.TASKS.allByAuthorAndCategories.categoriesIds,
-            value: categoriesIds
-          },
-          ServerApi.TASKS.projections.taskProjection
-        ]
+            [ServerApi.TASKS.allByAuthorAndCategories.authorParam]: author.id,
+            [ServerApi.TASKS.allByAuthorAndCategories.categoriesIds]: categoriesIds,
+            projection: ServerApi.TASKS.projections.taskProjection.value
+          }
       })
       .pipe(
-        tap((tasks: ResourcePage<Task>) => {
+        tap((tasks: PagedResourceCollection<Task>) => {
           tasks.resources.forEach((task: Task) => {
             task.status = TaskStatus.getByCode(task.status).name;
           });

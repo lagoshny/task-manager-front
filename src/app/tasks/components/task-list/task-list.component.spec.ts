@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ResourcePage } from '@lagoshny/ngx-hal-client';
 import { NGXLogger, NGXLoggerMock } from 'ngx-logger';
 import { of } from 'rxjs';
 import { TaskCategory } from '../../../core/models/task-category.model';
@@ -12,6 +11,7 @@ import { TemplateHelper } from '../../../utils/template.helper';
 import { TaskService } from '../../services/task.service';
 import { getTestTask } from '../test.helper';
 import { TaskListComponent } from './task-list.component';
+import { PagedResourceCollection, ResourceCollection } from '@lagoshny/ngx-hateoas-client';
 
 @Component({
   selector: 'tm-quick-task-create',
@@ -93,7 +93,7 @@ describe('TaskListComponent', () => {
     const testTask = getTestTask();
     testTask.category.prefix = 'test';
     testTask.number = 1;
-    const resourcePage = new ResourcePage();
+    const resourcePage = new PagedResourceCollection(new ResourceCollection<Task>());
     resourcePage.resources = [testTask];
 
     taskServiceSpy.getAllUserTasks.and.returnValue(of(resourcePage));
@@ -110,7 +110,7 @@ describe('TaskListComponent', () => {
   });
 
   it('should hide tasks list when minimize is TRUE', () => {
-    const resourcePage = new ResourcePage();
+    const resourcePage = new PagedResourceCollection(new ResourceCollection<Task>());
     resourcePage.resources = [new Task()];
     taskServiceSpy.getAllUserTasks.and.returnValue(of(resourcePage));
     fixture.detectChanges();
@@ -125,7 +125,7 @@ describe('TaskListComponent', () => {
   });
 
   it('should show tasks list when minimize is FALSE', () => {
-    const resourcePage = new ResourcePage();
+    const resourcePage = new PagedResourceCollection(new ResourceCollection<Task>());
     resourcePage.resources = [new Task()];
     taskServiceSpy.getAllUserTasks.and.returnValue(of(resourcePage));
     fixture.detectChanges();
@@ -140,7 +140,7 @@ describe('TaskListComponent', () => {
   });
 
   it('should delete task when click by delete button', () => {
-    const resourcePage = new ResourcePage();
+    const resourcePage = new PagedResourceCollection(new ResourceCollection<Task>());
     resourcePage.resources = [new Task()];
     taskServiceSpy.getAllUserTasks.and.returnValue(of(resourcePage));
     taskServiceSpy.delete.and.returnValue(of());
@@ -155,7 +155,7 @@ describe('TaskListComponent', () => {
   });
 
   it('should update task list after added new one', () => {
-    const resourcePage = new ResourcePage();
+    const resourcePage = new PagedResourceCollection(new ResourceCollection<Task>());
     resourcePage.resources = [new Task()];
     taskServiceSpy.getAllUserTasks.and.returnValue(of(resourcePage));
     fixture.detectChanges();

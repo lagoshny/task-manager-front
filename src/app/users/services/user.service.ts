@@ -1,13 +1,13 @@
-import { Injectable, Injector } from '@angular/core';
-import { RestService } from '@lagoshny/ngx-hal-client';
+import { Injectable } from '@angular/core';
+import { HateoasResourceOperation } from '@lagoshny/ngx-hateoas-client';
 import { ServerApi } from '../../app.config';
 import { User } from '../../core/models/user.model';
 
 @Injectable()
-export class UserService extends RestService<User> {
+export class UserService extends HateoasResourceOperation<User> {
 
-  constructor(injector: Injector) {
-    super(User, ServerApi.USERS.resource, injector);
+  constructor() {
+    super(ServerApi.USERS.resource);
   }
 
 }

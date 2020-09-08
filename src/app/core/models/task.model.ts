@@ -1,4 +1,4 @@
-import { Resource } from '@lagoshny/ngx-hal-client';
+import { Resource } from '@lagoshny/ngx-hateoas-client';
 import { TaskCategory } from './task-category.model';
 import { User } from './user.model';
 

@@ -72,7 +72,7 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
     if (this.categoryToEdit) {
       const category = _.merge(this.categoryToEdit, categoryFromForm);
       this.subs.push(
-        this.categoryService.patch(category).subscribe((/* updatedCategory: TaskCategory */) => {
+        this.categoryService.patchResource(category).subscribe((/* updatedCategory: TaskCategory */) => {
           this.router.navigate(['home'])
             .catch(reason => this.logger.error(reason));
         })
@@ -80,7 +80,7 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
     } else {
       categoryFromForm.user = this.authService.getUser();
       this.subs.push(
-        this.categoryService.create(categoryFromForm)
+        this.categoryService.createResource({body: categoryFromForm})
           .subscribe((/*category: TaskCategory*/) => {
             this.router.navigate(['home'])
               .catch(reason => this.logger.error(reason));

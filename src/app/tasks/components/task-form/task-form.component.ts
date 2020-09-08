@@ -76,7 +76,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
       this.subs.push(
         this.taskService.getByCategoryPrefixAndNumber(categoryPrefix, num)
           .subscribe((task: Task) => {
-            task.getRelation(TaskCategory, ServerApi.TASKS.relations.taskCategory)
+            task.getRelation(ServerApi.TASKS.relations.taskCategory)
               .subscribe((taskCategory: TaskCategory) => {
                 task.category = taskCategory;
                 this.taskForm.patchValue({
@@ -110,7 +110,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     if (this.taskToEdit) {
       const task = _.merge(this.taskToEdit, taskFromForm);
       this.subs.push(
-        this.taskService.patch(task).subscribe((/* updatedTask: Task */) => {
+        this.taskService.patchResource(task).subscribe((/* updatedTask: Task */) => {
           this.router.navigate(['home'])
             .catch(reason => this.logger.error(reason));
         })
@@ -134,7 +134,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
 
   public onChangeStatus(status: TaskStatus): void {
     this.taskToEdit.postRelation('updateStatus', {
-        status: status.code
+        body: {status: status.code}
       }
     ).subscribe((updatedTask: Task) => {
       this.taskToEdit = updatedTask;

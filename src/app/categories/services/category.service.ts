@@ -1,30 +1,33 @@
-import { Injectable, Injector } from '@angular/core';
-import { RestService } from '@lagoshny/ngx-hal-client';
+import { Injectable } from '@angular/core';
+import { HateoasResourceOperation } from '@lagoshny/ngx-hateoas-client';
 import { Observable } from 'rxjs';
 import { ServerApi } from '../../app.config';
 import { TaskCategory } from '../../core/models/task-category.model';
 import { AuthService } from '../../core/services/auth.service';
+import { map } from 'rxjs/operators';
 
 @Injectable()
-export class CategoryService extends RestService<TaskCategory> {
+export class CategoryService extends HateoasResourceOperation<TaskCategory> {
 
-  constructor(private authService: AuthService,
-              injector: Injector) {
-    super(TaskCategory, ServerApi.TASK_CATEGORIES.resource, injector);
+  constructor(private authService: AuthService) {
+    super(ServerApi.TASK_CATEGORIES.resource);
   }
 
   /**
    * Get all categories to authenticated specified user.
    */
   public getAllByUser(): Observable<Array<TaskCategory>> {
-    return this.search(ServerApi.TASK_CATEGORIES.allByUser.query, {
-      params: [
+    return this.searchCollection(ServerApi.TASK_CATEGORIES.allByUser.query, {
+      params:
         {
-          key: ServerApi.TASK_CATEGORIES.allByUser.userParam,
-          value: this.authService.getUser()
+          [ServerApi.TASK_CATEGORIES.allByUser.userParam]: this.authService.getUser()
         }
-      ]
-    });
+
+    }).pipe(
+      map(value => {
+        return value.resources;
+      })
+    );
   }
 
   /**
@@ -33,17 +36,12 @@ export class CategoryService extends RestService<TaskCategory> {
    * @param prefix category to find
    */
   public getByPrefix(prefix: string): Observable<TaskCategory> {
-    return this.searchSingle(ServerApi.TASK_CATEGORIES.byPrefix.query, {
-      params: [
+    return this.searchResource(ServerApi.TASK_CATEGORIES.byPrefix.query, {
+      params:
         {
-          key: ServerApi.TASK_CATEGORIES.byPrefix.prefixParam,
-          value: prefix
-        },
-        {
-          key: ServerApi.TASK_CATEGORIES.byPrefix.userParam,
-          value: this.authService.getUser()
+          [ServerApi.TASK_CATEGORIES.byPrefix.prefixParam]: prefix,
+          [ServerApi.TASK_CATEGORIES.byPrefix.userParam]: this.authService.getUser()
         }
-      ]
     });
   }
 
