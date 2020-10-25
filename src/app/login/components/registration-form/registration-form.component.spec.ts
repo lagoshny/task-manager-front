@@ -24,7 +24,7 @@ describe('RegistrationFormComponent', () => {
       navigate: jasmine.createSpy('navigate')
     };
     userServiceSpy = {
-      create: jasmine.createSpy('create')
+      createResource: jasmine.createSpy('createResource')
     };
     authServiceSpy = {
       setCredentials: jasmine.createSpy('setCredentials'),
@@ -59,7 +59,7 @@ describe('RegistrationFormComponent', () => {
   }));
 
   it('should navigate to login form after success registration', () => {
-    userServiceSpy.create.and.returnValue(of(new User()));
+    userServiceSpy.createResource.and.returnValue(of(new User()));
     routerSpy.navigate.and.returnValue(Promise.resolve());
 
     comp.sendForm();

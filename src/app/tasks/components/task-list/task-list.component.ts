@@ -1,6 +1,6 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ResourcePage } from '@lagoshny/ngx-hal-client';
+import { PagedResourceCollection } from '@lagoshny/ngx-hateoas-client';
 import * as _ from 'lodash';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
@@ -23,7 +23,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
 
   public minimizeTasks = false;
 
-  private tasks: ResourcePage<Task>;
+  private tasks: PagedResourceCollection<Task>;
 
   private subs: Array<Subscription> = [];
 
@@ -81,7 +81,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
   }
 
   public onRemoveTask(task: Task): void {
-    this.taskService.delete(task).subscribe(() => {
+    this.taskService.deleteResource(task).subscribe(() => {
       _.remove(this.viewTasks, (t: Task) => t.id === task.id);
     });
   }
@@ -93,13 +93,13 @@ export class TaskListComponent implements OnInit, OnDestroy {
     this.subs.push(
       this.tasks.next()
         .pipe(
-          tap((tasks: ResourcePage<Task>) => {
+          tap((tasks: PagedResourceCollection<Task>) => {
             tasks.resources.forEach((task: Task) => {
               task.status = TaskStatus.getByCode(task.status).name;
             });
           })
         )
-        .subscribe((value: ResourcePage<Task>) => {
+        .subscribe((value: PagedResourceCollection<Task>) => {
           this.viewTasks.push(...value.resources);
           this.tasks = value;
         })
@@ -110,7 +110,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
     if (selectedTaskCategoriesIds) {
       this.subs.push(
         this.taskService.getFilteredUserTasksByCategories(selectedTaskCategoriesIds, this.taskPageSize)
-          .subscribe((value: ResourcePage<Task>) => {
+          .subscribe((value: PagedResourceCollection<Task>) => {
             this.viewTasks = value.resources;
             this.tasks = value;
           })
@@ -118,7 +118,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
     } else {
       this.subs.push(
         this.taskService.getAllUserTasks(this.taskPageSize)
-          .subscribe((value: ResourcePage<Task>) => {
+          .subscribe((value: PagedResourceCollection<Task>) => {
             this.viewTasks = value.resources;
             this.tasks = value;
           })

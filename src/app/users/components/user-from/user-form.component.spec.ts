@@ -31,8 +31,8 @@ describe('UserFormComponent', () => {
       setUser: jasmine.createSpy('setUser')
     };
     userServiceSpy = {
-      patch: jasmine.createSpy('patch'),
-      get: jasmine.createSpy('get')
+      patchResource: jasmine.createSpy('patchResource'),
+      getResource: jasmine.createSpy('getResource')
     };
 
     TestBed.configureTestingModule({
@@ -66,18 +66,18 @@ describe('UserFormComponent', () => {
 
   it('should load user when create component', () => {
     authServiceSpy.getUser.and.returnValue(new User());
-    userServiceSpy.get.and.returnValue(of(new User()));
+    userServiceSpy.getResource.and.returnValue(of(new User()));
 
     fixture.detectChanges();
 
-    expect(userServiceSpy.get.calls.count()).toBe(1);
+    expect(userServiceSpy.getResource.calls.count()).toBe(1);
   });
 
   it('should update user in local storage after change', () => {
     authServiceSpy.getUser.and.returnValue(new User());
-    userServiceSpy.get.and.returnValue(of(new User()));
+    userServiceSpy.getResource.and.returnValue(of(new User()));
     fixture.detectChanges();
-    userServiceSpy.patch.and.returnValue(of(new User()));
+    userServiceSpy.patchResource.and.returnValue(of(new User()));
     routerSpy.navigate.and.returnValue(Promise.resolve());
 
     comp.saveUser();
@@ -87,9 +87,9 @@ describe('UserFormComponent', () => {
 
   it('should navigate to home page after save', () => {
     authServiceSpy.getUser.and.returnValue(new User());
-    userServiceSpy.get.and.returnValue(of(new User()));
+    userServiceSpy.getResource.and.returnValue(of(new User()));
     fixture.detectChanges();
-    userServiceSpy.patch.and.returnValue(of(new User()));
+    userServiceSpy.patchResource.and.returnValue(of(new User()));
     routerSpy.navigate.and.returnValue(Promise.resolve());
 
     comp.saveUser();
