@@ -1,4 +1,4 @@
-import { Resource } from '@lagoshny/ngx-hal-client';
+import { Resource } from '@lagoshny/ngx-hateoas-client';
 import { Task } from './task.model';
 
 export class User extends Resource {

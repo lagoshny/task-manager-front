@@ -32,7 +32,7 @@ describe('CategoryListComponent', () => {
     };
     categoryServiceSpy = {
       getAllByUser: jasmine.createSpy('getAllByUser'),
-      delete: jasmine.createSpy('delete')
+      deleteResource: jasmine.createSpy('deleteResource')
     };
 
     TestBed.configureTestingModule({
@@ -116,58 +116,58 @@ describe('CategoryListComponent', () => {
   });
 
   it('should open dialog to delete category', () => {
-    let dialogComp = TestBed.get(MatDialog);
-    let spyDialog = spyOn(dialogComp, 'open').and.callThrough();
+    const dialogComp = TestBed.get(MatDialog);
+    const spyDialog = spyOn(dialogComp, 'open').and.callThrough();
     comp.onCategoryDelete(new TaskCategory());
 
     expect(spyDialog).toHaveBeenCalled();
   });
 
   it('should delete category after deletion dialog confirm', () => {
-    let afterClose = jasmine.createSpyObj({afterClosed: of(true), close: null});
-    let dialogComp = TestBed.get(MatDialog);
+    const afterClose = jasmine.createSpyObj({afterClosed: of(true), close: null});
+    const dialogComp = TestBed.get(MatDialog);
     spyOn(dialogComp, 'open').and.returnValue(afterClose);
-    categoryServiceSpy.delete.and.returnValue(of());
+    categoryServiceSpy.deleteResource.and.returnValue(of());
 
     comp.onCategoryDelete(new TaskCategory());
 
     expect(afterClose.afterClosed).toHaveBeenCalled();
-    expect(categoryServiceSpy.delete).toHaveBeenCalled();
+    expect(categoryServiceSpy.deleteResource).toHaveBeenCalled();
   });
 
   it('should NOT delete category after deletion dialog reject', () => {
-    let afterClose = jasmine.createSpyObj({afterClosed: of(false), close: null});
-    let dialogComp = TestBed.get(MatDialog);
+    const afterClose = jasmine.createSpyObj({afterClosed: of(false), close: null});
+    const dialogComp = TestBed.get(MatDialog);
     spyOn(dialogComp, 'open').and.returnValue(afterClose);
-    categoryServiceSpy.delete.and.returnValue(of());
+    categoryServiceSpy.deleteResource.and.returnValue(of());
 
     comp.onCategoryDelete(new TaskCategory());
 
     expect(afterClose.afterClosed).toHaveBeenCalled();
-    expect(categoryServiceSpy.delete).toHaveBeenCalledTimes(0);
+    expect(categoryServiceSpy.deleteResource).toHaveBeenCalledTimes(0);
   });
 
 
   it('should update category list after delete category', () => {
-    let afterClose = jasmine.createSpyObj({afterClosed: of(true), close: null});
-    let dialogComp = TestBed.get(MatDialog);
+    const afterClose = jasmine.createSpyObj({afterClosed: of(true), close: null});
+    const dialogComp = TestBed.get(MatDialog);
     spyOn(dialogComp, 'open').and.returnValue(afterClose);
     categoryServiceSpy.getAllByUser.and.returnValue(of([new TaskCategory()]));
-    categoryServiceSpy.delete.and.returnValue(of(new TaskCategory()));
+    categoryServiceSpy.deleteResource.and.returnValue(of(new TaskCategory()));
 
     comp.onCategoryDelete(new TaskCategory());
 
     expect(afterClose.afterClosed).toHaveBeenCalled();
-    expect(categoryServiceSpy.delete).toHaveBeenCalled();
+    expect(categoryServiceSpy.deleteResource).toHaveBeenCalled();
     expect(categoryServiceSpy.getAllByUser).toHaveBeenCalled();
   });
 
   it('should refresh task list after delete category', () => {
-    let afterClose = jasmine.createSpyObj({afterClosed: of(true), close: null});
-    let dialogComp = TestBed.get(MatDialog);
+    const afterClose = jasmine.createSpyObj({afterClosed: of(true), close: null});
+    const dialogComp = TestBed.get(MatDialog);
     spyOn(dialogComp, 'open').and.returnValue(afterClose);
     categoryServiceSpy.getAllByUser.and.returnValue(of([new TaskCategory()]));
-    categoryServiceSpy.delete.and.returnValue(of(new TaskCategory()));
+    categoryServiceSpy.deleteResource.and.returnValue(of(new TaskCategory()));
     const taskCategoryService = TestBed.get(TaskCategoryService);
     const spyRefreshTasks = spyOn(taskCategoryService, 'refreshTasks');
 

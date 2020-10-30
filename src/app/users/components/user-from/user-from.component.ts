@@ -25,7 +25,7 @@ export class UserFromComponent implements OnInit {
 
   public ngOnInit(): void {
     this.userForm = this.buildForm();
-    this.userService.get(this.authService.getUser().id).subscribe((u: User) => {
+    this.userService.getResource(this.authService.getUser().id).subscribe((u: User) => {
       this.userForm.patchValue(u);
     });
   }
@@ -36,7 +36,7 @@ export class UserFromComponent implements OnInit {
       ...this.userForm.value
     };
 
-    this.userService.patch(updatedUser).subscribe((u: User) => {
+    this.userService.patchResource(updatedUser).subscribe((u: User) => {
       this.authService.setUser(u);
       this.router.navigate(['home']).catch(reason => {
         this.logger.error(reason);

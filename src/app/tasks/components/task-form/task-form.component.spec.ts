@@ -51,7 +51,7 @@ describe('TaskFormComponent', () => {
     taskServiceSpy = {
       getByCategoryPrefixAndNumber: jasmine.createSpy('getByCategoryPrefixAndNumber'),
       create: jasmine.createSpy('create'),
-      patch: jasmine.createSpy('patch')
+      patchResource: jasmine.createSpy('patchResource')
     };
     taskCategoryServiceSpy = {
       getAllByUser: jasmine.createSpy('getAllByUser')
@@ -261,12 +261,12 @@ describe('TaskFormComponent', () => {
       taskCategoryNumber: 'TEST-1'
     });
     fixture.detectChanges();
-    expect(taskServiceSpy.patch.and.returnValue(of()));
+    expect(taskServiceSpy.patchResource.and.returnValue(of()));
 
     comp.sendForm();
 
-    expect(taskServiceSpy.patch.calls.count()).toBe(1);
-    expect(taskServiceSpy.patch.calls.argsFor(0)[0]).toBeDefined();
+    expect(taskServiceSpy.patchResource.calls.count()).toBe(1);
+    expect(taskServiceSpy.patchResource.calls.argsFor(0)[0]).toBeDefined();
   }));
 
   it('when needTimeManagement is TRUE then totalTime and spentTime are equal or great than 0', () => {

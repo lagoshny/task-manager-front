@@ -28,8 +28,8 @@ describe('CategoryFormComponent', () => {
     };
     categoryServiceSpy = {
       getByPrefix: jasmine.createSpy('getByPrefix'),
-      create: jasmine.createSpy('create'),
-      patch: jasmine.createSpy('patch')
+      createResource: jasmine.createSpy('createResource'),
+      patchResource: jasmine.createSpy('patchResource')
     };
     activatedRouteStub = new ActivatedRouteStub({});
 
@@ -143,11 +143,11 @@ describe('CategoryFormComponent', () => {
     comp.categoryForm.patchValue(newCategory);
 
     routerSpy.navigate.and.returnValue(Promise.resolve());
-    categoryServiceSpy.create.and.returnValue(of(newCategory));
+    categoryServiceSpy.createResource.and.returnValue(of(newCategory));
 
     comp.sendForm();
 
-    expect(categoryServiceSpy.create).toHaveBeenCalled();
+    expect(categoryServiceSpy.createResource).toHaveBeenCalled();
     expect(routerSpy.navigate).toHaveBeenCalledWith(['home']);
   });
 
@@ -164,11 +164,11 @@ describe('CategoryFormComponent', () => {
     fixture.detectChanges();
 
     routerSpy.navigate.and.returnValue(Promise.resolve());
-    categoryServiceSpy.patch.and.returnValue(of(existingCategory));
+    categoryServiceSpy.patchResource.and.returnValue(of(existingCategory));
 
     comp.sendForm();
 
-    expect(categoryServiceSpy.patch).toHaveBeenCalled();
+    expect(categoryServiceSpy.patchResource).toHaveBeenCalled();
     expect(routerSpy.navigate).toHaveBeenCalledWith(['home']);
   });
 

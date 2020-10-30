@@ -25,7 +25,7 @@ export class RegistrationFormComponent {
     const user = this.registrationForm.value as User;
     user.password = this.registrationForm.get('passwordGroup.password').value;
 
-    this.userService.create(user)
+    this.userService.createResource({body: user})
       .subscribe((/* u: User */) => {
           this.router.navigate(['login'])
             .catch(reason => this.logger.error(reason));
