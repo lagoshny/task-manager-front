@@ -223,7 +223,7 @@ describe('TaskFormComponent', () => {
     expect(taskServiceSpy.create.calls.argsFor(0)[0].status).toBe(TaskStatus.NEW.code);
   });
 
-  it('after create task should navigate to "edit" task page', () => {
+  it('after create task should navigate to "home" page', () => {
     routerSpy.navigate.and.returnValue(Promise.resolve());
     taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
     const newTask = getTestTask();
@@ -233,7 +233,7 @@ describe('TaskFormComponent', () => {
     comp.sendForm();
 
     expect(routerSpy.navigate)
-      .toHaveBeenCalledWith(['tasks/edit', `${ newTask.category.prefix }-${ newTask.number }`]);
+      .toHaveBeenCalledWith(['home']);
   });
 
   it('after create task should show success notification', () => {
