@@ -7,7 +7,11 @@ import { NGXLogger } from 'ngx-logger';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, startWith } from 'rxjs/operators';
 import { ServerApi } from '../../../app.config';
-import { changeHeightAnimation, dropDownAnimation, showSectionAnimation } from '../../../core/animations/common.animation';
+import {
+  changeHeightAnimation,
+  dropDownAnimation,
+  showSectionAnimation
+} from '../../../core/animations/common.animation';
 import { TaskPriority } from '../../../core/models/constants/task-priority.items';
 import { TaskStatus } from '../../../core/models/constants/task-status.items';
 import { TaskCategory } from '../../../core/models/task-category.model';
@@ -117,7 +121,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
       this.subs.push(
         this.taskService.create(taskFromForm).subscribe((createdTask: Task) => {
           this.notificationService.showSuccess(['Task successfully created']);
-          this.router.navigate(['tasks/edit', `${ createdTask.category.prefix }-${ createdTask.number }`])
+          this.router.navigate(['home'])
             .catch(reason => this.logger.error(reason));
         })
       );

@@ -1,7 +1,8 @@
-import { Resource } from '@lagoshny/ngx-hateoas-client';
+import { HateoasResource, Resource } from '@lagoshny/ngx-hateoas-client';
 import { TaskCategory } from './task-category.model';
 import { User } from './user.model';
 
+@HateoasResource('tasks')
 export class Task extends Resource {
 
   /**

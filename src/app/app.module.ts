@@ -14,6 +14,9 @@ import { HeaderModule } from './header/header.module';
 import { HomeModule } from './home/home.module';
 import { LoginModule } from './login/login.module';
 import { NgxHateoasClientConfigurationService, NgxHateoasClientModule } from '@lagoshny/ngx-hateoas-client';
+import { User } from './core/models/user.model';
+import { TaskCategory } from './core/models/task-category.model';
+import { Task } from './core/models/task.model';
 
 @NgModule({
   imports: [
@@ -52,6 +55,9 @@ export class AppModule {
     hateoasConfig.configure({
       http: {
         rootUrl: ServerApi.BASE_API
+      },
+      useTypes: {
+        resources: [User, TaskCategory, Task]
       }
     });
   }
