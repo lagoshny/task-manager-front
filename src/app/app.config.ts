@@ -6,12 +6,7 @@ export class ServerApi {
     path: `${ ServerApi.BASE_API }/auth/user`
   };
 
-  public static readonly USERS = {
-    resource: 'users'
-  };
-
   public static readonly TASKS = {
-    resource: 'tasks',
     allByAuthor: {
       query: 'allByAuthor',
       authorParam: 'user'
@@ -39,7 +34,6 @@ export class ServerApi {
   };
 
   public static readonly TASK_CATEGORIES = {
-    resource: 'task-categories',
     byPrefix: {
       query: 'byPrefix',
       prefixParam: 'prefix',

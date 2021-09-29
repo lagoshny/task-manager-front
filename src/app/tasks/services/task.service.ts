@@ -11,7 +11,7 @@ import { AuthService } from '../../core/services/auth.service';
 export class TaskService extends HateoasResourceOperation<Task> {
 
   constructor(private authService: AuthService) {
-    super(ServerApi.TASKS.resource);
+    super(Task);
   }
 
   public getByCategoryPrefixAndNumber(categoryPrefix: string, num: number): Observable<Task> {

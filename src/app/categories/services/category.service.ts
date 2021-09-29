@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 export class CategoryService extends HateoasResourceOperation<TaskCategory> {
 
   constructor(private authService: AuthService) {
-    super(ServerApi.TASK_CATEGORIES.resource);
+    super(TaskCategory);
   }
 
   /**
