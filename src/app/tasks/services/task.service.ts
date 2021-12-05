@@ -1,16 +1,22 @@
 import { Injectable } from '@angular/core';
-import { HateoasResourceOperation, PagedResourceCollection } from '@lagoshny/ngx-hateoas-client';
+import {
+  HateoasResourceOperation,
+  HateoasResourceService,
+  PagedResourceCollection
+} from '@lagoshny/ngx-hateoas-client';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ServerApi } from '../../app.config';
 import { TaskStatus } from '../../core/models/constants/task-status.items';
 import { Task } from '../../core/models/task.model';
 import { AuthService } from '../../core/services/auth.service';
+import { TaskProjection } from '../../core/models/task.projection';
 
 @Injectable()
 export class TaskService extends HateoasResourceOperation<Task> {
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService,
+              public resourceService: HateoasResourceService) {
     super(Task);
   }
 
@@ -29,19 +35,20 @@ export class TaskService extends HateoasResourceOperation<Task> {
     return super.createResource({body: task});
   }
 
-  public getAllUserTasks(taskPageSize: number): Observable<PagedResourceCollection<Task>> {
-    return this.searchPage(ServerApi.TASKS.allByAuthor.query, {
-      pageParams: {
-        size: taskPageSize
-      },
-      params: {
-        [ServerApi.TASKS.allByAuthor.authorParam]: this.authService.getUser(),
-        [ServerApi.TASKS.projections.taskProjection.key]: ServerApi.TASKS.projections.taskProjection.value
+  public getAllUserTasks(taskPageSize: number): Observable<PagedResourceCollection<TaskProjection>> {
+    return this.resourceService.searchPage(TaskProjection, ServerApi.TASKS.allByAuthor.query, {
+        pageParams: {
+          size: taskPageSize
+        },
+        params: {
+          [ServerApi.TASKS.allByAuthor.authorParam]: this.authService.getUser(),
+          [ServerApi.TASKS.projections.taskProjection.key]: ServerApi.TASKS.projections.taskProjection.value
+        }
       }
-    })
+    )
       .pipe(
-        tap((tasks: PagedResourceCollection<Task>) => {
-          tasks.resources.forEach((task: Task) => {
+        tap((tasks: PagedResourceCollection<TaskProjection>) => {
+          tasks.resources.forEach((task: TaskProjection) => {
             task.status = TaskStatus.getByCode(task.status).name;
           });
         })
