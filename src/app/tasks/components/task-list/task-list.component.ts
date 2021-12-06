@@ -11,6 +11,7 @@ import { Task } from '../../../core/models/task.model';
 import { TaskCategoryService } from '../../../core/services/task-category.service';
 import { StringUtils } from '../../../core/utils/string.utils';
 import { TaskService } from '../../services/task.service';
+import { TaskProjection } from '../../../core/models/task.projection';
 
 @Component({
   selector: 'tm-task-list',
@@ -19,7 +20,7 @@ import { TaskService } from '../../services/task.service';
 })
 export class TaskListComponent implements OnInit, OnDestroy {
 
-  public viewTasks: Array<Task> = [];
+  public viewTasks: Array<TaskProjection> = [];
 
   public minimizeTasks = false;
 
