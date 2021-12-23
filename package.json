@@ -24,7 +24,7 @@
     "@angular/platform-browser-dynamic": "~12.2.15",
     "@angular/router": "~12.2.15",
     "@lagoshny/ngx-hateoas-client": "^3.0.3",
-    "@lagoshny/ngx-validation-messages": "^2.0.1",
+    "@lagoshny/ngx-validation-messages": "^3.0.0",
     "@types/lodash": "^4.14.123",
     "@types/moment": "^2.13.0",
     "karma-intl-shim": "^1.0.3",
