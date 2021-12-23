@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NGXLogger, NGXLoggerMock } from 'ngx-logger';
 import { of } from 'rxjs';
 import { TaskCategory } from '../../../core/models/task-category.model';
 import { Task } from '../../../core/models/task.model';
@@ -12,6 +11,7 @@ import { TaskService } from '../../services/task.service';
 import { getTestTask } from '../test.helper';
 import { TaskListComponent } from './task-list.component';
 import { PagedResourceCollection, ResourceCollection } from '@lagoshny/ngx-hateoas-client';
+import { LoggerTestingModule } from 'ngx-logger/testing';
 
 @Component({
   selector: 'tm-quick-task-create',
@@ -57,6 +57,9 @@ describe('TaskListComponent', () => {
       getFilteredUserTasksByCategories: jasmine.createSpy('getFilteredUserTasksByCategories')
     };
     TestBed.configureTestingModule({
+      imports: [
+        LoggerTestingModule
+      ],
       declarations: [
         QuickTaskCreateComponent,
         TaskComponent,
@@ -65,7 +68,6 @@ describe('TaskListComponent', () => {
       providers: [
         {provide: Router, useValue: routerSpy},
         {provide: ActivatedRoute, useValue: activatedRouteStub},
-        {provide: NGXLogger, useClass: NGXLoggerMock},
         {provide: TaskService, useValue: taskServiceSpy},
         TaskCategoryService
       ]

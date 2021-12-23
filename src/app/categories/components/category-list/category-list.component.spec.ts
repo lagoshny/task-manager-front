@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
-import { NGXLogger, NGXLoggerMock } from 'ngx-logger';
 import { of } from 'rxjs';
 import { CoreModule } from '../../../core/core.module';
 import { TaskCategory } from '../../../core/models/task-category.model';
@@ -11,6 +10,7 @@ import { TaskCategoryService } from '../../../core/services/task-category.servic
 import { TemplateHelper } from '../../../utils/template.helper';
 import { CategoryService } from '../../services/category.service';
 import { CategoryListComponent } from './category-list.component';
+import { LoggerTestingModule } from 'ngx-logger/testing';
 
 @Component({
   selector: 'tm-category', template: ''
@@ -38,7 +38,8 @@ describe('CategoryListComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CoreModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        LoggerTestingModule
       ],
       declarations: [
         CategoryListComponent,
@@ -46,7 +47,6 @@ describe('CategoryListComponent', () => {
       ],
       providers: [
         {provide: Router, useValue: routerSpy},
-        {provide: NGXLogger, useClass: NGXLoggerMock},
         {provide: CategoryService, useValue: categoryServiceSpy},
         TaskCategoryService
       ]

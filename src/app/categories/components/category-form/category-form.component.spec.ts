@@ -6,14 +6,16 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxValidationMessagesModule } from '@lagoshny/ngx-validation-messages';
-import { NGXLogger, NGXLoggerMock } from 'ngx-logger';
 import { of, throwError } from 'rxjs';
-import { FontIconListDialogComponent } from '../../../core/components/font-icon-list-dialog/font-icon-list-dialog.component';
+import {
+  FontIconListDialogComponent
+} from '../../../core/components/font-icon-list-dialog/font-icon-list-dialog.component';
 import { CoreModule } from '../../../core/core.module';
 import { TaskCategory } from '../../../core/models/task-category.model';
 import { ActivatedRouteStub } from '../../../utils/activated-route-stub';
 import { CategoryService } from '../../services/category.service';
 import { CategoryFormComponent } from './category-form.component';
+import { LoggerTestingModule } from 'ngx-logger/testing';
 
 describe('CategoryFormComponent', () => {
   let routerSpy: any;
@@ -40,6 +42,7 @@ describe('CategoryFormComponent', () => {
         ReactiveFormsModule,
         MatFormFieldModule,
         MatInputModule,
+        LoggerTestingModule,
         NgxValidationMessagesModule.forRoot({
           messages: {}
         })
@@ -50,7 +53,6 @@ describe('CategoryFormComponent', () => {
       providers: [
         {provide: Router, useValue: routerSpy},
         {provide: ActivatedRoute, useValue: activatedRouteStub},
-        {provide: NGXLogger, useClass: NGXLoggerMock},
         {provide: CategoryService, useValue: categoryServiceSpy}
       ]
     })

@@ -6,13 +6,13 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { NgxValidationMessagesModule } from '@lagoshny/ngx-validation-messages';
-import { NGXLogger, NGXLoggerMock } from 'ngx-logger';
 import { of } from 'rxjs';
 import { CoreModule } from '../../../core/core.module';
 import { User } from '../../../core/models/user.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { UserService } from '../../services/user.service';
 import { UserFromComponent } from './user-from.component';
+import { LoggerTestingModule } from 'ngx-logger/testing';
 
 
 describe('UserFormComponent', () => {
@@ -43,6 +43,7 @@ describe('UserFormComponent', () => {
         MatInputModule,
         MatMomentDateModule,
         MatDatepickerModule,
+        LoggerTestingModule,
         NgxValidationMessagesModule.forRoot({
           messages: {}
         })
@@ -52,7 +53,6 @@ describe('UserFormComponent', () => {
       ],
       providers: [
         {provide: Router, useValue: routerSpy},
-        {provide: NGXLogger, useClass: NGXLoggerMock},
         {provide: AuthService, useValue: authServiceSpy},
         {provide: UserService, useValue: userServiceSpy}
       ]

@@ -5,12 +5,12 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { NgxValidationMessagesModule } from '@lagoshny/ngx-validation-messages';
-import { NGXLogger, NGXLoggerMock } from 'ngx-logger';
 import { of } from 'rxjs';
 import { User } from '../../../core/models/user.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { UserService } from '../../../users/services/user.service';
 import { RegistrationFormComponent } from './registration-form.component';
+import { LoggerTestingModule } from 'ngx-logger/testing';
 
 describe('RegistrationFormComponent', () => {
   let fixture: ComponentFixture<RegistrationFormComponent>;
@@ -37,6 +37,7 @@ describe('RegistrationFormComponent', () => {
         MatInputModule,
         MatMomentDateModule,
         MatDatepickerModule,
+        LoggerTestingModule,
         NgxValidationMessagesModule.forRoot({
           messages: {}
         })
@@ -46,7 +47,6 @@ describe('RegistrationFormComponent', () => {
       ],
       providers: [
         {provide: Router, useValue: routerSpy},
-        {provide: NGXLogger, useClass: NGXLoggerMock},
         {provide: UserService, useValue: userServiceSpy},
         {provide: AuthService, useValue: authServiceSpy}
       ]

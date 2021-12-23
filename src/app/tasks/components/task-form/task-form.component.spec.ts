@@ -11,7 +11,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxValidationMessagesModule } from '@lagoshny/ngx-validation-messages';
-import { NGXLogger, NGXLoggerMock } from 'ngx-logger';
 import { of, throwError } from 'rxjs';
 import { CoreModule } from '../../../core/core.module';
 import { TaskStatus } from '../../../core/models/constants/task-status.items';
@@ -23,6 +22,7 @@ import { CategoryService } from '../../services/category.service';
 import { TaskService } from '../../services/task.service';
 import { getTestTask } from '../test.helper';
 import { TaskFormComponent } from './task-form.component';
+import { LoggerTestingModule } from 'ngx-logger/testing';
 
 @Component({
   selector: 'tm-task-status',
@@ -74,6 +74,7 @@ describe('TaskFormComponent', () => {
         MatButtonModule,
         MatInputModule,
         MatTooltipModule,
+        LoggerTestingModule,
         NgxValidationMessagesModule.forRoot({
           messages: {}
         })
@@ -85,7 +86,6 @@ describe('TaskFormComponent', () => {
       providers: [
         {provide: Router, useValue: routerSpy},
         {provide: ActivatedRoute, useValue: activatedRouteStub},
-        {provide: NGXLogger, useClass: NGXLoggerMock},
         {provide: TaskService, useValue: taskServiceSpy},
         {provide: CategoryService, useValue: taskCategoryServiceSpy},
         {provide: NotificationService, useValue: notificationServiceSpy}

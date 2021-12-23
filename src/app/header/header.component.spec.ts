@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { NGXLogger, NGXLoggerMock } from 'ngx-logger';
 import { User } from '../core/models/user.model';
 import { AuthService } from '../core/services/auth.service';
 import { HeaderComponent } from './header.component';
+import { LoggerTestingModule } from 'ngx-logger/testing';
 
 @Component({
   selector: 'tm-menu',
@@ -29,13 +29,15 @@ describe('HeaderComponent', () => {
     };
 
     TestBed.configureTestingModule({
+      imports: [
+        LoggerTestingModule
+      ],
       declarations: [
         MenuStubComponent,
         HeaderComponent
       ],
       providers: [
         {provide: Router, useValue: routerSpy},
-        {provide: NGXLogger, useClass: NGXLoggerMock},
         {provide: AuthService, useValue: authServiceSpy}
       ]
     })

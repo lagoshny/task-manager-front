@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { NGXLogger, NGXLoggerMock } from 'ngx-logger';
 import { AuthService } from '../../core/services/auth.service';
 import { LoginGuard } from './login.guard';
+import { LoggerTestingModule } from 'ngx-logger/testing';
 
 describe('LoginService', () => {
   let guard: LoginGuard;
@@ -18,10 +18,12 @@ describe('LoginService', () => {
       isAuthenticated: jasmine.createSpy('isAuthenticated')
     };
     TestBed.configureTestingModule({
+      imports: [
+        LoggerTestingModule
+      ],
       providers: [
         LoginGuard,
         {provide: Router, useValue: routerSpy},
-        {provide: NGXLogger, useClass: NGXLoggerMock},
         {provide: AuthService, useValue: authServiceSpy}
       ]
     });
