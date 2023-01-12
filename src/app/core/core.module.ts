@@ -18,37 +18,32 @@ import { NotificationService } from './services/notification.service';
 import { TaskCategoryService } from './services/task-category.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatSnackBarModule
-  ],
-  declarations: [
-    CommonPageComponent,
-    FontIconListDialogComponent,
-    SimpleDialogComponent,
-    NotificationLayoutComponent,
-    AmountCharactersPipe
-  ],
-  providers: [
-    AuthGuard,
-    AuthService,
-    FontIconService,
-    NotificationService,
-    TaskCategoryService,
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true}
-  ],
-  exports: [
-    CommonPageComponent,
-    AmountCharactersPipe
-  ],
-  entryComponents: [
-    FontIconListDialogComponent,
-    SimpleDialogComponent,
-    NotificationLayoutComponent
-  ]
+    imports: [
+        CommonModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatSnackBarModule
+    ],
+    declarations: [
+        CommonPageComponent,
+        FontIconListDialogComponent,
+        SimpleDialogComponent,
+        NotificationLayoutComponent,
+        AmountCharactersPipe
+    ],
+    providers: [
+        AuthGuard,
+        AuthService,
+        FontIconService,
+        NotificationService,
+        TaskCategoryService,
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true }
+    ],
+    exports: [
+        CommonPageComponent,
+        AmountCharactersPipe
+    ]
 })
 export class CoreModule {
 }
