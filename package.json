@@ -29,7 +29,7 @@
     "@types/moment": "^2.13.0",
     "karma-intl-shim": "^1.0.3",
     "lodash": "^4.17.11",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "ngx-logger": "^5.0.4",
     "npm": "^6.9.0",
     "rxjs": "~6.5.5",
