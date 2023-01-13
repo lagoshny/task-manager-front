@@ -1,18 +1,18 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
-import {NGXLogger} from 'ngx-logger';
-import {Subscription} from 'rxjs';
-import {dropDownAnimation} from '../../../core/animations/common.animation';
+import { NGXLogger } from 'ngx-logger';
+import { Subscription } from 'rxjs';
+import { dropDownAnimation } from '../../../core/animations/common.animation';
 import {
   FontIconListDialogComponent
 } from '../../../core/components/font-icon-list-dialog/font-icon-list-dialog.component';
-import {TaskCategory} from '../../../core/models/task-category.model';
-import {AuthService} from '../../../core/services/auth.service';
-import {CustomValidators} from '../../../core/validation/custom.validators';
-import {CategoryService} from '../../services/category.service';
-import {MatDialog} from '@angular/material/dialog';
+import { TaskCategory } from '../../../core/models/task-category.model';
+import { AuthService } from '../../../core/services/auth.service';
+import { CustomValidators } from '../../../core/validation/custom.validators';
+import { CategoryService } from '../../services/category.service';
 
 @Component({
   selector: 'tm-category-form',
