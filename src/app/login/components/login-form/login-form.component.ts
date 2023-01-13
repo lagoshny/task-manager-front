@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NGXLogger } from 'ngx-logger';
 import { User } from '../../../core/models/user.model';
@@ -13,10 +13,10 @@ import { LoginService } from '../../services/login.service';
 })
 export class LoginFormComponent {
 
-  public loginForm: FormGroup;
+  public loginForm: UntypedFormGroup;
 
   constructor(public router: Router,
-              private formBuilder: FormBuilder,
+              private formBuilder: UntypedFormBuilder,
               private loginService: LoginService,
               private authService: AuthService,
               private logger: NGXLogger) {

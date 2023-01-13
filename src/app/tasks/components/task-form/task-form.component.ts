@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
 import { isString } from 'lodash';
@@ -35,7 +35,7 @@ import { TaskUtils } from '../../utils/task.utils';
 })
 export class TaskFormComponent implements OnInit, OnDestroy {
 
-  public taskForm: FormGroup;
+  public taskForm: UntypedFormGroup;
 
   public formHeader = 'Create task';
   public buttonName = 'Create';
@@ -53,7 +53,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
   private subs: Array<Subscription> = [];
 
   constructor(public router: Router,
-              private formBuilder: FormBuilder,
+              private formBuilder: UntypedFormBuilder,
               private activatedRoute: ActivatedRoute,
               private logger: NGXLogger,
               private notificationService: NotificationService,

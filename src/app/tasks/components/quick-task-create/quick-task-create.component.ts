@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { timer } from 'rxjs';
@@ -19,11 +19,11 @@ export class QuickTaskCreateComponent implements OnInit {
   @Output()
   public readonly afterAddedTask = new EventEmitter<Task>();
 
-  public quickTaskForm: FormGroup;
+  public quickTaskForm: UntypedFormGroup;
 
   public needShowError = false;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private formBuilder: UntypedFormBuilder,
               private taskService: TaskService) {
   }
 
@@ -58,7 +58,7 @@ export class QuickTaskCreateComponent implements OnInit {
     });
   }
 
-  private buildForm(): FormGroup {
+  private buildForm(): UntypedFormGroup {
     return this.formBuilder.group({
       name: StringUtils.EMPTY
     });

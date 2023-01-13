@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NGXLogger } from 'ngx-logger';
 import { User } from '../../../core/models/user.model';
@@ -12,10 +12,10 @@ import { UserService } from '../../../users/services/user.service';
 })
 export class RegistrationFormComponent {
 
-  public registrationForm: FormGroup;
+  public registrationForm: UntypedFormGroup;
 
   constructor(public router: Router,
-              private formBuilder: FormBuilder,
+              private formBuilder: UntypedFormBuilder,
               private userService: UserService,
               private logger: NGXLogger) {
     this.buildForm();

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NGXLogger } from 'ngx-logger';
 import { dropDownAnimation } from '../../../core/animations/common.animation';
@@ -14,10 +14,10 @@ import { UserService } from '../../services/user.service';
 })
 export class UserFromComponent implements OnInit {
 
-  public userForm: FormGroup;
+  public userForm: UntypedFormGroup;
 
   constructor(public router: Router,
-              private formBuilder: FormBuilder,
+              private formBuilder: UntypedFormBuilder,
               private logger: NGXLogger,
               private authService: AuthService,
               private userService: UserService) {
@@ -44,7 +44,7 @@ export class UserFromComponent implements OnInit {
     });
   }
 
-  private buildForm(): FormGroup {
+  private buildForm(): UntypedFormGroup {
     return this.formBuilder.group({
       firstName: ['', [Validators.maxLength(100)]],
       middleName: ['', [Validators.maxLength(100)]],

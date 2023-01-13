@@ -1,12 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { dropDownAnimation } from '../../../core/animations/common.animation';
-import { FontIconListDialogComponent } from '../../../core/components/font-icon-list-dialog/font-icon-list-dialog.component';
+import {
+  FontIconListDialogComponent
+} from '../../../core/components/font-icon-list-dialog/font-icon-list-dialog.component';
 import { TaskCategory } from '../../../core/models/task-category.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { CustomValidators } from '../../../core/validation/custom.validators';
@@ -22,7 +24,7 @@ import { CategoryService } from '../../services/category.service';
 })
 export class CategoryFormComponent implements OnInit, OnDestroy {
 
-  public categoryForm: FormGroup;
+  public categoryForm: UntypedFormGroup;
 
   public formHeader = 'New category';
 
@@ -33,7 +35,7 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
   private categoryToEdit: TaskCategory;
 
   constructor(public router: Router,
-              private formBuilder: FormBuilder,
+              private formBuilder: UntypedFormBuilder,
               private activatedRoute: ActivatedRoute,
               private logger: NGXLogger,
               private dialog: MatDialog,
@@ -99,7 +101,7 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private buildForm(): FormGroup {
+  private buildForm(): UntypedFormGroup {
     return this.formBuilder.group({
       name: ['', [Validators.required, Validators.maxLength(100)]],
       prefix: ['', [Validators.required, Validators.maxLength(50),

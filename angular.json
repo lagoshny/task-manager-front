@@ -130,10 +130,12 @@
       }
     }
   },
-  "defaultProject": "task-manager-front",
   "schematics": {
     "@schematics/angular:component": {
       "styleext": "scss"
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
