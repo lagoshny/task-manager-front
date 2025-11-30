@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
 import { FontIcon } from '../../models/interfaces/font-icon.interace';
 import { FontIconService } from '../../services/font-icon.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'tm-icon-list',

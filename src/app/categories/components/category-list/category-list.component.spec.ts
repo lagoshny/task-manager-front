@@ -1,16 +1,16 @@
-import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialog } from '@angular/material/dialog';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Router } from '@angular/router';
-import { of } from 'rxjs';
-import { CoreModule } from '../../../core/core.module';
-import { TaskCategory } from '../../../core/models/task-category.model';
-import { TaskCategoryService } from '../../../core/services/task-category.service';
-import { TemplateHelper } from '../../../utils/template.helper';
-import { CategoryService } from '../../services/category.service';
-import { CategoryListComponent } from './category-list.component';
-import { LoggerTestingModule } from 'ngx-logger/testing';
+import {Component, Input} from '@angular/core';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {Router} from '@angular/router';
+import {of} from 'rxjs';
+import {CoreModule} from '../../../core/core.module';
+import {TaskCategory} from '../../../core/models/task-category.model';
+import {TaskCategoryService} from '../../../core/services/task-category.service';
+import {TemplateHelper} from '../../../utils/template.helper';
+import {CategoryService} from '../../services/category.service';
+import {CategoryListComponent} from './category-list.component';
+import {LoggerTestingModule} from 'ngx-logger/testing';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'tm-category', template: ''
@@ -26,7 +26,7 @@ describe('CategoryListComponent', () => {
   let routerSpy: any;
   let categoryServiceSpy: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     routerSpy = {
       navigate: jasmine.createSpy('navigate')
     };
@@ -116,7 +116,7 @@ describe('CategoryListComponent', () => {
   });
 
   it('should open dialog to delete category', () => {
-    const dialogComp = TestBed.get(MatDialog);
+    const dialogComp = TestBed.inject(MatDialog);
     const spyDialog = spyOn(dialogComp, 'open').and.callThrough();
     comp.onCategoryDelete(new TaskCategory());
 
@@ -125,7 +125,7 @@ describe('CategoryListComponent', () => {
 
   it('should delete category after deletion dialog confirm', () => {
     const afterClose = jasmine.createSpyObj({afterClosed: of(true), close: null});
-    const dialogComp = TestBed.get(MatDialog);
+    const dialogComp = TestBed.inject(MatDialog);
     spyOn(dialogComp, 'open').and.returnValue(afterClose);
     categoryServiceSpy.deleteResource.and.returnValue(of());
 
@@ -137,7 +137,7 @@ describe('CategoryListComponent', () => {
 
   it('should NOT delete category after deletion dialog reject', () => {
     const afterClose = jasmine.createSpyObj({afterClosed: of(false), close: null});
-    const dialogComp = TestBed.get(MatDialog);
+    const dialogComp = TestBed.inject(MatDialog);
     spyOn(dialogComp, 'open').and.returnValue(afterClose);
     categoryServiceSpy.deleteResource.and.returnValue(of());
 
@@ -150,7 +150,7 @@ describe('CategoryListComponent', () => {
 
   it('should update category list after delete category', () => {
     const afterClose = jasmine.createSpyObj({afterClosed: of(true), close: null});
-    const dialogComp = TestBed.get(MatDialog);
+    const dialogComp = TestBed.inject(MatDialog);
     spyOn(dialogComp, 'open').and.returnValue(afterClose);
     categoryServiceSpy.getAllByUser.and.returnValue(of([new TaskCategory()]));
     categoryServiceSpy.deleteResource.and.returnValue(of(new TaskCategory()));
@@ -164,11 +164,11 @@ describe('CategoryListComponent', () => {
 
   it('should refresh task list after delete category', () => {
     const afterClose = jasmine.createSpyObj({afterClosed: of(true), close: null});
-    const dialogComp = TestBed.get(MatDialog);
+    const dialogComp = TestBed.inject(MatDialog);
     spyOn(dialogComp, 'open').and.returnValue(afterClose);
     categoryServiceSpy.getAllByUser.and.returnValue(of([new TaskCategory()]));
     categoryServiceSpy.deleteResource.and.returnValue(of(new TaskCategory()));
-    const taskCategoryService = TestBed.get(TaskCategoryService);
+    const taskCategoryService = TestBed.inject(TaskCategoryService);
     const spyRefreshTasks = spyOn(taskCategoryService, 'refreshTasks');
 
     comp.onCategoryDelete(new TaskCategory());
@@ -182,7 +182,7 @@ describe('CategoryListComponent', () => {
 
     expect(categoryServiceSpy.getAllByUser.calls.count()).toBe(1);
 
-    const taskCategoryService: TaskCategoryService = TestBed.get(TaskCategoryService);
+    const taskCategoryService: TaskCategoryService = TestBed.inject(TaskCategoryService);
     taskCategoryService.refreshCategories();
 
     expect(categoryServiceSpy.getAllByUser.calls.count()).toBe(2);
@@ -192,7 +192,7 @@ describe('CategoryListComponent', () => {
     categoryServiceSpy.getAllByUser.and.returnValue(of([new TaskCategory()]));
     fixture.detectChanges();
 
-    const taskCategoryService: TaskCategoryService = TestBed.get(TaskCategoryService);
+    const taskCategoryService: TaskCategoryService = TestBed.inject(TaskCategoryService);
     const spyUpdateCategoriesByFilter = spyOn(taskCategoryService, 'updateCategoriesByFilter');
 
     const firstCategory = new TaskCategory();
@@ -210,7 +210,7 @@ describe('CategoryListComponent', () => {
     categoryServiceSpy.getAllByUser.and.returnValue(of([new TaskCategory()]));
     fixture.detectChanges();
 
-    const taskCategoryService: TaskCategoryService = TestBed.get(TaskCategoryService);
+    const taskCategoryService: TaskCategoryService = TestBed.inject(TaskCategoryService);
     const spyUpdateCategoriesByFilter = spyOn(taskCategoryService, 'updateCategoriesByFilter');
 
     comp.onCategoryClick(new TaskCategory());
