@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { User } from '../core/models/user.model';
 import { AuthService } from '../core/services/auth.service';
@@ -19,7 +19,7 @@ describe('HeaderComponent', () => {
   let routerSpy: any;
   let authServiceSpy: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     routerSpy = {
       navigate: jasmine.createSpy('navigate')
     };

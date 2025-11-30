@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TaskStatus } from '../../../../core/models/constants/task-status.items';
 import { TimeIconComponent } from './time-icon.component';
 
@@ -6,7 +6,7 @@ describe('TimeIconComponent', () => {
   let fixture: ComponentFixture<TimeIconComponent>;
   let comp: TimeIconComponent;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         TimeIconComponent

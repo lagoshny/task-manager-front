@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxValidationMessagesModule } from '@lagoshny/ngx-validation-messages';
 import { of } from 'rxjs';
@@ -15,7 +15,7 @@ describe('QuickTaskCreateComponent', () => {
   let taskServiceSpy: any;
   let templateHelper: TemplateHelper<QuickTaskCreateComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     taskServiceSpy = {
       create: jasmine.createSpy('create')
     };
