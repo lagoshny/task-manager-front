@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TaskCategory } from '../../../core/models/task-category.model';
 import { StringUtils } from '../../../core/utils/string.utils';
 import { TemplateHelper } from '../../../utils/template.helper';

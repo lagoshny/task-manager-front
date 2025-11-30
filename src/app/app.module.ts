@@ -36,7 +36,7 @@ import { Task } from './core/models/task.model';
     HomeModule,
     AppRoutingModule,
     LoginModule,
-    HeaderModule
+    HeaderModule,
   ],
   declarations: [
     AppComponent
