@@ -1,14 +1,14 @@
-import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
-import {ReactiveFormsModule} from '@angular/forms';
-import {Router} from '@angular/router';
-import {NgxValidationMessagesModule} from '@lagoshny/ngx-validation-messages';
-import {of} from 'rxjs';
-import {User} from '../../../core/models/user.model';
-import {AuthService} from '../../../core/services/auth.service';
-import {LoginService} from '../../services/login.service';
-import {LoginFormComponent} from './login-form.component';
-import {LoggerTestingModule} from 'ngx-logger/testing';
-import {MatInputModule} from '@angular/material/input';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { Router } from '@angular/router';
+import { NgxValidationMessagesModule } from '@lagoshny/ngx-validation-messages';
+import { of } from 'rxjs';
+import { User } from '../../../core/models/user.model';
+import { AuthService } from '../../../core/services/auth.service';
+import { LoginService } from '../../services/login.service';
+import { LoginFormComponent } from './login-form.component';
+import { LoggerTestingModule } from 'ngx-logger/testing';
 
 describe('LoginFormComponent', () => {
   let fixture: ComponentFixture<LoginFormComponent>;

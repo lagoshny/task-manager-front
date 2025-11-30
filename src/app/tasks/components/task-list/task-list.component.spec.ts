@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { TaskCategory } from '../../../core/models/task-category.model';
@@ -46,7 +46,7 @@ describe('TaskListComponent', () => {
   let activatedRouteStub: any;
   let taskServiceSpy: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     routerSpy = {
       navigate: jasmine.createSpy('navigate')
     };

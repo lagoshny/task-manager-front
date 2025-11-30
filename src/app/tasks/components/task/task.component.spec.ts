@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TaskStatus } from '../../../core/models/constants/task-status.items';
 import { Task } from '../../../core/models/task.model';
 import { getTestTask } from '../test.helper';
@@ -22,7 +22,7 @@ describe('TaskComponent', () => {
   let fixture: ComponentFixture<TaskComponent>;
   let comp: TaskComponent;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         TaskComponent,
