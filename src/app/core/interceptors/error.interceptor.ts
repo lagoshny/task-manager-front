@@ -1,6 +1,5 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
 import { NGXLogger } from 'ngx-logger';
@@ -8,6 +7,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 import { NotificationService } from '../services/notification.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 /**
  * Common HTTP interceptor to handle server errors.

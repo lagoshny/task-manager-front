@@ -1,21 +1,21 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NgxValidationMessagesModule } from '@lagoshny/ngx-validation-messages';
-import { of, throwError } from 'rxjs';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
+import {ReactiveFormsModule} from '@angular/forms';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ActivatedRoute, Router} from '@angular/router';
+import {NgxValidationMessagesModule} from '@lagoshny/ngx-validation-messages';
+import {of, throwError} from 'rxjs';
 import {
   FontIconListDialogComponent
 } from '../../../core/components/font-icon-list-dialog/font-icon-list-dialog.component';
-import { CoreModule } from '../../../core/core.module';
-import { TaskCategory } from '../../../core/models/task-category.model';
-import { ActivatedRouteStub } from '../../../utils/activated-route-stub';
-import { CategoryService } from '../../services/category.service';
-import { CategoryFormComponent } from './category-form.component';
-import { LoggerTestingModule } from 'ngx-logger/testing';
+import {CoreModule} from '../../../core/core.module';
+import {TaskCategory} from '../../../core/models/task-category.model';
+import {ActivatedRouteStub} from '../../../utils/activated-route-stub';
+import {CategoryService} from '../../services/category.service';
+import {CategoryFormComponent} from './category-form.component';
+import {LoggerTestingModule} from 'ngx-logger/testing';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatDialog} from '@angular/material/dialog';
 
 describe('CategoryFormComponent', () => {
   let routerSpy: any;
@@ -24,7 +24,7 @@ describe('CategoryFormComponent', () => {
   let fixture: ComponentFixture<CategoryFormComponent>;
   let comp: CategoryFormComponent;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     routerSpy = {
       navigate: jasmine.createSpy('navigate')
     };

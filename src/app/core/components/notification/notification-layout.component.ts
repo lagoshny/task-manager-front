@@ -1,5 +1,5 @@
-import { Component, Inject } from '@angular/core';
-import { NotificationType } from '../../models/notification-type.model';
+import {Component, Inject} from '@angular/core';
+import {NotificationType} from '../../models/notification-type.model';
 import { MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
