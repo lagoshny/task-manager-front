@@ -20,7 +20,7 @@ import { CategoryService } from '../../services/category.service';
   styleUrls: ['./category-form.component.scss'],
   animations: [
     dropDownAnimation
-  ]
+  ],
 })
 export class CategoryFormComponent implements OnInit, OnDestroy {
 
