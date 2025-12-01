@@ -13,7 +13,8 @@ import { CategoryListComponent } from './category-list.component';
 import { LoggerTestingModule } from 'ngx-logger/testing';
 
 @Component({
-  selector: 'tm-category', template: ''
+    selector: 'tm-category', template: '',
+    standalone: false
 })
 class CategoryStubComponent {
   @Input()

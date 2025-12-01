@@ -1,9 +1,9 @@
-@import "media-queries";
-@import "vars";
+@use "media-queries" as media;
+@use "vars" as vars;
 
 .task-list__content {
   font-size: 0.75em;
-  @include df-sm {
+  @include media.df-sm {
     margin-left: 0;
   }
 }
@@ -11,7 +11,7 @@
 .task-list__label {
   background-color: rgba(206, 6, 72, 1);
   margin-bottom: 2px;
-  font-family: $h-font;
+  font-family: vars.$h-font;
 }
 
 .task-list__minimize_button__icon {

@@ -9,8 +9,9 @@ import { CustomValidators } from '../../../core/validation/custom.validators';
 import { UserService } from '../../services/user.service';
 
 @Component({
-  templateUrl: './user-from.component.html',
-  animations: [dropDownAnimation]
+    templateUrl: './user-from.component.html',
+    animations: [dropDownAnimation],
+    standalone: false
 })
 export class UserFromComponent implements OnInit {
 

@@ -1,18 +1,19 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import * as _ from 'lodash';
-import {NGXLogger} from 'ngx-logger';
-import {Subscription} from 'rxjs';
-import {SimpleDialogComponent} from '../../../core/components/simple-dialog/simple-dialog.component';
-import {TaskCategory} from '../../../core/models/task-category.model';
-import {TaskCategoryService} from '../../../core/services/task-category.service';
-import {CategoryService} from '../../services/category.service';
-import {MatDialog} from '@angular/material/dialog';
+import { NGXLogger } from 'ngx-logger';
+import { Subscription } from 'rxjs';
+import { SimpleDialogComponent } from '../../../core/components/simple-dialog/simple-dialog.component';
+import { TaskCategory } from '../../../core/models/task-category.model';
+import { TaskCategoryService } from '../../../core/services/task-category.service';
+import { CategoryService } from '../../services/category.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'tm-categories',
-  templateUrl: './category-list.component.html',
-  styleUrls: ['./category-list.component.scss']
+    selector: 'tm-categories',
+    templateUrl: './category-list.component.html',
+    styleUrls: ['./category-list.component.scss'],
+    standalone: false
 })
 export class CategoryListComponent implements OnInit, OnDestroy {
 

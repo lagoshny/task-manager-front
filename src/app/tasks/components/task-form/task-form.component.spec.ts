@@ -25,8 +25,9 @@ import { LoggerTestingModule } from 'ngx-logger/testing';
 import { provideNgxValidationMessages } from '@lagoshny/ngx-validation-messages';
 
 @Component({
-  selector: 'tm-task-status',
-  template: ''
+    selector: 'tm-task-status',
+    template: '',
+    standalone: false
 })
 export class TaskStatusChangerComponent {
   @Input()

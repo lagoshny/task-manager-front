@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MenuItem } from '../../models/menu-item.model';
 
 @Component({
-  selector: 'tm-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss']
+    selector: 'tm-menu',
+    templateUrl: './menu.component.html',
+    styleUrls: ['./menu.component.scss'],
+    standalone: false
 })
 export class MenuComponent implements OnInit {
 

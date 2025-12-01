@@ -8,8 +8,9 @@ import { AuthService } from '../../../core/services/auth.service';
 import { LoginService } from '../../services/login.service';
 
 @Component({
-  templateUrl: './login-form.component.html',
-  styleUrls: ['../../login.component.scss']
+    templateUrl: './login-form.component.html',
+    styleUrls: ['../../login.component.scss'],
+    standalone: false
 })
 export class LoginFormComponent {
 

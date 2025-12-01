@@ -6,8 +6,9 @@ import { getTestTask } from '../test.helper';
 import { TaskComponent } from './task.component';
 
 @Component({
-  selector: 'tm-time-icon',
-  template: ''
+    selector: 'tm-time-icon',
+    template: '',
+    standalone: false
 })
 class TimeIconComponent {
   @Input()

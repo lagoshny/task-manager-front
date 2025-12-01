@@ -24,14 +24,15 @@ import { TaskService } from '../../services/task.service';
 import { TaskUtils } from '../../utils/task.utils';
 
 @Component({
-  selector: 'tm-task-form',
-  templateUrl: './task-form.component.html',
-  styleUrls: ['./task-form.component.scss'],
-  animations: [
-    dropDownAnimation,
-    showSectionAnimation,
-    changeHeightAnimation
-  ]
+    selector: 'tm-task-form',
+    templateUrl: './task-form.component.html',
+    styleUrls: ['./task-form.component.scss'],
+    animations: [
+        dropDownAnimation,
+        showSectionAnimation,
+        changeHeightAnimation
+    ],
+    standalone: false
 })
 export class TaskFormComponent implements OnInit, OnDestroy {
 

@@ -5,9 +5,10 @@ import { AuthService } from '../core/services/auth.service';
 import { StringUtils } from '../core/utils/string.utils';
 
 @Component({
-  selector: 'tm-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+    selector: 'tm-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss'],
+    standalone: false
 })
 export class HeaderComponent implements OnInit {
 

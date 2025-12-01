@@ -1,9 +1,9 @@
-@import "media-queries";
-@import "vars";
+@use "media-queries" as media;
+@use "vars" as vars;
 
 .common_page {
   margin: 3em 1em;
-  @include df-xs {
+  @include media.df-xs {
     margin: 2em 1em;
   }
 }
@@ -15,13 +15,13 @@
   padding-top: 0.4em;
   padding-left: 1em;
   color: rgb(255, 255, 255);
-  background-color: $primary-blue;
+  background-color: vars.$primary-blue;
   font-size: 1.2em;
-  font-family: $h-font;
-  @include df-md {
+  font-family: vars.$h-font;
+  @include media.df-md {
     width: 90%;
   }
-  @include df-xs {
+  @include media.df-xs {
     font-size: 1em;
     width: 100%;
   }
@@ -33,10 +33,10 @@
   padding: 1em 1.5em 1.8em;
   background: rgb(255, 255, 255);
   font-family: RobotoRegular, SansSerif sans-serif;
-  @include df-md {
+  @include media.df-md {
     width: 90%;
   }
-  @include df-xs {
+  @include media.df-xs {
     width: 100%;
   }
 }

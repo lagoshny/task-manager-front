@@ -7,8 +7,9 @@ import { CustomValidators } from '../../../core/validation/custom.validators';
 import { UserService } from '../../../users/services/user.service';
 
 @Component({
-  templateUrl: './registration-form.component.html',
-  styleUrls: ['../../login.component.scss']
+    templateUrl: './registration-form.component.html',
+    styleUrls: ['../../login.component.scss'],
+    standalone: false
 })
 export class RegistrationFormComponent {
 

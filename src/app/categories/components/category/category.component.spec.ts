@@ -6,7 +6,8 @@ import { TemplateHelper } from '../../../utils/template.helper';
 import { CategoryComponent } from './category.component';
 
 @Pipe({
-  name: 'amountCharacters'
+    name: 'amountCharacters',
+    standalone: false
 })
 class AmountCharactersPipeStub implements PipeTransform {
   public transform(value: any, ...args: any[]): any {

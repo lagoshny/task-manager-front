@@ -3,9 +3,10 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogType, SimpleDialogData } from '../../models/simple-dialog-data.model';
 
 @Component({
-  selector: 'tm-simple-dialog',
-  templateUrl: './simple-dialog.component.html',
-  styleUrls: ['./simple-dialog.component.scss']
+    selector: 'tm-simple-dialog',
+    templateUrl: './simple-dialog.component.html',
+    styleUrls: ['./simple-dialog.component.scss'],
+    standalone: false
 })
 export class SimpleDialogComponent implements OnInit {
 

@@ -1,11 +1,12 @@
-@import "media-queries";
-@import "vars";
+@use "media-queries" as media;
+@use "vars" as vars;
+@use "sass:color";
 
 .task {
   background: rgba(255, 255, 255, 0.9);
   border-radius: .25em;
   padding-right: 1.2em;
-  @include df-md {
+  @include media.df-md {
     font-size: 0.9em;
   }
 }
@@ -36,22 +37,21 @@
 .task__priority_low {
   box-shadow: 0 .0625em .125em rgba(0, 0, 0, .125),
   inset 0 -.25em 0 -.125em rgba(0, 0, 0, .125),
-    // TODO
-  inset 1.1em 0 0 -.7em change_color($task-priority-low, $alpha: 0.9),
+  inset 1.1em 0 0 -.7em color.change(vars.$task-priority-low, $alpha: 0.9),
   inset -0.5em 0 0 -.3em rgba(0, 0, 0, .05);
 }
 
 .task__priority_middle {
   box-shadow: 0 .0625em .125em rgba(0, 0, 0, .125),
   inset 0 -.25em 0 -.125em rgba(0, 0, 0, .125),
-  inset 1.1em 0 0 -.7em change_color($task-priority-middle, $alpha: 0.9),
+  inset 1.1em 0 0 -.7em color.change(vars.$task-priority-middle, $alpha: 0.9),
   inset -0.5em 0 0 -.3em rgba(0, 0, 0, .05);
 }
 
 .task__priority_high {
   box-shadow: 0 .0625em .125em rgba(0, 0, 0, .125),
   inset 0 -.25em 0 -.125em rgba(0, 0, 0, .125),
-  inset 1.1em 0 0 -.7em change_color($task-priority-high, $alpha: 0.9),
+  inset 1.1em 0 0 -.7em color.change(vars.$task-priority-high, $alpha: 0.9),
   inset -0.5em 0 0 -.3em rgba(0, 0, 0, .05);
 }
 
@@ -60,12 +60,12 @@
 }
 
 .task__name {
-  color: $primary-blue;
+  color: vars.$primary-blue;
   font-weight: 700;
 }
 
 .task__description {
-  color: $gray-text;
+  color: vars.$gray-text;
 }
 
 .task__status_name {
@@ -76,11 +76,11 @@
 }
 
 .task__total_time_icon {
-  color: $green;
+  color: vars.$green;
 }
 
 .task__left_time_icon {
-  color: $green;
+  color: vars.$green;
 }
 
 .task__remove_button {
@@ -89,43 +89,43 @@
   top: 13px;
   font-size: 1.3em;
   cursor: pointer;
-  color: $dark-red;
-  @include df-lg {
+  color: vars.$dark-red;
+  @include media.df-lg {
     right: 24px;
   }
-  @include df-md {
+  @include media.df-md {
     right: 22px;
   }
-  @include df-sm {
+  @include media.df-sm {
     top: 16px;
   }
 }
 
 .task__progress_total_time {
-  @include df-sm {
+  @include media.df-sm {
     position: absolute;
     bottom: 0.6em;
     left: 11em;
   }
-  @include df-xs {
+  @include media.df-xs {
     bottom: 0.65em;
   }
-  @include df-xxs {
+  @include media.df-xxs {
     left: 11.3em;
     bottom: 0.8em;
   }
 }
 
 .task__progress_left_time {
-  @include df-sm {
+  @include media.df-sm {
     position: absolute;
     bottom: 0.6em;
     left: 16.4em;
   }
-  @include df-xs {
+  @include media.df-xs {
     bottom: 0.65em;
   }
-  @include df-xxs {
+  @include media.df-xxs {
     bottom: 0.8em;
   }
 }

@@ -15,12 +15,13 @@ import { CustomValidators } from '../../../core/validation/custom.validators';
 import { CategoryService } from '../../services/category.service';
 
 @Component({
-  selector: 'tm-category-form',
-  templateUrl: './category-form.component.html',
-  styleUrls: ['./category-form.component.scss'],
-  animations: [
-    dropDownAnimation
-  ],
+    selector: 'tm-category-form',
+    templateUrl: './category-form.component.html',
+    styleUrls: ['./category-form.component.scss'],
+    animations: [
+        dropDownAnimation
+    ],
+    standalone: false
 })
 export class CategoryFormComponent implements OnInit, OnDestroy {
 

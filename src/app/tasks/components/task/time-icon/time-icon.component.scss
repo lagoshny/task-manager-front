@@ -1,17 +1,17 @@
-@import "vars";
+@use "vars" as vars;
 
 .time_icon__color_green {
-  color: $task-priority-low;
+  color: vars.$task-priority-low;
 }
 
 .time_icon__color_orange {
-  color: $task-priority-middle;
+  color: vars.$task-priority-middle;
 }
 
 .time_icon__color_red {
-  color: $task-priority-high;
+  color: vars.$task-priority-high;
 }
 
 .time_icon__color_blue {
-  color: $primary-blue;
+  color: vars.$primary-blue;
 }

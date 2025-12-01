@@ -1,13 +1,13 @@
-@import "vars";
+@use "vars" as vars;
 
 .task_form__tooltip {
   position: relative;
   top: -12px;
   margin-left: 5px;
   font-size: 0.9em;
-  color: $gray-text;
+  color: vars.$gray-text;
 }
 
 .task_form__tooltip_extra {
-  color: $dark-red;
+  color: vars.$dark-red;
 }

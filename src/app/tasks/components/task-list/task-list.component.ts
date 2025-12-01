@@ -14,9 +14,10 @@ import { TaskService } from '../../services/task.service';
 import { TaskProjection } from '../../../core/models/task.projection';
 
 @Component({
-  selector: 'tm-task-list',
-  templateUrl: './task-list.component.html',
-  styleUrls: ['./task-list.component.scss']
+    selector: 'tm-task-list',
+    templateUrl: './task-list.component.html',
+    styleUrls: ['./task-list.component.scss'],
+    standalone: false
 })
 export class TaskListComponent implements OnInit, OnDestroy {
 

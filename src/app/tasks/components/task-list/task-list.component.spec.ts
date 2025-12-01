@@ -14,9 +14,10 @@ import { PagedResourceCollection, ResourceCollection } from '@lagoshny/ngx-hateo
 import { LoggerTestingModule } from 'ngx-logger/testing';
 
 @Component({
-  selector: 'tm-quick-task-create',
-  template: `
-    <div class="task-add" (click)="afterAddedTask.emit()"></div>`
+    selector: 'tm-quick-task-create',
+    template: `
+    <div class="task-add" (click)="afterAddedTask.emit()"></div>`,
+    standalone: false
 })
 class QuickTaskCreateComponent {
   @Output()
@@ -24,10 +25,11 @@ class QuickTaskCreateComponent {
 }
 
 @Component({
-  selector: 'tm-task',
-  template: `
+    selector: 'tm-task',
+    template: `
     <div class="task-select" (click)="clickTask.emit(task)"></div>
-    <div class="task__remove_button" (click)="removeTask.emit(task)"></div>`
+    <div class="task__remove_button" (click)="removeTask.emit(task)"></div>`,
+    standalone: false
 })
 class TaskComponent {
   @Output()

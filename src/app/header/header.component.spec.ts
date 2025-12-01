@@ -7,8 +7,9 @@ import { HeaderComponent } from './header.component';
 import { LoggerTestingModule } from 'ngx-logger/testing';
 
 @Component({
-  selector: 'tm-menu',
-  template: ''
+    selector: 'tm-menu',
+    template: '',
+    standalone: false
 })
 class MenuStubComponent {
 }

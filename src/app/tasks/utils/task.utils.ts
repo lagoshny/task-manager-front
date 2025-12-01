@@ -1,6 +1,6 @@
-import * as moment from 'moment';
 import { TaskStatus } from '../../core/models/constants/task-status.items';
 import { Task } from '../../core/models/task.model';
+import { DateTime } from 'luxon';
 
 export class TaskUtils {
 
@@ -12,10 +12,11 @@ export class TaskUtils {
    */
   public static calculateSpentTime(task: Task): number {
     if (task.autoReduce && TaskStatus.isProgress(TaskStatus.getByCode(task.status))) {
-      const leftTime = Math.ceil(moment.duration(moment(task.startedDate)
-        .add(task.totalTime, 'minutes')
-        .diff(moment()))
-        .asMinutes());
+      const deadline = DateTime.fromJSDate(task.startedDate)
+        .plus({minutes: task.totalTime});
+      const leftTime = Math.ceil(
+        deadline.diff(DateTime.now(), 'minutes').minutes
+      );
       return leftTime > 0 ? task.totalTime - leftTime : task.totalTime;
     }
 

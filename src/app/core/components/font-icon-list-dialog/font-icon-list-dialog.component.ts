@@ -4,9 +4,10 @@ import { FontIconService } from '../../services/font-icon.service';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'tm-icon-list',
-  templateUrl: './font-icon-list-dialog.component.html',
-  styleUrls: ['./font-icon-list-dialog.component.scss']
+    selector: 'tm-icon-list',
+    templateUrl: './font-icon-list-dialog.component.html',
+    styleUrls: ['./font-icon-list-dialog.component.scss'],
+    standalone: false
 })
 export class FontIconListDialogComponent implements OnInit {
 
