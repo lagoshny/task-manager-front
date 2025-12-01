@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,7 +10,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgxValidationMessagesModule } from '@lagoshny/ngx-validation-messages';
 import { of, throwError } from 'rxjs';
 import { CoreModule } from '../../../core/core.module';
 import { TaskStatus } from '../../../core/models/constants/task-status.items';
@@ -23,6 +22,7 @@ import { TaskService } from '../../services/task.service';
 import { getTestTask } from '../test.helper';
 import { TaskFormComponent } from './task-form.component';
 import { LoggerTestingModule } from 'ngx-logger/testing';
+import { provideNgxValidationMessages } from '@lagoshny/ngx-validation-messages';
 
 @Component({
   selector: 'tm-task-status',
@@ -75,15 +75,15 @@ describe('TaskFormComponent', () => {
         MatInputModule,
         MatTooltipModule,
         LoggerTestingModule,
-        NgxValidationMessagesModule.forRoot({
-          messages: {}
-        })
       ],
       declarations: [
         TaskStatusChangerComponent,
         TaskFormComponent
       ],
       providers: [
+        provideNgxValidationMessages({
+          messages: {}
+        }),
         {provide: Router, useValue: routerSpy},
         {provide: ActivatedRoute, useValue: activatedRouteStub},
         {provide: TaskService, useValue: taskServiceSpy},

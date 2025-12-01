@@ -1,11 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
-import { NgxValidationMessagesModule } from '@lagoshny/ngx-validation-messages';
 import { of } from 'rxjs';
 import { CoreModule } from '../../../core/core.module';
 import { User } from '../../../core/models/user.model';
@@ -13,6 +12,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { UserService } from '../../services/user.service';
 import { UserFromComponent } from './user-from.component';
 import { LoggerTestingModule } from 'ngx-logger/testing';
+import { provideNgxValidationMessages } from '@lagoshny/ngx-validation-messages';
 
 
 describe('UserFormComponent', () => {
@@ -44,14 +44,14 @@ describe('UserFormComponent', () => {
         MatMomentDateModule,
         MatDatepickerModule,
         LoggerTestingModule,
-        NgxValidationMessagesModule.forRoot({
-          messages: {}
-        })
       ],
       declarations: [
         UserFromComponent
       ],
       providers: [
+        provideNgxValidationMessages({
+          messages: {}
+        }),
         {provide: Router, useValue: routerSpy},
         {provide: AuthService, useValue: authServiceSpy},
         {provide: UserService, useValue: userServiceSpy}

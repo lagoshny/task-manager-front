@@ -1,6 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgxValidationMessagesModule } from '@lagoshny/ngx-validation-messages';
 import { of } from 'rxjs';
 import { TaskPriority } from '../../../core/models/constants/task-priority.items';
 import { TaskStatus } from '../../../core/models/constants/task-status.items';
@@ -8,6 +7,7 @@ import { Task } from '../../../core/models/task.model';
 import { TemplateHelper } from '../../../utils/template.helper';
 import { TaskService } from '../../services/task.service';
 import { QuickTaskCreateComponent } from './quick-task-create.component';
+import { provideNgxValidationMessages } from '@lagoshny/ngx-validation-messages';
 
 describe('QuickTaskCreateComponent', () => {
   let fixture: ComponentFixture<QuickTaskCreateComponent>;
@@ -23,14 +23,14 @@ describe('QuickTaskCreateComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        NgxValidationMessagesModule.forRoot({
-          messages: {}
-        })
       ],
       declarations: [
         QuickTaskCreateComponent
       ],
       providers: [
+        provideNgxValidationMessages({
+          messages: {}
+        }),
         {provide: TaskService, useValue: taskServiceSpy}
       ]
     })

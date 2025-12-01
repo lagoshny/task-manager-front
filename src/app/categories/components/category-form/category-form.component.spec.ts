@@ -1,11 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgxValidationMessagesModule } from '@lagoshny/ngx-validation-messages';
 import { of, throwError } from 'rxjs';
 import {
   FontIconListDialogComponent
@@ -16,6 +15,7 @@ import { ActivatedRouteStub } from '../../../utils/activated-route-stub';
 import { CategoryService } from '../../services/category.service';
 import { CategoryFormComponent } from './category-form.component';
 import { LoggerTestingModule } from 'ngx-logger/testing';
+import { provideNgxValidationMessages } from '@lagoshny/ngx-validation-messages';
 
 describe('CategoryFormComponent', () => {
   let routerSpy: any;
@@ -43,14 +43,14 @@ describe('CategoryFormComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         LoggerTestingModule,
-        NgxValidationMessagesModule.forRoot({
-          messages: {}
-        })
       ],
       declarations: [
         CategoryFormComponent
       ],
       providers: [
+        provideNgxValidationMessages({
+            messages: {}
+          }),
         {provide: Router, useValue: routerSpy},
         {provide: ActivatedRoute, useValue: activatedRouteStub},
         {provide: CategoryService, useValue: categoryServiceSpy}
