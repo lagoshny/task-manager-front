@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
@@ -13,15 +13,26 @@ import { TaskCategory } from '../../../core/models/task-category.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { CustomValidators } from '../../../core/validation/custom.validators';
 import { CategoryService } from '../../services/category.service';
+import { CommonPageComponent } from '../../../core/components/common-page/common-page.component';
+import { MatFormField } from '@angular/material/input';
+import { NgxValidationMessagesComponent } from '@lagoshny/ngx-validation-messages';
+import { NgClass } from '@angular/common';
 
 @Component({
-    selector: 'tm-category-form',
-    templateUrl: './category-form.component.html',
-    styleUrls: ['./category-form.component.scss'],
-    animations: [
-        dropDownAnimation
-    ],
-    standalone: false
+  selector: 'tm-category-form',
+  templateUrl: './category-form.component.html',
+  styleUrls: ['./category-form.component.scss'],
+  animations: [
+    dropDownAnimation
+  ],
+  standalone: true,
+  imports: [
+    CommonPageComponent,
+    ReactiveFormsModule,
+    MatFormField,
+    NgxValidationMessagesComponent,
+    NgClass
+  ]
 })
 export class CategoryFormComponent implements OnInit, OnDestroy {
 

@@ -1,12 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogClose } from '@angular/material/dialog';
 import { DialogType, SimpleDialogData } from '../../models/simple-dialog-data.model';
 
 @Component({
-    selector: 'tm-simple-dialog',
-    templateUrl: './simple-dialog.component.html',
-    styleUrls: ['./simple-dialog.component.scss'],
-    standalone: false
+  selector: 'tm-simple-dialog',
+  templateUrl: './simple-dialog.component.html',
+  styleUrls: ['./simple-dialog.component.scss'],
+  standalone: true,
+  imports: [
+    MatDialogClose
+  ]
 })
 export class SimpleDialogComponent implements OnInit {
 

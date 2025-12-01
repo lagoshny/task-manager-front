@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { HeaderModule } from './header/header.module';
+import { HeaderComponent } from './header/header.component';
 
 @Component({
   selector: 'tm-app',
   templateUrl: './app.component.html',
   imports: [
     RouterOutlet,
-    HeaderModule,
+    HeaderComponent,
   ],
   standalone: true,
 })

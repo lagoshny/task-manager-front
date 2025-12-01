@@ -1,11 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TaskStatus } from '../../../../core/models/constants/task-status.items';
+import { NgClass } from '@angular/common';
 
 @Component({
-    selector: 'tm-time-icon',
-    templateUrl: './time-icon.component.html',
-    styleUrls: ['./time-icon.component.scss'],
-    standalone: false
+  selector: 'tm-time-icon',
+  templateUrl: './time-icon.component.html',
+  styleUrls: ['./time-icon.component.scss'],
+  standalone: true,
+  imports: [
+    NgClass
+  ]
 })
 export class TimeIconComponent implements OnInit {
 

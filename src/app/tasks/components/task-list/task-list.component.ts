@@ -12,12 +12,20 @@ import { TaskCategoryService } from '../../../core/services/task-category.servic
 import { StringUtils } from '../../../core/utils/string.utils';
 import { TaskService } from '../../services/task.service';
 import { TaskProjection } from '../../../core/models/task.projection';
+import { NgClass } from '@angular/common';
+import { QuickTaskCreateComponent } from '../quick-task-create/quick-task-create.component';
+import { TaskComponent } from '../task/task.component';
 
 @Component({
-    selector: 'tm-task-list',
-    templateUrl: './task-list.component.html',
-    styleUrls: ['./task-list.component.scss'],
-    standalone: false
+  selector: 'tm-task-list',
+  templateUrl: './task-list.component.html',
+  styleUrls: ['./task-list.component.scss'],
+  standalone: true,
+  imports: [
+    NgClass,
+    QuickTaskCreateComponent,
+    TaskComponent,
+  ]
 })
 export class TaskListComponent implements OnInit, OnDestroy {
 

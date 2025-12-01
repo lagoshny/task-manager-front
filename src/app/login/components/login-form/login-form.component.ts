@@ -1,16 +1,23 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NGXLogger } from 'ngx-logger';
 import { User } from '../../../core/models/user.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { LoginService } from '../../services/login.service';
+import { MatFormField } from '@angular/material/input';
+import { NgxValidationMessagesComponent } from '@lagoshny/ngx-validation-messages';
 
 @Component({
-    templateUrl: './login-form.component.html',
-    styleUrls: ['../../login.component.scss'],
-    standalone: false
+  templateUrl: './login-form.component.html',
+  styleUrls: ['../../login.component.scss'],
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    MatFormField,
+    NgxValidationMessagesComponent,
+  ]
 })
 export class LoginFormComponent {
 

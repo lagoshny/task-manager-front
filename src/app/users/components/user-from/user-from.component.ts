@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NGXLogger } from 'ngx-logger';
 import { dropDownAnimation } from '../../../core/animations/common.animation';
@@ -7,11 +7,25 @@ import { User } from '../../../core/models/user.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { CustomValidators } from '../../../core/validation/custom.validators';
 import { UserService } from '../../services/user.service';
+import { NgxValidationMessagesComponent } from '@lagoshny/ngx-validation-messages';
+import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
+import { MatFormField, MatLabel } from '@angular/material/input';
+import { CommonPageComponent } from '../../../core/components/common-page/common-page.component';
 
 @Component({
-    templateUrl: './user-from.component.html',
-    animations: [dropDownAnimation],
-    standalone: false
+  templateUrl: './user-from.component.html',
+  animations: [dropDownAnimation],
+  standalone: true,
+  imports: [
+    MatFormField,
+    ReactiveFormsModule,
+    NgxValidationMessagesComponent,
+    MatDatepickerInput,
+    MatLabel,
+    MatDatepickerToggle,
+    MatDatepicker,
+    CommonPageComponent
+  ],
 })
 export class UserFromComponent implements OnInit {
 

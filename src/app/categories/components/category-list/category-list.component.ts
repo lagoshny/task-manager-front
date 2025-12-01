@@ -8,12 +8,18 @@ import { TaskCategory } from '../../../core/models/task-category.model';
 import { TaskCategoryService } from '../../../core/services/task-category.service';
 import { CategoryService } from '../../services/category.service';
 import { MatDialog } from '@angular/material/dialog';
+import { NgClass } from '@angular/common';
+import { CategoryComponent } from '../category/category.component';
 
 @Component({
-    selector: 'tm-categories',
-    templateUrl: './category-list.component.html',
-    styleUrls: ['./category-list.component.scss'],
-    standalone: false
+  selector: 'tm-categories',
+  templateUrl: './category-list.component.html',
+  styleUrls: ['./category-list.component.scss'],
+  standalone: true,
+  imports: [
+    NgClass,
+    CategoryComponent
+  ]
 })
 export class CategoryListComponent implements OnInit, OnDestroy {
 

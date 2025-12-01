@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
 import { isString } from 'lodash';
@@ -22,17 +22,41 @@ import { CustomValidators } from '../../../core/validation/custom.validators';
 import { CategoryService } from '../../services/category.service';
 import { TaskService } from '../../services/task.service';
 import { TaskUtils } from '../../utils/task.utils';
+import { MatFormField } from '@angular/material/input';
+import { NgxValidationMessagesComponent } from '@lagoshny/ngx-validation-messages';
+import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
+import { AsyncPipe, NgClass } from '@angular/common';
+import { MatSelect } from '@angular/material/select';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatTooltip } from '@angular/material/tooltip';
+import { TaskStatusComponent } from '../task-status-changer/task-status.component';
+import { CommonPageComponent } from '../../../core/components/common-page/common-page.component';
 
 @Component({
-    selector: 'tm-task-form',
-    templateUrl: './task-form.component.html',
-    styleUrls: ['./task-form.component.scss'],
-    animations: [
-        dropDownAnimation,
-        showSectionAnimation,
-        changeHeightAnimation
-    ],
-    standalone: false
+  selector: 'tm-task-form',
+  templateUrl: './task-form.component.html',
+  styleUrls: ['./task-form.component.scss'],
+  animations: [
+    dropDownAnimation,
+    showSectionAnimation,
+    changeHeightAnimation
+  ],
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    MatFormField,
+    NgxValidationMessagesComponent,
+    MatAutocompleteTrigger,
+    MatAutocomplete,
+    AsyncPipe,
+    MatOption,
+    MatSelect,
+    NgClass,
+    MatCheckbox,
+    MatTooltip,
+    TaskStatusComponent,
+    CommonPageComponent
+  ]
 })
 export class TaskFormComponent implements OnInit, OnDestroy {
 

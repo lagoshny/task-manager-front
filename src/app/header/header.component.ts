@@ -3,12 +3,16 @@ import { Router } from '@angular/router';
 import { NGXLogger } from 'ngx-logger';
 import { AuthService } from '../core/services/auth.service';
 import { StringUtils } from '../core/utils/string.utils';
+import { MenuComponent } from './components/menu/menu.component';
 
 @Component({
-    selector: 'tm-header',
-    templateUrl: './header.component.html',
-    styleUrls: ['./header.component.scss'],
-    standalone: false
+  selector: 'tm-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss'],
+  standalone: true,
+  imports: [
+    MenuComponent
+  ]
 })
 export class HeaderComponent implements OnInit {
 

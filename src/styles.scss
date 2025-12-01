@@ -1,2 +1,5 @@
 @use "src/styles/custom-material-theme";
 @use "styles/common";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

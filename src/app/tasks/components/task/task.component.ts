@@ -5,12 +5,20 @@ import { TaskTimeStatus } from '../../../core/models/constants/task-time-status.
 import { Task } from '../../../core/models/task.model';
 import { DateUtils } from '../../../core/utils/date.utils';
 import { DateTime } from 'luxon';
+import { DatePipe, NgClass, UpperCasePipe } from '@angular/common';
+import { TimeIconComponent } from './time-icon/time-icon.component';
 
 @Component({
   selector: 'tm-task',
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.scss'],
-  standalone: false
+  standalone: true,
+  imports: [
+    NgClass,
+    UpperCasePipe,
+    DatePipe,
+    TimeIconComponent,
+  ]
 })
 export class TaskComponent implements OnInit, OnDestroy {
 

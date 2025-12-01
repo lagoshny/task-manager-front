@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import * as _ from 'lodash';
 import { timer } from 'rxjs';
 import { TaskPriority } from '../../../core/models/constants/task-priority.items';
@@ -8,12 +8,17 @@ import { Task } from '../../../core/models/task.model';
 import { StringUtils } from '../../../core/utils/string.utils';
 import { TaskService } from '../../services/task.service';
 import { DateTime } from 'luxon';
+import { NgxValidationMessagesComponent } from '@lagoshny/ngx-validation-messages';
 
 @Component({
-    selector: 'tm-quick-task-create',
-    templateUrl: './quick-task-create.component.html',
-    styleUrls: ['./quick-task-create.component.scss'],
-    standalone: false
+  selector: 'tm-quick-task-create',
+  templateUrl: './quick-task-create.component.html',
+  styleUrls: ['./quick-task-create.component.scss'],
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    NgxValidationMessagesComponent
+  ]
 })
 export class QuickTaskCreateComponent implements OnInit {
 

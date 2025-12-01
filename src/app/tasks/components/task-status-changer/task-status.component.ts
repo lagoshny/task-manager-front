@@ -4,7 +4,7 @@ import { TaskStatus } from '../../../core/models/constants/task-status.items';
 @Component({
     selector: 'tm-task-status',
     templateUrl: './task-status.component.html',
-    standalone: false
+    standalone: true,
 })
 export class TaskStatusComponent {
 

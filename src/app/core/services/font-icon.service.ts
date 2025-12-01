@@ -5,7 +5,7 @@ import { FontIcon } from '../models/interfaces/font-icon.interace';
 /**
  * Service provide information about available font icons.
  */
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class FontIconService {
 
   private fontIconClasses: Array<FontIcon> = [

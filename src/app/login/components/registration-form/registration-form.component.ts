@@ -1,15 +1,22 @@
 import { Component } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NGXLogger } from 'ngx-logger';
 import { User } from '../../../core/models/user.model';
 import { CustomValidators } from '../../../core/validation/custom.validators';
 import { UserService } from '../../../users/services/user.service';
+import { MatFormField } from '@angular/material/input';
+import { NgxValidationMessagesComponent } from '@lagoshny/ngx-validation-messages';
 
 @Component({
-    templateUrl: './registration-form.component.html',
-    styleUrls: ['../../login.component.scss'],
-    standalone: false
+  templateUrl: './registration-form.component.html',
+  styleUrls: ['../../login.component.scss'],
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    MatFormField,
+    NgxValidationMessagesComponent
+  ]
 })
 export class RegistrationFormComponent {
 

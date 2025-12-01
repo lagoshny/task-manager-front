@@ -1,11 +1,15 @@
 import { Component, Inject } from '@angular/core';
 import { NotificationType } from '../../models/notification-type.model';
 import { MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material/snack-bar';
+import { NgClass } from '@angular/common';
 
 @Component({
-    templateUrl: './notification-layout.component.html',
-    styleUrls: ['./notification-layout.component.scss'],
-    standalone: false
+  templateUrl: './notification-layout.component.html',
+  styleUrls: ['./notification-layout.component.scss'],
+  standalone: true,
+  imports: [
+    NgClass
+  ]
 })
 export class NotificationLayoutComponent {
 

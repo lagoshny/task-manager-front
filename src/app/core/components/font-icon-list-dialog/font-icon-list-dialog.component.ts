@@ -2,12 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { FontIcon } from '../../models/interfaces/font-icon.interace';
 import { FontIconService } from '../../services/font-icon.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import { NgClass } from '@angular/common';
 
 @Component({
-    selector: 'tm-icon-list',
-    templateUrl: './font-icon-list-dialog.component.html',
-    styleUrls: ['./font-icon-list-dialog.component.scss'],
-    standalone: false
+  selector: 'tm-icon-list',
+  templateUrl: './font-icon-list-dialog.component.html',
+  styleUrls: ['./font-icon-list-dialog.component.scss'],
+  standalone: true,
+  imports: [
+    NgClass
+  ]
 })
 export class FontIconListDialogComponent implements OnInit {
 

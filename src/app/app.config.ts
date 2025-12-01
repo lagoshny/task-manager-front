@@ -1,19 +1,14 @@
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './routes';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideNgxValidationMessages } from '@lagoshny/ngx-validation-messages';
 import { provideNgxHateoasClient } from '@lagoshny/ngx-hateoas-client';
-import { HomeModule } from './home/home.module';
-import { LoginModule } from './login/login.module';
-import { HeaderModule } from './header/header.module';
-import { UsersModule } from './users/users.module';
 import { ValidationMessagesConfig } from './core/validation/validation-messages.config';
-import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { User } from './core/models/user.model';
 import { TaskCategory } from './core/models/task-category.model';
 import { Task } from './core/models/task.model';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export class ServerApi {
 
@@ -64,18 +59,9 @@ export class ServerApi {
 
 }
 
-
 export const appConfig: ApplicationConfig = {
   providers: [
-    importProvidersFrom(
-      LoggerModule.forRoot({
-        level: NgxLoggerLevel.DEBUG
-      }),
-      HomeModule,
-      LoginModule,
-      HeaderModule,
-      UsersModule
-    ),
+    provideZoneChangeDetection(),
     provideRouter(routes),
     provideHttpClient(
       withInterceptorsFromDi()

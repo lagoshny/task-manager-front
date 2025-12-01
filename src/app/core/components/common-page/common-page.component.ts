@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
     selector: 'tm-common-page',
     templateUrl: './common-page.component.html',
     styleUrls: ['./common-page.component.scss'],
-    standalone: false
+    standalone: true,
 })
 export class CommonPageComponent {
 }

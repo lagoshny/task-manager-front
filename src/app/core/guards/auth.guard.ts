@@ -7,7 +7,7 @@ import { AuthService } from '../services/auth.service';
 /**
  * Application auth guard checks that the user has authentication or redirects to the login form.
  */
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class AuthGuard  {
 
 

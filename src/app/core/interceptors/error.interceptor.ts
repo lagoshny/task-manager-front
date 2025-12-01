@@ -13,7 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
  * Common HTTP interceptor to handle server errors.
  * When server errors occurs then show their in material {@link MatSnackBar} with {@link NotificationLayoutComponent}.
  */
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class ErrorInterceptor implements HttpInterceptor {
 
   private static readonly UNAUTHORIZED_CODE = 401;

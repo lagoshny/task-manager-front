@@ -4,7 +4,7 @@ import { User } from '../models/user.model';
 import { AuthStorageUtils } from '../utils/auth-storage.utils';
 import { UserStorageUtils } from '../utils/user-storage.utils';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class AuthService {
 
   /**

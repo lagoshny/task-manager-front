@@ -7,7 +7,7 @@ import { StringUtils } from '../utils/string.utils';
  */
 @Pipe({
     name: 'amountCharacters',
-    standalone: false
+    standalone: true
 })
 export class AmountCharactersPipe implements PipeTransform {
 
