@@ -2,13 +2,13 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
-import { NgxValidationMessagesModule } from '@lagoshny/ngx-validation-messages';
 import { of } from 'rxjs';
 import { User } from '../../../core/models/user.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { LoginService } from '../../services/login.service';
 import { LoginFormComponent } from './login-form.component';
 import { LoggerTestingModule } from 'ngx-logger/testing';
+import { provideNgxValidationMessages } from '@lagoshny/ngx-validation-messages';
 
 describe('LoginFormComponent', () => {
   let fixture: ComponentFixture<LoginFormComponent>;
@@ -34,14 +34,14 @@ describe('LoginFormComponent', () => {
         ReactiveFormsModule,
         MatInputModule,
         LoggerTestingModule,
-        NgxValidationMessagesModule.forRoot({
-          messages: {}
-        })
       ],
       declarations: [
         LoginFormComponent
       ],
       providers: [
+        provideNgxValidationMessages({
+          messages: {}
+        }),
         {provide: Router, useValue: routerSpy},
         {provide: LoginService, useValue: loginServiceSpy},
         {provide: AuthService, useValue: authServiceSpy}

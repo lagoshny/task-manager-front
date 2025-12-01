@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TaskStatus } from '../../../../core/models/constants/task-status.items';
 import { TimeIconComponent } from './time-icon.component';
 
