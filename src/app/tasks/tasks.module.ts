@@ -1,31 +1,31 @@
-import {CommonModule} from '@angular/common';
-import {NgModule} from '@angular/core';
-import {ReactiveFormsModule} from '@angular/forms';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {NgxValidationMessagesModule} from '@lagoshny/ngx-validation-messages';
-import {CoreModule} from '../core/core.module';
-import {QuickTaskCreateComponent} from './components/quick-task-create/quick-task-create.component';
-import {TaskFormComponent} from './components/task-form/task-form.component';
-import {TaskListComponent} from './components/task-list/task-list.component';
-import {TaskStatusComponent} from './components/task-status-changer/task-status.component';
-import {TaskComponent} from './components/task/task.component';
-import {TimeIconComponent} from './components/task/time-icon/time-icon.component';
-import {CategoryService} from './services/category.service';
-import {TaskService} from './services/task.service';
-import {MatInputModule} from '@angular/material/input';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatSelectModule} from '@angular/material/select';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatButtonModule} from '@angular/material/button';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { CoreModule } from '../core/core.module';
+import { QuickTaskCreateComponent } from './components/quick-task-create/quick-task-create.component';
+import { TaskFormComponent } from './components/task-form/task-form.component';
+import { TaskListComponent } from './components/task-list/task-list.component';
+import { TaskStatusComponent } from './components/task-status-changer/task-status.component';
+import { TaskComponent } from './components/task/task.component';
+import { TimeIconComponent } from './components/task/time-icon/time-icon.component';
+import { CategoryService } from './services/category.service';
+import { TaskService } from './services/task.service';
+import { NgxValidationMessagesComponent } from '@lagoshny/ngx-validation-messages';
 
 @NgModule({
   imports: [
     CommonModule,
     CoreModule,
     ReactiveFormsModule,
-    NgxValidationMessagesModule,
+    NgxValidationMessagesComponent,
     MatInputModule,
     MatAutocompleteModule,
     MatSelectModule,

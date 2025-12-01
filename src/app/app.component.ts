@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
+  standalone: true,
   selector: 'tm-app',
-  templateUrl: './app.component.html'
+  templateUrl: './app.component.html',
+  imports: [
+    RouterOutlet,
+  ]
 })
 export class AppComponent {
 
