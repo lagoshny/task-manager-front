@@ -9,20 +9,21 @@
       </div>
     </div>
   </div>
-  <div *ngIf="!minimizeCategories" class="row no-gutters">
-    <div class="col-12">
-      <div (click)="onAddCategory()"
-           class="category-list__add_button">
-        <i class="category-list__add_button__icon fa fa-plus"></i>
+  @if (!minimizeCategories) {
+    <div class="row no-gutters">
+      <div class="col-12">
+        <div (click)="onAddCategory()"
+          class="category-list__add_button">
+          <i class="category-list__add_button__icon fa fa-plus"></i>
+        </div>
+        @for (category of categories; track category) {
+          <tm-category (categoryClick)="onCategoryClick($event)"
+            (categoryDelete)="onCategoryDelete($event)"
+            (categoryEdit)="onCategoryEdit($event)"
+            [category]="category">
+          </tm-category>
+        }
       </div>
-      <ng-container *ngFor="let category of categories">
-        <tm-category (categoryClick)="onCategoryClick($event)"
-                     (categoryDelete)="onCategoryDelete($event)"
-                     (categoryEdit)="onCategoryEdit($event)"
-                     [category]="category">
-        </tm-category>
-      </ng-container>
     </div>
-
-  </div>
+  }
 </div>

@@ -1,7 +1,9 @@
 <h1 mat-dialog-title>
-    <span *ngIf="data.type === 'WARNING'">
-        <i class="fa fa-exclamation-triangle"></i>
+  @if (data.type === 'WARNING') {
+    <span>
+      <i class="fa fa-exclamation-triangle"></i>
     </span>
+  }
   {{data.title}}
   <button class="simple-dialog__header__close_button" mat-dialog-close>
     <i class="fa fa-times"></i>
@@ -11,7 +13,7 @@
   {{data.content}}
 </div>
 <div class="align-bottom mt-2"
-     mat-dialog-actions>
+  mat-dialog-actions>
   <button [mat-dialog-close]="false" mat-button>
     {{data.cancelButtonTitle}}
   </button>
