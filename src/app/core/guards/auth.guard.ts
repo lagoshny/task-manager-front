@@ -1,29 +1,20 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
-import { NGXLogger } from 'ngx-logger';
-import { Observable } from 'rxjs';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 /**
  * Application auth guard checks that the user has authentication or redirects to the login form.
  */
-@Injectable({providedIn: 'root'})
-export class AuthGuard  {
+export const authGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+  // const logger = inject(NGXLogger);
 
-
-  constructor(private router: Router,
-              private authService: AuthService,
-              private logger: NGXLogger) {
+  if (authService.isAuthenticated()) {
+    return true;
   }
+  router.navigate(['login']);
+    // .catch(reason => logger.error(reason));
 
-  public canActivate(route: ActivatedRouteSnapshot,
-                     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (this.authService.isAuthenticated()) {
-      return true;
-    }
-    this.router.navigate(['login']).catch(reason => this.logger.error(reason));
-
-    return false;
-  }
-
-}
+  return false;
+};

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
-import { NGXLogger } from 'ngx-logger';
+// import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { SimpleDialogComponent } from '../../../core/components/simple-dialog/simple-dialog.component';
 import { TaskCategory } from '../../../core/models/task-category.model';
@@ -32,7 +32,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   private subs: Array<Subscription> = [];
 
   constructor(private router: Router,
-              private logger: NGXLogger,
+              // private logger: NGXLogger,
               private dialog: MatDialog,
               private categoryService: CategoryService,
               private taskCategoryService: TaskCategoryService) {
@@ -64,13 +64,13 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   }
 
   public onAddCategory(): void {
-    this.router.navigate(['categories/new'])
-      .catch(reason => this.logger.error(reason));
+    this.router.navigate(['categories/new']);
+      // .catch(reason => this.logger.error(reason));
   }
 
   public onCategoryEdit(category: TaskCategory): void {
-    this.router.navigate(['categories/edit', category.prefix.toLocaleLowerCase()])
-      .catch(reason => this.logger.error(reason));
+    this.router.navigate(['categories/edit', category.prefix.toLocaleLowerCase()]);
+      // .catch(reason => this.logger.error(reason));
   }
 
   public onCategoryDelete(deletedCategory: TaskCategory): void {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { NGXLogger } from 'ngx-logger';
+import { Router, RouterLink } from '@angular/router';
+// import { NGXLogger } from 'ngx-logger';
 import { AuthService } from '../core/services/auth.service';
 import { StringUtils } from '../core/utils/string.utils';
 import { MenuComponent } from './components/menu/menu.component';
@@ -11,7 +11,8 @@ import { MenuComponent } from './components/menu/menu.component';
   styleUrls: ['./header.component.scss'],
   standalone: true,
   imports: [
-    MenuComponent
+    MenuComponent,
+    RouterLink,
   ]
 })
 export class HeaderComponent implements OnInit {
@@ -20,7 +21,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private router: Router,
-              private logger: NGXLogger) {
+              // private logger: NGXLogger,
+              ) {
   }
 
   public ngOnInit(): void {
@@ -29,9 +31,8 @@ export class HeaderComponent implements OnInit {
 
   public logout(): void {
     this.authService.logOut();
-    this.router.navigate(['/login']).catch(reason => {
-      this.logger.error(reason);
-    });
+    this.router.navigate(['/login']);
+      // .catch(reason => {this.logger.error(reason);});
   }
 
 }

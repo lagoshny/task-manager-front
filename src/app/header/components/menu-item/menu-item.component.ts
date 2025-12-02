@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MenuItem } from '../../models/menu-item.model';
 import { NgClass } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkWithHref } from '@angular/router';
 
 @Component({
   selector: 'tm-menu-item',
@@ -10,7 +10,8 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [
     NgClass,
-    RouterLink
+    RouterLink,
+    RouterLinkWithHref,
   ]
 })
 export class MenuItemComponent {

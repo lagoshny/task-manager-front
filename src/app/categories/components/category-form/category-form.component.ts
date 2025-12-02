@@ -3,7 +3,7 @@ import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators }
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
-import { NGXLogger } from 'ngx-logger';
+// import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { dropDownAnimation } from '../../../core/animations/common.animation';
 import {
@@ -14,9 +14,11 @@ import { AuthService } from '../../../core/services/auth.service';
 import { CustomValidators } from '../../../core/validation/custom.validators';
 import { CategoryService } from '../../services/category.service';
 import { CommonPageComponent } from '../../../core/components/common-page/common-page.component';
-import { MatFormField } from '@angular/material/input';
+import { MatFormField, MatInput } from '@angular/material/input';
 import { NgxValidationMessagesComponent } from '@lagoshny/ngx-validation-messages';
 import { NgClass } from '@angular/common';
+import { MatButton } from '@angular/material/button';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 
 @Component({
   selector: 'tm-category-form',
@@ -30,6 +32,9 @@ import { NgClass } from '@angular/common';
     CommonPageComponent,
     ReactiveFormsModule,
     MatFormField,
+    MatInput,
+    CdkTextareaAutosize,
+    MatButton,
     NgxValidationMessagesComponent,
     NgClass
   ]
@@ -49,7 +54,7 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
   constructor(public router: Router,
               private formBuilder: UntypedFormBuilder,
               private activatedRoute: ActivatedRoute,
-              private logger: NGXLogger,
+              // private logger: NGXLogger,
               private dialog: MatDialog,
               private authService: AuthService,
               private categoryService: CategoryService) {
@@ -68,8 +73,8 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
             ...taskCategory
           });
         }, () => {
-          this.router.navigate(['home'])
-            .catch(reason => this.logger.error(reason));
+          this.router.navigate(['home']);
+            // .catch(reason => this.logger.error(reason));
         })
       );
     }
@@ -87,8 +92,8 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
       const category = _.merge(this.categoryToEdit, categoryFromForm);
       this.subs.push(
         this.categoryService.patchResource(category).subscribe((/* updatedCategory: TaskCategory */) => {
-          this.router.navigate(['home'])
-            .catch(reason => this.logger.error(reason));
+          this.router.navigate(['home']);
+            // .catch(reason => this.logger.error(reason));
         })
       );
     } else {
@@ -96,8 +101,8 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
       this.subs.push(
         this.categoryService.createResource({body: categoryFromForm})
           .subscribe((/*category: TaskCategory*/) => {
-            this.router.navigate(['home'])
-              .catch(reason => this.logger.error(reason));
+            this.router.navigate(['home']);
+              // .catch(reason => this.logger.error(reason));
           })
       );
     }

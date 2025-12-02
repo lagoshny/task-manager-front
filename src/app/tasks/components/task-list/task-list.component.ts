@@ -2,7 +2,7 @@ import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PagedResourceCollection } from '@lagoshny/ngx-hateoas-client';
 import * as _ from 'lodash';
-import { NGXLogger } from 'ngx-logger';
+// import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { TaskStatus } from '../../../core/models/constants/task-status.items';
@@ -43,7 +43,8 @@ export class TaskListComponent implements OnInit, OnDestroy {
               private activatedRoute: ActivatedRoute,
               private taskService: TaskService,
               private taskCategoryService: TaskCategoryService,
-              private logger: NGXLogger) {
+              // private logger: NGXLogger,
+              ) {
   }
 
   public ngOnInit(): void {
@@ -71,8 +72,8 @@ export class TaskListComponent implements OnInit, OnDestroy {
   }
 
   public onClickTask(task: Task): void {
-    this.router.navigate(['tasks/edit', `${ task.category.prefix }-${ task.number }`])
-      .catch(reason => this.logger.error(reason));
+    this.router.navigate(['tasks/edit', `${ task.category.prefix }-${ task.number }`]);
+      // .catch(reason => this.logger.error(reason));
   }
 
   public ngOnDestroy(): void {

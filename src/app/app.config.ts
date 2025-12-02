@@ -1,7 +1,7 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './routes';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideNgxValidationMessages } from '@lagoshny/ngx-validation-messages';
 import { provideNgxHateoasClient } from '@lagoshny/ngx-hateoas-client';
 import { ValidationMessagesConfig } from './core/validation/validation-messages.config';
@@ -9,6 +9,8 @@ import { User } from './core/models/user.model';
 import { TaskCategory } from './core/models/task-category.model';
 import { Task } from './core/models/task.model';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { BasicAuthInterceptor } from './core/interceptors/basic-auth.interceptor';
+import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 
 export class ServerApi {
 
@@ -61,6 +63,8 @@ export class ServerApi {
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
     provideZoneChangeDetection(),
     provideRouter(routes),
     provideHttpClient(

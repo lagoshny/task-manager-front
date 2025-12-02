@@ -12,7 +12,9 @@ import { Task } from '../../core/models/task.model';
 import { AuthService } from '../../core/services/auth.service';
 import { TaskProjection } from '../../core/models/task.projection';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class TaskService extends HateoasResourceOperation<Task> {
 
   constructor(private authService: AuthService,

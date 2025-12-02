@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FontIcon } from '../../models/interfaces/font-icon.interace';
 import { FontIconService } from '../../services/font-icon.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { NgClass } from '@angular/common';
 
 @Component({
@@ -10,7 +10,10 @@ import { NgClass } from '@angular/common';
   styleUrls: ['./font-icon-list-dialog.component.scss'],
   standalone: true,
   imports: [
-    NgClass
+    NgClass,
+    MatDialogClose,
+    MatDialogTitle,
+    MatDialogContent,
   ]
 })
 export class FontIconListDialogComponent implements OnInit {

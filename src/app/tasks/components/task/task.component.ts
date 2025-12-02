@@ -22,6 +22,7 @@ import { TimeIconComponent } from './time-icon/time-icon.component';
 })
 export class TaskComponent implements OnInit, OnDestroy {
 
+  // TODO: task projection | task
   @Input()
   public task: Task;
 

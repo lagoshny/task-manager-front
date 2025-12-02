@@ -3,7 +3,7 @@ import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators }
 import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
 import { isString } from 'lodash';
-import { NGXLogger } from 'ngx-logger';
+// import { NGXLogger } from 'ngx-logger';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, startWith } from 'rxjs/operators';
 import { ServerApi } from '../../../app.config';
@@ -22,7 +22,7 @@ import { CustomValidators } from '../../../core/validation/custom.validators';
 import { CategoryService } from '../../services/category.service';
 import { TaskService } from '../../services/task.service';
 import { TaskUtils } from '../../utils/task.utils';
-import { MatFormField } from '@angular/material/input';
+import { MatFormField, MatInput } from '@angular/material/input';
 import { NgxValidationMessagesComponent } from '@lagoshny/ngx-validation-messages';
 import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
 import { AsyncPipe, NgClass } from '@angular/common';
@@ -31,6 +31,8 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { MatTooltip } from '@angular/material/tooltip';
 import { TaskStatusComponent } from '../task-status-changer/task-status.component';
 import { CommonPageComponent } from '../../../core/components/common-page/common-page.component';
+import { MatButton } from '@angular/material/button';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 
 @Component({
   selector: 'tm-task-form',
@@ -51,11 +53,14 @@ import { CommonPageComponent } from '../../../core/components/common-page/common
     AsyncPipe,
     MatOption,
     MatSelect,
+    MatInput,
+    MatButton,
     NgClass,
     MatCheckbox,
     MatTooltip,
+    CdkTextareaAutosize,
     TaskStatusComponent,
-    CommonPageComponent
+    CommonPageComponent,
   ]
 })
 export class TaskFormComponent implements OnInit, OnDestroy {
@@ -80,7 +85,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
   constructor(public router: Router,
               private formBuilder: UntypedFormBuilder,
               private activatedRoute: ActivatedRoute,
-              private logger: NGXLogger,
+              // private logger: NGXLogger,
               private notificationService: NotificationService,
               private authService: AuthService,
               private taskService: TaskService,
@@ -113,8 +118,8 @@ export class TaskFormComponent implements OnInit, OnDestroy {
                 this.taskToEdit = task;
               });
           }, () => {
-            this.router.navigate(['home'])
-              .catch(reason => this.logger.error(reason));
+            this.router.navigate(['home']);
+              // .catch(reason => this.logger.error(reason));
           })
       );
     }
@@ -136,8 +141,8 @@ export class TaskFormComponent implements OnInit, OnDestroy {
       const task = _.merge(this.taskToEdit, taskFromForm);
       this.subs.push(
         this.taskService.patchResource(task).subscribe((/* updatedTask: Task */) => {
-          this.router.navigate(['home'])
-            .catch(reason => this.logger.error(reason));
+          this.router.navigate(['home']);
+            // .catch(reason => this.logger.error(reason));
         })
       );
     } else {
@@ -146,8 +151,8 @@ export class TaskFormComponent implements OnInit, OnDestroy {
       this.subs.push(
         this.taskService.create(taskFromForm).subscribe((createdTask: Task) => {
           this.notificationService.showSuccess(['Task successfully created']);
-          this.router.navigate(['home'])
-            .catch(reason => this.logger.error(reason));
+          this.router.navigate(['home']);
+            // .catch(reason => this.logger.error(reason));
         })
       );
     }
