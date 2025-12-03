@@ -1,33 +1,43 @@
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-// import { NGXLogger } from 'ngx-logger';
 import { dropDownAnimation } from '../../../core/animations/common.animation';
 import { User } from '../../../core/models/user.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { CustomValidators } from '../../../core/validation/custom.validators';
 import { UserService } from '../../services/user.service';
 import { NgxValidationMessagesComponent } from '@lagoshny/ngx-validation-messages';
-import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
-import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
+import {
+  MatDatepicker,
+  MatDatepickerInput,
+  MatDatepickerModule,
+  MatDatepickerToggle
+} from '@angular/material/datepicker';
+import { MatFormField, MatInput, MatInputModule, MatLabel } from '@angular/material/input';
 import { CommonPageComponent } from '../../../core/components/common-page/common-page.component';
 import { MatButton } from '@angular/material/button';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   templateUrl: './user-from.component.html',
   animations: [dropDownAnimation],
   standalone: true,
+  providers: [provideNativeDateAdapter()],
   imports: [
     MatFormField,
     ReactiveFormsModule,
     NgxValidationMessagesComponent,
     MatDatepickerInput,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
     MatLabel,
     MatDatepickerToggle,
     MatDatepicker,
     MatInput,
     MatButton,
-    CommonPageComponent
+    CommonPageComponent,
   ],
 })
 export class UserFromComponent implements OnInit {
@@ -36,7 +46,6 @@ export class UserFromComponent implements OnInit {
 
   constructor(public router: Router,
               private formBuilder: UntypedFormBuilder,
-              // private logger: NGXLogger,
               private authService: AuthService,
               private userService: UserService) {
   }
@@ -57,7 +66,7 @@ export class UserFromComponent implements OnInit {
     this.userService.patchResource(updatedUser).subscribe((u: User) => {
       this.authService.setUser(u);
       this.router.navigate(['home']);
-        // .catch(reason => {this.logger.error(reason);});
+      // .catch(reason => {this.logger.error(reason);});
     });
   }
 

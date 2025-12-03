@@ -8,7 +8,8 @@
             [formGroup]="categoryForm">
         <div class="row">
           <div class="col-6">
-            <mat-form-field class="w-100">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Name</mat-label>
               <input aria-label="Name"
                      formControlName="name"
                      matInput
@@ -19,7 +20,8 @@
             <ngx-validation-messages [for]="categoryForm.get('name')"></ngx-validation-messages>
           </div>
           <div class="col-6">
-            <mat-form-field class="w-100">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Prefix</mat-label>
               <input aria-label="Prefix"
                      formControlName="prefix"
                      matInput
@@ -32,7 +34,8 @@
         </div>
         <div class="row">
           <div class="col-12">
-            <mat-form-field class="w-100">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Description</mat-label>
                                     <textarea aria-label="Description"
                                               formControlName="description"
                                               cdkTextareaAutosize
@@ -66,7 +69,7 @@
             <button [disabled]="categoryForm.invalid"
                     class="w-100"
                     color="accent"
-                    mat-raised-button
+                    matButton="filled"
                     type="submit">
               {{buttonName}}
             </button>

@@ -9,7 +9,8 @@
             [formGroup]="userForm">
         <div class="row mt-md-3 mt-0">
           <div class="col-lg-4 col-12 mt-md-0 mt-2">
-            <mat-form-field class="w-100">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>First name</mat-label>
               <input aria-label="First name"
                      formControlName="firstName"
                      matInput
@@ -19,7 +20,8 @@
             <ngx-validation-messages [for]="userForm.get('firstName')"></ngx-validation-messages>
           </div>
           <div class="col-lg-4 col-12 mt-md-0 mt-2">
-            <mat-form-field class="w-100">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Middle name</mat-label>
               <input aria-label="Middle name"
                      formControlName="middleName"
                      matInput
@@ -29,7 +31,8 @@
             <ngx-validation-messages [for]="userForm.get('middleName')"></ngx-validation-messages>
           </div>
           <div class="col-lg-4 col-12 mt-md-0 mt-2">
-            <mat-form-field class="w-100">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Last name</mat-label>
               <input aria-label="Last name"
                      formControlName="lastName"
                      matInput
@@ -41,7 +44,8 @@
         </div>
         <div class="row mt-md-3 mt-0">
           <div class="col-lg-4 col-12 mt-md-0 mt-2">
-            <mat-form-field class="w-100">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>City</mat-label>
               <input aria-label="City"
                      formControlName="city"
                      matInput
@@ -51,20 +55,19 @@
             <ngx-validation-messages [for]="userForm.get('city')"></ngx-validation-messages>
           </div>
           <div class="col-lg-4 col-12 mt-md-0 mt-2">
-            <mat-form-field class="w-100">
-              <mat-label>Date of Birth</mat-label>
-              <input [matDatepicker]="picker"
-                     aria-label="Choose a date"
-                     formControlName="birthday"
-                     matInput
-                     placeholder="Choose a date">
-              <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Choose a date</mat-label>
+              <input matInput
+                     [matDatepicker]="picker"
+                     formControlName="birthday">
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
             <ngx-validation-messages [for]="userForm.get('birthday')"></ngx-validation-messages>
           </div>
           <div class="col-lg-4 col-12 mt-md-0 mt-2">
-            <mat-form-field class="w-100">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Email</mat-label>
               <input aria-label="Email"
                      formControlName="email"
                      matInput
@@ -80,7 +83,7 @@
             <button [disabled]="!userForm.valid"
                     class="w-100"
                     color="accent"
-                    mat-raised-button
+                    matButton="filled"
                     type="submit">
               Save
             </button>

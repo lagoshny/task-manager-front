@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { User } from '../../../core/models/user.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { LoginService } from '../../services/login.service';
-import { MatFormField, MatInput } from '@angular/material/input';
+import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { NgxValidationMessagesComponent } from '@lagoshny/ngx-validation-messages';
 import { MatButton } from '@angular/material/button';
 
@@ -20,6 +20,7 @@ import { MatButton } from '@angular/material/button';
     NgxValidationMessagesComponent,
     MatInput,
     MatButton,
+    MatLabel,
   ]
 })
 export class LoginFormComponent {

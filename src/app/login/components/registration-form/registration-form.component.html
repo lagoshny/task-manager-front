@@ -12,7 +12,8 @@
         </div>
         <div class="row justify-content-center mt-2">
           <div class="col-sm-10 col-11">
-            <mat-form-field class="w-100">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Username</mat-label>
               <input aria-label="Username"
                      class="login_input"
                      formControlName="username"
@@ -27,7 +28,8 @@
         <div formGroupName="passwordGroup">
           <div class="row justify-content-center mt-2">
             <div class="col-sm-10 col-11">
-              <mat-form-field class="w-100">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Password</mat-label>
                 <input aria-label="Password"
                        class="login_input"
                        formControlName="password"
@@ -42,7 +44,8 @@
           </div>
           <div class="row justify-content-center mt-2">
             <div class="col-sm-10 col-11">
-              <mat-form-field class="w-100">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Confirm password</mat-label>
                 <input aria-label="Confirm password"
                        class="login_input"
                        formControlName="confirmPassword"
@@ -60,7 +63,8 @@
         </div>
         <div class="row justify-content-center mt-2">
           <div class="col-sm-10 col-11">
-            <mat-form-field class="w-100">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Email</mat-label>
               <input aria-label="Email"
                      class="login_input"
                      formControlName="email"
@@ -73,21 +77,21 @@
           </div>
         </div>
         <div class="row justify-content-center mt-0">
-          <div class="col-sm-8 col-11">
+          <div class="col-sm-10 col-11">
             <button [disabled]="!registrationForm.valid"
                     class="w-100 login_button"
                     color="accent"
-                    mat-raised-button
+                    matButton="filled"
                     type="submit">
               Sign up
             </button>
           </div>
         </div>
         <div class="row justify-content-center mt-3">
-          <div class="col-sm-8 col-11">
+          <div class="col-sm-10 col-11">
             <button (click)="router.navigate(['/login'])"
                     class="w-100 login_button"
-                    mat-raised-button
+                    matButton="elevated"
                     type="button">
               Back to login form
             </button>

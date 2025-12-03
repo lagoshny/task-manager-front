@@ -14,7 +14,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { CustomValidators } from '../../../core/validation/custom.validators';
 import { CategoryService } from '../../services/category.service';
 import { CommonPageComponent } from '../../../core/components/common-page/common-page.component';
-import { MatFormField, MatInput } from '@angular/material/input';
+import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { NgxValidationMessagesComponent } from '@lagoshny/ngx-validation-messages';
 import { NgClass } from '@angular/common';
 import { MatButton } from '@angular/material/button';
@@ -36,7 +36,8 @@ import { CdkTextareaAutosize } from '@angular/cdk/text-field';
     CdkTextareaAutosize,
     MatButton,
     NgxValidationMessagesComponent,
-    NgClass
+    NgClass,
+    MatLabel
   ]
 })
 export class CategoryFormComponent implements OnInit, OnDestroy {

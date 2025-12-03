@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { User } from '../../../core/models/user.model';
 import { CustomValidators } from '../../../core/validation/custom.validators';
 import { UserService } from '../../../users/services/user.service';
-import { MatFormField, MatInput } from '@angular/material/input';
+import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { NgxValidationMessagesComponent } from '@lagoshny/ngx-validation-messages';
 import { MatButton } from '@angular/material/button';
 
@@ -19,6 +19,7 @@ import { MatButton } from '@angular/material/button';
     NgxValidationMessagesComponent,
     MatInput,
     MatButton,
+    MatLabel,
   ]
 })
 export class RegistrationFormComponent {

@@ -1,18 +1,139 @@
 @use '@angular/material' as mat;
-@use './palette' as palette;
 
-$primary: mat.m2-define-palette(palette.$tm-primary-color);
-$accent:  mat.m2-define-palette(palette.$tm-accent-color);
-$warn:    mat.m2-define-palette(mat.$m2-red-palette);
+$color-palette: (
+  0: #000000,
+  4: #000915,
+  6: #000e1f,
+  10: #001D34,
+  12: #02223d,
+  15: #002844,
+  17: #032e4f,
+  20: #003355,
+  22: #043a61,
+  24: #004068,
+  25: #003E67,
+  30: #004A79,
+  35: #00568B,
+  40: #00629E,
+  50: #007CC6,
+  60: #0096EF,
+  70: #59B1FF,
+  80: #9ACBFF,
+  87: #bed8f9,
+  90: #CFE5FF,
+  92: #daecff,
+  94: #e6f2ff,
+  95: #E9F1FF,
+  96: #eff6ff,
+  98: #F7F9FF,
+  99: #FCFCFF,
+  100: #FFFFFF,
 
-$tm-theme: mat.m2-define-light-theme((
-  color: (
-    primary: $primary,
-    accent: $accent,
-    warn: $warn
+  secondary: (
+    0: #000000,
+    4: #040a00,
+    6: #071000,
+    10: #0F2000,
+    12: #122600,
+    15: #162B00,
+    17: #182f00,
+    20: #1D3700,
+    22: #213e00,
+    24: #264400,
+    25: #254300,
+    30: #2D5000,
+    35: #355D00,
+    40: #3D6A00,
+    50: #508508,
+    60: #68A028,
+    70: #81BB41,
+    80: #9CD85A,
+    87: #b4ea76,
+    90: #B7F573,
+    92: #c6f88c,
+    94: #d3fca8,
+    95: #D1FF9E,
+    96: #dbffb8,
+    98: #EFFFD8,
+    99: #F8FFE9,
+    100: #FFFFFF,
   ),
-  typography: null,
-  density: 0
-));
 
-@include mat.all-component-themes($tm-theme);
+  neutral: (
+    0: #000000,
+    4: #070708,
+    6: #0b0c0d,
+    10: #242629,
+    12: #1f2022,
+    15: #242629,
+    17: #292a2c,
+    20: #2F3033,
+    22: #343537,
+    24: #38393c,
+    25: #3A3B3E,
+    30: #45474A,
+    35: #515255,
+    40: #5D5E61,
+    50: #76777A,
+    60: #909094,
+    70: #AAABAE,
+    80: #C6C6CA,
+    87: #dbd9dd,
+    90: #E2E2E5,
+    92: #e9e7eb,
+    94: #efedf0,
+    95: #F1F0F4,
+    96: #f4f3f6,
+    98: #F9F9FC,
+    99: #FCFCFF,
+    100: #FFFFFF,
+  ),
+
+  neutral-variant: (
+    0: #000000,
+    4: #070b10,
+    6: #0a0f14,
+    10: #171C22,
+    12: #1b2026,
+    15: #21262c,
+    17: #262b31,
+    20: #2C3137,
+    22: #30363c,
+    24: #343a40,
+    25: #373C42,
+    30: #42474E,
+    35: #4E535A,
+    40: #5A5F66,
+    50: #73777F,
+    60: #8C9199,
+    70: #A7ABB3,
+    80: #C2C7CF,
+    87: #d6dae3,
+    90: #DEE3EB,
+    92: #e6eaf2,
+    94: #edf1f9,
+    95: #EDF1F9,
+    96: #f3f6fe,
+    98: #F7F9FF,
+    99: #FCFCFF,
+    100: #FFFFFF,
+  )
+);
+
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      theme-type: light,
+    ),
+    typography: Roboto,
+    density: 0
+  ));
+}
+
+:root {
+  @include mat.button-overrides((
+    protected-container-shape: 5px,
+    filled-container-shape: 5px,
+  ));
+}

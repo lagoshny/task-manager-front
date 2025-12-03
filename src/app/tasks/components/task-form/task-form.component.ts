@@ -22,7 +22,7 @@ import { CustomValidators } from '../../../core/validation/custom.validators';
 import { CategoryService } from '../../services/category.service';
 import { TaskService } from '../../services/task.service';
 import { TaskUtils } from '../../utils/task.utils';
-import { MatFormField, MatInput } from '@angular/material/input';
+import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { NgxValidationMessagesComponent } from '@lagoshny/ngx-validation-messages';
 import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
 import { AsyncPipe, NgClass } from '@angular/common';
@@ -61,6 +61,7 @@ import { CdkTextareaAutosize } from '@angular/cdk/text-field';
     CdkTextareaAutosize,
     TaskStatusComponent,
     CommonPageComponent,
+    MatLabel,
   ]
 })
 export class TaskFormComponent implements OnInit, OnDestroy {
@@ -274,4 +275,5 @@ export class TaskFormComponent implements OnInit, OnDestroy {
       .filter((option: TaskCategory) => option.name.toLowerCase().indexOf(filterValue) === 0);
   }
 
+  protected readonly availableStatuses = TaskStatus;
 }
