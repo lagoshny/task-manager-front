@@ -68,14 +68,16 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
       this.formHeader = 'Edit category';
       this.buttonName = 'Save';
       this.subs.push(
-        this.categoryService.getByPrefix(categoryPrefix).subscribe((taskCategory: TaskCategory) => {
-          this.categoryToEdit = taskCategory;
-          this.categoryForm.patchValue({
-            ...taskCategory
-          });
-        }, () => {
-          this.router.navigate(['home']);
-            // .catch(reason => this.logger.error(reason));
+        this.categoryService.getByPrefix(categoryPrefix).subscribe({
+          next: (taskCategory: TaskCategory) => {
+            this.categoryToEdit = taskCategory;
+            this.categoryForm.patchValue({
+              ...taskCategory
+            });
+          },
+          error: () => {
+            this.router.navigate(['home']);
+          }
         })
       );
     }
@@ -94,7 +96,7 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
       this.subs.push(
         this.categoryService.patchResource(category).subscribe((/* updatedCategory: TaskCategory */) => {
           this.router.navigate(['home']);
-            // .catch(reason => this.logger.error(reason));
+          // .catch(reason => this.logger.error(reason));
         })
       );
     } else {
@@ -103,7 +105,7 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
         this.categoryService.createResource({body: categoryFromForm})
           .subscribe((/*category: TaskCategory*/) => {
             this.router.navigate(['home']);
-              // .catch(reason => this.logger.error(reason));
+            // .catch(reason => this.logger.error(reason));
           })
       );
     }

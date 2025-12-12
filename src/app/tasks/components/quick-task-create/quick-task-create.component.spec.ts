@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 import { TaskPriority } from '../../../core/models/constants/task-priority.items';
@@ -8,45 +8,41 @@ import { TemplateHelper } from '../../../utils/template.helper';
 import { TaskService } from '../../services/task.service';
 import { QuickTaskCreateComponent } from './quick-task-create.component';
 import { provideNgxValidationMessages } from '@lagoshny/ngx-validation-messages';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('QuickTaskCreateComponent', () => {
   let fixture: ComponentFixture<QuickTaskCreateComponent>;
   let comp: QuickTaskCreateComponent;
-  let taskServiceSpy: any;
+  let taskServiceSpy: jasmine.SpyObj<TaskService>;
   let templateHelper: TemplateHelper<QuickTaskCreateComponent>;
 
-  beforeEach(waitForAsync(() => {
-    taskServiceSpy = {
-      create: jasmine.createSpy('create')
-    };
+  beforeEach(async () => {
+    taskServiceSpy = jasmine.createSpyObj<TaskService>('TaskService', ['create']);
+    taskServiceSpy.create.and.returnValue(of(new Task()));
 
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-      ],
-      declarations: [
+        NoopAnimationsModule,
         QuickTaskCreateComponent
       ],
       providers: [
-        provideNgxValidationMessages({
-          messages: {}
-        }),
-        {provide: TaskService, useValue: taskServiceSpy}
+        provideNgxValidationMessages({ messages: {} }),
+        { provide: TaskService, useValue: taskServiceSpy }
       ]
-    })
-      .compileComponents()
-      .then(() => {
-        fixture = TestBed.createComponent(QuickTaskCreateComponent);
-        comp = fixture.componentInstance;
-        templateHelper = new TemplateHelper<QuickTaskCreateComponent>(fixture);
-      });
-  }));
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(QuickTaskCreateComponent);
+    comp = fixture.componentInstance;
+    templateHelper = new TemplateHelper(fixture);
+  });
 
   it('should create the comp', () => {
     expect(comp).toBeTruthy();
   });
 
-  it('should show error when task name is empty', () => {
+
+  it('should show error when task name is empty', fakeAsync(() => {
     fixture.detectChanges();
     const template = new TemplateHelper(fixture);
     const createTaskButton = template.query<HTMLButtonElement>('.quick_task_create_input_button');
@@ -56,15 +52,14 @@ describe('QuickTaskCreateComponent', () => {
 
     expect(comp.needShowError).toBeTruthy();
     expect(template.query('ngx-validation-messages')).toBeDefined();
-  });
+  }));
 
   it('should create task with name', () => {
     fixture.detectChanges();
 
     createTaskByButton();
 
-    fixture.detectChanges();
-    expect(taskServiceSpy.create.calls.count()).toBe(1);
+    expect(taskServiceSpy.create).toHaveBeenCalledTimes(1);
   });
 
   it('new task should be in NEW status', () => {
@@ -72,19 +67,14 @@ describe('QuickTaskCreateComponent', () => {
 
     createTaskByButton();
 
-    fixture.detectChanges();
-
     const taskToCreate = taskServiceSpy.create.calls.argsFor(0)[0] as Task;
     expect(taskToCreate.status).toBe(TaskStatus.NEW.code);
   });
-
 
   it('new task should has middle priority', () => {
     fixture.detectChanges();
 
     createTaskByButton();
-
-    fixture.detectChanges();
 
     const taskToCreate = taskServiceSpy.create.calls.argsFor(0)[0] as Task;
     expect(taskToCreate.priority).toBe(TaskPriority.MIDDLE.code);
@@ -94,18 +84,20 @@ describe('QuickTaskCreateComponent', () => {
     fixture.detectChanges();
 
     createTaskByButton();
-
     fixture.detectChanges();
 
-    const taskNameInput = templateHelper.query<HTMLInputElement>('.quick_task_create_input');
+    const taskNameInput =
+      templateHelper.query<HTMLInputElement>('.quick_task_create_input');
+
     expect(taskNameInput.textContent).toBe('');
   });
 
   function createTaskByButton(): void {
-    comp.quickTaskForm.patchValue({name: 'Test task'});
-    taskServiceSpy.create.and.returnValue(of(new Task()));
-    const createTaskButton = templateHelper.query<HTMLButtonElement>('.quick_task_create_input_button');
+    comp.quickTaskForm.patchValue({ name: 'Test task' });
+
+    const createTaskButton =
+      templateHelper.query<HTMLButtonElement>('.quick_task_create_input_button');
+
     createTaskButton.click();
   }
-
 });

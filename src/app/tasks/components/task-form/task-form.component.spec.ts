@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -8,26 +9,24 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
-import { CoreModule } from '../../../core/core.module';
 import { TaskStatus } from '../../../core/models/constants/task-status.items';
 import { TaskCategory } from '../../../core/models/task-category.model';
 import { NotificationService } from '../../../core/services/notification.service';
-import { ActivatedRouteStub } from '../../../utils/activated-route-stub';
 import { TemplateHelper } from '../../../utils/template.helper';
 import { CategoryService } from '../../services/category.service';
 import { TaskService } from '../../services/task.service';
 import { getTestTask } from '../test.helper';
 import { TaskFormComponent } from './task-form.component';
-import { LoggerTestingModule } from 'ngx-logger/testing';
 import { provideNgxValidationMessages } from '@lagoshny/ngx-validation-messages';
+import { AuthService } from '../../../core/services/auth.service';
+import { ActivatedRouteStub } from '../../../utils/activated-route-stub';
 
 @Component({
-    selector: 'tm-task-status',
-    template: '',
-    standalone: false
+  selector: 'tm-task-status',
+  template: '',
+  standalone: true
 })
 export class TaskStatusChangerComponent {
   @Input()
@@ -37,23 +36,22 @@ export class TaskStatusChangerComponent {
 describe('TaskFormComponent', () => {
   let fixture: ComponentFixture<TaskFormComponent>;
   let comp: TaskFormComponent;
-  let routerSpy: any;
+  let router: Router;
   let activatedRouteStub: ActivatedRouteStub;
+
   let taskServiceSpy: any;
   let taskCategoryServiceSpy: any;
   let notificationServiceSpy: any;
+  let authServiceSpy: any;
 
-  beforeEach(waitForAsync(() => {
-    routerSpy = {
-      navigate: jasmine.createSpy('navigate'),
-      isActive: jasmine.createSpy('isActive'),
-    };
+  beforeEach(async () => {
     activatedRouteStub = new ActivatedRouteStub({});
     taskServiceSpy = {
       getByCategoryPrefixAndNumber: jasmine.createSpy('getByCategoryPrefixAndNumber'),
       create: jasmine.createSpy('create'),
       patchResource: jasmine.createSpy('patchResource')
     };
+
     taskCategoryServiceSpy = {
       getAllByUser: jasmine.createSpy('getAllByUser')
     };
@@ -63,9 +61,15 @@ describe('TaskFormComponent', () => {
       showErrors: jasmine.createSpy('showErrors')
     };
 
-    TestBed.configureTestingModule({
+    authServiceSpy = {
+      getUser: jasmine.createSpy('getUser')
+    };
+
+    taskCategoryServiceSpy.getAllByUser.and.returnValue(of([]));
+    authServiceSpy.getUser.and.returnValue({username: 'test-user'} as any);
+
+    await TestBed.configureTestingModule({
       imports: [
-        CoreModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
         MatAutocompleteModule,
@@ -75,29 +79,26 @@ describe('TaskFormComponent', () => {
         MatButtonModule,
         MatInputModule,
         MatTooltipModule,
-        LoggerTestingModule,
-      ],
-      declarations: [
         TaskStatusChangerComponent,
-        TaskFormComponent
+        TaskFormComponent,
       ],
       providers: [
-        provideNgxValidationMessages({
-          messages: {}
-        }),
-        {provide: Router, useValue: routerSpy},
+        provideNgxValidationMessages({messages: {}}),
+        provideRouter([]),
         {provide: ActivatedRoute, useValue: activatedRouteStub},
         {provide: TaskService, useValue: taskServiceSpy},
         {provide: CategoryService, useValue: taskCategoryServiceSpy},
-        {provide: NotificationService, useValue: notificationServiceSpy}
+        {provide: NotificationService, useValue: notificationServiceSpy},
+        {provide: AuthService, useValue: authServiceSpy}
       ]
-    })
-      .compileComponents()
-      .then(() => {
-        fixture = TestBed.createComponent(TaskFormComponent);
-        comp = fixture.componentInstance;
-      });
-  }));
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(TaskFormComponent);
+    comp = fixture.componentInstance;
+
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
+  });
 
   it('should create the comp', () => {
     expect(comp).toBeDefined();
@@ -188,20 +189,19 @@ describe('TaskFormComponent', () => {
   });
 
   it('should navigate to "home" page when get task to EDIT error occurs', () => {
-    routerSpy.navigate.and.returnValue(Promise.resolve());
     taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
-    taskServiceSpy.getByCategoryPrefixAndNumber.and.returnValue(throwError('An error occurred while getting the task'));
+    taskServiceSpy.getByCategoryPrefixAndNumber.and.returnValue(
+      throwError(() => 'An error occurred while getting the task'));
     activatedRouteStub.setParamMap({
       taskCategoryNumber: 'TEST-1'
     });
 
     fixture.detectChanges();
 
-    expect(routerSpy.navigate).toHaveBeenCalledWith(['home']);
+    expect(router.navigate).toHaveBeenCalledWith(['home']);
   });
 
   it('should create task', () => {
-    routerSpy.navigate.and.returnValue(Promise.resolve());
     taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
     taskServiceSpy.create.and.returnValue(of(getTestTask()));
     fixture.detectChanges();
@@ -213,7 +213,6 @@ describe('TaskFormComponent', () => {
   });
 
   it('NEW task should has "new" status', () => {
-    routerSpy.navigate.and.returnValue(Promise.resolve());
     taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
     taskServiceSpy.create.and.returnValue(of(getTestTask()));
     fixture.detectChanges();
@@ -225,20 +224,17 @@ describe('TaskFormComponent', () => {
   });
 
   it('after create task should navigate to "home" page', () => {
-    routerSpy.navigate.and.returnValue(Promise.resolve());
-    taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
+    taskCategoryServiceSpy.getAllByUser.and.returnValue(of([]));
     const newTask = getTestTask();
     taskServiceSpy.create.and.returnValue(of(newTask));
     fixture.detectChanges();
 
     comp.sendForm();
 
-    expect(routerSpy.navigate)
-      .toHaveBeenCalledWith(['home']);
+    expect(router.navigate).toHaveBeenCalledWith(['home']);
   });
 
   it('after create task should show success notification', () => {
-    routerSpy.navigate.and.returnValue(Promise.resolve());
     taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
     const newTask = getTestTask();
     taskServiceSpy.create.and.returnValue(of(newTask));
@@ -279,8 +275,8 @@ describe('TaskFormComponent', () => {
 
     comp.taskForm.get('needTimeManagement').setValue(true);
 
-    expect(comp.taskForm.get('totalTime').valid).toBeFalsy();
-    expect(comp.taskForm.get('spentTime').valid).toBeFalsy();
+    expect(comp.taskForm.get('totalTime').valid).toBeFalse();
+    expect(comp.taskForm.get('spentTime').valid).toBeFalse();
   });
 
   it('when needTimeManagement is FALSE then totalTime and spentTime are NOT REQUIRED', () => {
@@ -292,8 +288,8 @@ describe('TaskFormComponent', () => {
 
     comp.taskForm.get('needTimeManagement').setValue(false);
 
-    expect(comp.taskForm.get('totalTime').valid).toBeTruthy();
-    expect(comp.taskForm.get('spentTime').valid).toBeTruthy();
+    expect(comp.taskForm.get('totalTime').valid).toBeTrue();
+    expect(comp.taskForm.get('spentTime').valid).toBeTrue();
   });
 
   it('when need time management is TRUE and auto reduce is FALSE then spent time is ENABLE', () => {
@@ -304,7 +300,7 @@ describe('TaskFormComponent', () => {
     comp.taskForm.get('needTimeManagement').setValue(true);
     comp.taskForm.get('autoReduce').setValue(false);
 
-    expect(comp.taskForm.get('spentTime').enabled).toBeTruthy();
+    expect(comp.taskForm.get('spentTime').enabled).toBeTrue();
   });
 
   it('when need time management is TRUE  and auto reduce is TRUE then spent time is DISABLE', () => {
@@ -315,7 +311,7 @@ describe('TaskFormComponent', () => {
     comp.taskForm.get('needTimeManagement').setValue(true);
     comp.taskForm.get('autoReduce').setValue(true);
 
-    expect(comp.taskForm.get('spentTime').disabled).toBeTruthy();
+    expect(comp.taskForm.get('spentTime').disabled).toBeTrue();
   });
 
   it('when need time management is TRUE and auto reduce is FALSE then spent time is REQUIRED', () => {
@@ -327,7 +323,7 @@ describe('TaskFormComponent', () => {
     comp.taskForm.get('needTimeManagement').setValue(true);
     comp.taskForm.get('autoReduce').setValue(false);
 
-    expect(comp.taskForm.get('spentTime').valid).toBeFalsy();
+    expect(comp.taskForm.get('spentTime').valid).toBeFalse();
   });
 
   it('should disable needTimeManagement and autoReduce checkbox when task in "IN_PROGRESS" status', () => {
@@ -344,8 +340,8 @@ describe('TaskFormComponent', () => {
     });
     fixture.detectChanges();
 
-    expect(comp.taskForm.get('needTimeManagement').disabled).toBeTruthy();
-    expect(comp.taskForm.get('autoReduce').disabled).toBeTruthy();
+    expect(comp.taskForm.get('needTimeManagement').disabled).toBeTrue();
+    expect(comp.taskForm.get('autoReduce').disabled).toBeTrue();
   });
 
   it('should disable needTimeManagement and autoReduce checkbox when task in "COMPLETED" status', () => {
@@ -362,8 +358,8 @@ describe('TaskFormComponent', () => {
     });
     fixture.detectChanges();
 
-    expect(comp.taskForm.get('needTimeManagement').disabled).toBeTruthy();
-    expect(comp.taskForm.get('autoReduce').disabled).toBeTruthy();
+    expect(comp.taskForm.get('needTimeManagement').disabled).toBeTrue();
+    expect(comp.taskForm.get('autoReduce').disabled).toBeTrue();
   });
 
   it('should disable needTimeManagement and autoReduce checkbox when task in "CANCELED" status', () => {
@@ -380,8 +376,8 @@ describe('TaskFormComponent', () => {
     });
     fixture.detectChanges();
 
-    expect(comp.taskForm.get('needTimeManagement').disabled).toBeTruthy();
-    expect(comp.taskForm.get('autoReduce').disabled).toBeTruthy();
+    expect(comp.taskForm.get('needTimeManagement').disabled).toBeTrue();
+    expect(comp.taskForm.get('autoReduce').disabled).toBeTrue();
   });
 
   it('should disable needTimeManagement and autoReduce checkbox when task in "NOT_COMPLETED" status', () => {
@@ -398,8 +394,8 @@ describe('TaskFormComponent', () => {
     });
     fixture.detectChanges();
 
-    expect(comp.taskForm.get('needTimeManagement').disabled).toBeTruthy();
-    expect(comp.taskForm.get('autoReduce').disabled).toBeTruthy();
+    expect(comp.taskForm.get('needTimeManagement').disabled).toBeTrue();
+    expect(comp.taskForm.get('autoReduce').disabled).toBeTrue();
   });
 
   it('should show extra tooltip when autoReduce is DISABLE', () => {
@@ -417,7 +413,7 @@ describe('TaskFormComponent', () => {
     fixture.detectChanges();
     const templateHelper = new TemplateHelper(fixture);
 
-    expect(comp.taskForm.get('autoReduce').disabled).toBeTruthy();
+    expect(comp.taskForm.get('autoReduce').disabled).toBeTrue();
     expect(templateHelper.query('task_form__tooltip task_form__tooltip_extra')).toBeDefined();
   });
 
@@ -436,7 +432,7 @@ describe('TaskFormComponent', () => {
     fixture.detectChanges();
     const templateHelper = new TemplateHelper(fixture);
 
-    expect(comp.taskForm.get('needTimeManagement').disabled).toBeTruthy();
+    expect(comp.taskForm.get('needTimeManagement').disabled).toBeTrue();
     expect(templateHelper.query('task_form__tooltip task_form__tooltip_extra')).toBeDefined();
   });
 
@@ -488,8 +484,8 @@ describe('TaskFormComponent', () => {
   });
 
   it('task status component should be hidden for new task', () => {
-    routerSpy.navigate.and.returnValue(Promise.resolve());
     taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
+    activatedRouteStub.setParamMap({});
 
     fixture.detectChanges();
 
@@ -517,7 +513,7 @@ describe('TaskFormComponent', () => {
   });
 
   it('needTimeManagement ui element should be hidden for new task', () => {
-    routerSpy.navigate.and.returnValue(Promise.resolve());
+    activatedRouteStub.setParamMap({});
     taskCategoryServiceSpy.getAllByUser.and.returnValue(of());
 
     fixture.detectChanges();

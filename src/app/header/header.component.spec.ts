@@ -1,53 +1,46 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Router } from '@angular/router';
-import { User } from '../core/models/user.model';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter, Router } from '@angular/router';
 import { AuthService } from '../core/services/auth.service';
 import { HeaderComponent } from './header.component';
-import { LoggerTestingModule } from 'ngx-logger/testing';
+import { User } from '../core/models/user.model';
 
 @Component({
-    selector: 'tm-menu',
-    template: '',
-    standalone: false
+  selector: 'tm-menu',
+  template: '',
+  standalone: true
 })
-class MenuStubComponent {
-}
+class MenuStubComponent {}
 
 describe('HeaderComponent', () => {
   let fixture: ComponentFixture<HeaderComponent>;
   let comp: HeaderComponent;
-  let routerSpy: any;
   let authServiceSpy: any;
+  let router: Router;
 
-  beforeEach(waitForAsync(() => {
-    routerSpy = {
-      navigate: jasmine.createSpy('navigate')
-    };
+  beforeEach(async () => {
     authServiceSpy = {
       getUser: jasmine.createSpy('getUser'),
       logOut: jasmine.createSpy('logOut')
     };
 
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
-        LoggerTestingModule
-      ],
-      declarations: [
+        HeaderComponent,
         MenuStubComponent,
-        HeaderComponent
       ],
       providers: [
-        {provide: Router, useValue: routerSpy},
-        {provide: AuthService, useValue: authServiceSpy}
+        provideRouter([]),
+        { provide: AuthService, useValue: authServiceSpy }
       ]
-    })
-      .compileComponents()
-      .then(() => {
-        fixture = TestBed.createComponent(HeaderComponent);
-        comp = fixture.componentInstance;
-      });
-  }));
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(HeaderComponent);
+    comp = fixture.componentInstance;
+    router = TestBed.inject(Router);
+
+    spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
+  });
 
   it('when user logged in userName should be eq auth username ', () => {
     const authUser = new User();
@@ -62,12 +55,10 @@ describe('HeaderComponent', () => {
   it('should navigate to login page after logout', () => {
     authServiceSpy.getUser.and.returnValue(new User());
     fixture.detectChanges();
-    routerSpy.navigate.and.returnValue(Promise.resolve());
 
     comp.logout();
 
-    expect(routerSpy.navigate.calls.count()).toBe(1);
-    expect(routerSpy.navigate.calls.first().args[0]).toEqual(['/login']);
+    expect(authServiceSpy.logOut).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalledWith(['/login']);
   });
-
 });

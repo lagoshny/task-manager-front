@@ -1,101 +1,91 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
-import { CoreModule } from '../../../core/core.module';
 import { User } from '../../../core/models/user.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { UserService } from '../../services/user.service';
 import { UserFromComponent } from './user-from.component';
-import { LoggerTestingModule } from 'ngx-logger/testing';
 import { provideNgxValidationMessages } from '@lagoshny/ngx-validation-messages';
-
 
 describe('UserFormComponent', () => {
   let fixture: ComponentFixture<UserFromComponent>;
   let comp: UserFromComponent;
-  let routerSpy: any;
-  let authServiceSpy: any;
-  let userServiceSpy: any;
+  let routerSpy: jasmine.SpyObj<Router>;
+  let authServiceSpy: jasmine.SpyObj<AuthService>;
+  let userServiceSpy: jasmine.SpyObj<UserService>;
 
   beforeEach(waitForAsync(() => {
-    routerSpy = {
-      navigate: jasmine.createSpy('navigate')
-    };
-    authServiceSpy = {
-      getUser: jasmine.createSpy('getUser'),
-      setUser: jasmine.createSpy('setUser')
-    };
-    userServiceSpy = {
-      patchResource: jasmine.createSpy('patchResource'),
-      getResource: jasmine.createSpy('getResource')
-    };
+    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+    authServiceSpy = jasmine.createSpyObj('AuthService', ['getUser', 'setUser']);
+    userServiceSpy = jasmine.createSpyObj('UserService', ['patchResource', 'getResource']);
 
     TestBed.configureTestingModule({
       imports: [
-        CoreModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
         MatInputModule,
-        MatMomentDateModule,
         MatDatepickerModule,
-        LoggerTestingModule,
-      ],
-      declarations: [
-        UserFromComponent
+        UserFromComponent,
       ],
       providers: [
-        provideNgxValidationMessages({
-          messages: {}
-        }),
-        {provide: Router, useValue: routerSpy},
-        {provide: AuthService, useValue: authServiceSpy},
-        {provide: UserService, useValue: userServiceSpy}
-      ]
-    })
-      .compileComponents()
-      .then(() => {
-        fixture = TestBed.createComponent(UserFromComponent);
-        comp = fixture.componentInstance;
-      });
+        provideNgxValidationMessages({ messages: {} }),
+        { provide: Router, useValue: routerSpy },
+        { provide: AuthService, useValue: authServiceSpy },
+        { provide: UserService, useValue: userServiceSpy },
+      ],
+    }).compileComponents();
   }));
 
+  beforeEach(() => {
+    fixture = TestBed.createComponent(UserFromComponent);
+    comp = fixture.componentInstance;
+  });
+
   it('should load user when create component', () => {
-    authServiceSpy.getUser.and.returnValue(new User());
-    userServiceSpy.getResource.and.returnValue(of(new User()));
+    const user = new User();
+    user.id = 1;
+
+    authServiceSpy.getUser.and.returnValue(user);
+    userServiceSpy.getResource.and.returnValue(of(user));
 
     fixture.detectChanges();
 
-    expect(userServiceSpy.getResource.calls.count()).toBe(1);
+    expect(userServiceSpy.getResource).toHaveBeenCalledWith(1);
   });
 
   it('should update user in local storage after change', () => {
-    authServiceSpy.getUser.and.returnValue(new User());
-    userServiceSpy.getResource.and.returnValue(of(new User()));
+    const user = new User();
+    user.id = 1;
+
+    authServiceSpy.getUser.and.returnValue(user);
+    userServiceSpy.getResource.and.returnValue(of(user));
+    userServiceSpy.patchResource.and.returnValue(of(user));
+    routerSpy.navigate.and.returnValue(Promise.resolve(true));
+
     fixture.detectChanges();
-    userServiceSpy.patchResource.and.returnValue(of(new User()));
-    routerSpy.navigate.and.returnValue(Promise.resolve());
 
     comp.saveUser();
 
-    expect(authServiceSpy.setUser.calls.count()).toBe(1);
+    expect(authServiceSpy.setUser).toHaveBeenCalledWith(user);
   });
 
   it('should navigate to home page after save', () => {
-    authServiceSpy.getUser.and.returnValue(new User());
-    userServiceSpy.getResource.and.returnValue(of(new User()));
+    const user = new User();
+    user.id = 1;
+
+    authServiceSpy.getUser.and.returnValue(user);
+    userServiceSpy.getResource.and.returnValue(of(user));
+    userServiceSpy.patchResource.and.returnValue(of(user));
+    routerSpy.navigate.and.returnValue(Promise.resolve(true));
+
     fixture.detectChanges();
-    userServiceSpy.patchResource.and.returnValue(of(new User()));
-    routerSpy.navigate.and.returnValue(Promise.resolve());
 
     comp.saveUser();
 
-    expect(routerSpy.navigate.calls.count()).toBe(1);
-    expect(routerSpy.navigate.calls.first().args[0]).toEqual(['home']);
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['home']);
   });
-
 });

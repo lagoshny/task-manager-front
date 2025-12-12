@@ -6,11 +6,11 @@ import { TemplateHelper } from '../../../utils/template.helper';
 import { CategoryComponent } from './category.component';
 
 @Pipe({
-    name: 'amountCharacters',
-    standalone: false
+  name: 'amountCharacters',
+  standalone: true
 })
 class AmountCharactersPipeStub implements PipeTransform {
-  public transform(value: any, ...args: any[]): any {
+  transform(value: any): any {
     return value;
   }
 }
@@ -19,18 +19,24 @@ describe('CategoryComponent', () => {
 
   let fixture: ComponentFixture<CategoryComponent>;
   let comp: CategoryComponent;
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
         CategoryComponent,
         AmountCharactersPipeStub
       ]
-    })
-      .compileComponents()
-      .then(() => {
-        fixture = TestBed.createComponent(CategoryComponent);
-        comp = fixture.componentInstance;
-      });
+    }).compileComponents().then(() => {
+      fixture = TestBed.createComponent(CategoryComponent);
+      comp = fixture.componentInstance;
+
+      comp.category = {
+        id: 1,
+        name: 'Test',
+        prefix: 'TEST',
+        icon: ''
+      } as TaskCategory;
+    });
   }));
 
   it('should create the comp', () => {
@@ -44,7 +50,8 @@ describe('CategoryComponent', () => {
 
   it('#categoryEdit event should pass clicked category', () => {
     const taskCategory = new TaskCategory();
-    comp.category = taskCategory;
+    fixture.componentRef.setInput('category', taskCategory);
+
     comp.categoryEdit.subscribe((categoryToEdit: TaskCategory) => {
       expect(categoryToEdit).toBe(taskCategory);
     });
@@ -53,7 +60,8 @@ describe('CategoryComponent', () => {
 
   it('#categoryDelete event should pass clicked category', () => {
     const taskCategory = new TaskCategory();
-    comp.category = taskCategory;
+    fixture.componentRef.setInput('category', taskCategory);
+
     comp.categoryDelete.subscribe((categoryToDelete: TaskCategory) => {
       expect(categoryToDelete).toBe(taskCategory);
     });
@@ -63,7 +71,8 @@ describe('CategoryComponent', () => {
   it('when category without icon should be used default one', () => {
     const taskCategory = new TaskCategory();
     taskCategory.icon = StringUtils.EMPTY;
-    comp.category = taskCategory;
+    fixture.componentRef.setInput('category', taskCategory);
+
     fixture.detectChanges();
 
     const defaultIconCssClass = '.fa-certificate';
@@ -76,16 +85,17 @@ describe('CategoryComponent', () => {
     const customIconClass = 'fa-example';
     const taskCategory = new TaskCategory();
     taskCategory.icon = customIconClass;
-    comp.category = taskCategory;
+    fixture.componentRef.setInput('category', taskCategory);
+
     fixture.detectChanges();
 
     const templateHelper = new TemplateHelper(fixture);
-    expect(templateHelper.query(`.${ customIconClass }`)).not.toBeNull();
+    expect(templateHelper.query(`.${customIconClass}`)).not.toBeNull();
     expect(templateHelper.query(defaultIconCssClass)).toBeNull();
   });
 
   it('when mouseenter event on category then menu opacity should be 1', () => {
-    comp.category = new TaskCategory();
+    fixture.componentRef.setInput('category', new TaskCategory());
     fixture.detectChanges();
 
     const templateHelper = new TemplateHelper(fixture);
@@ -98,7 +108,7 @@ describe('CategoryComponent', () => {
   });
 
   it('when mouseleave event on category then menu opacity should be 0', () => {
-    comp.category = new TaskCategory();
+    fixture.componentRef.setInput('category', new TaskCategory());
     fixture.detectChanges();
 
     const templateHelper = new TemplateHelper(fixture);
@@ -111,7 +121,7 @@ describe('CategoryComponent', () => {
   });
 
   it('should set active category when click by inactive category', () => {
-    comp.category = new TaskCategory();
+    fixture.componentRef.setInput('category', new TaskCategory());
     comp.isCategoryActive = false;
     fixture.detectChanges();
 
@@ -121,7 +131,7 @@ describe('CategoryComponent', () => {
   });
 
   it('should set inactive category when click by active category', () => {
-    comp.category = new TaskCategory();
+    fixture.componentRef.setInput('category', new TaskCategory());
     comp.isCategoryActive = true;
     fixture.detectChanges();
 
@@ -132,7 +142,7 @@ describe('CategoryComponent', () => {
 
   it('should fire category click event with category when click by category', () => {
     const taskCategory = new TaskCategory();
-    comp.category = taskCategory;
+    fixture.componentRef.setInput('category', taskCategory);
     fixture.detectChanges();
 
     comp.categoryClick.subscribe((categoryToEdit: TaskCategory) => {

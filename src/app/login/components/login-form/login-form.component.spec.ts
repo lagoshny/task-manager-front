@@ -7,7 +7,6 @@ import { User } from '../../../core/models/user.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { LoginService } from '../../services/login.service';
 import { LoginFormComponent } from './login-form.component';
-import { LoggerTestingModule } from 'ngx-logger/testing';
 import { provideNgxValidationMessages } from '@lagoshny/ngx-validation-messages';
 
 describe('LoginFormComponent', () => {
@@ -33,10 +32,7 @@ describe('LoginFormComponent', () => {
       imports: [
         ReactiveFormsModule,
         MatInputModule,
-        LoggerTestingModule,
-      ],
-      declarations: [
-        LoginFormComponent
+        LoginFormComponent,
       ],
       providers: [
         provideNgxValidationMessages({

@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
@@ -9,7 +8,6 @@ import { User } from '../../../core/models/user.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { UserService } from '../../../users/services/user.service';
 import { RegistrationFormComponent } from './registration-form.component';
-import { LoggerTestingModule } from 'ngx-logger/testing';
 import { provideNgxValidationMessages } from '@lagoshny/ngx-validation-messages';
 
 describe('RegistrationFormComponent', () => {
@@ -35,12 +33,8 @@ describe('RegistrationFormComponent', () => {
       imports: [
         ReactiveFormsModule,
         MatInputModule,
-        MatMomentDateModule,
         MatDatepickerModule,
-        LoggerTestingModule,
-      ],
-      declarations: [
-        RegistrationFormComponent
+        RegistrationFormComponent,
       ],
       providers: [
         provideNgxValidationMessages({

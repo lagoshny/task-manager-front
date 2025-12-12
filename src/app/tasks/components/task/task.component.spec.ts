@@ -1,41 +1,37 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TaskStatus } from '../../../core/models/constants/task-status.items';
 import { Task } from '../../../core/models/task.model';
 import { getTestTask } from '../test.helper';
 import { TaskComponent } from './task.component';
 
 @Component({
-    selector: 'tm-time-icon',
-    template: '',
-    standalone: false
+  selector: 'tm-time-icon',
+  template: '',
+  standalone: true
 })
 class TimeIconComponent {
-  @Input()
-  private totalTime: number;
-  @Input()
-  private leftTime: number;
-  @Input()
-  private status: string;
+  @Input() totalTime!: number;
+  @Input() leftTime!: number;
+  @Input() status!: string;
 }
 
 describe('TaskComponent', () => {
   let fixture: ComponentFixture<TaskComponent>;
   let comp: TaskComponent;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [
         TaskComponent,
         TimeIconComponent
       ]
-    })
-      .compileComponents()
-      .then(() => {
-        fixture = TestBed.createComponent(TaskComponent);
-        comp = fixture.componentInstance;
-      });
-  }));
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(TaskComponent);
+    comp = fixture.componentInstance;
+    comp.task = getTestTask();
+  });
 
   it('should create the comp', () => {
     expect(comp).toBeTruthy();
@@ -67,8 +63,8 @@ describe('TaskComponent', () => {
     comp.task = task;
 
     fixture.detectChanges();
-    comp.clickTask.subscribe((task: Task) => {
-      selectedTask = task;
+    comp.clickTask.subscribe((clickedTask: Task) => {
+      selectedTask = clickedTask;
     });
     comp.onClickTask();
 

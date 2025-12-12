@@ -11,27 +11,32 @@ import { TaskService } from '../../services/task.service';
 import { getTestTask } from '../test.helper';
 import { TaskListComponent } from './task-list.component';
 import { PagedResourceCollection, ResourceCollection } from '@lagoshny/ngx-hateoas-client';
-import { LoggerTestingModule } from 'ngx-logger/testing';
+import { NgClass } from '@angular/common';
+import { QuickTaskCreateComponent } from '../quick-task-create/quick-task-create.component';
+import { TaskComponent } from '../task/task.component';
+
+// import { LoggerTestingModule } from 'ngx-logger/testing';
 
 @Component({
-    selector: 'tm-quick-task-create',
-    template: `
+  selector: 'tm-quick-task-create',
+  template: `
     <div class="task-add" (click)="afterAddedTask.emit()"></div>`,
-    standalone: false
+  standalone: true,
 })
-class QuickTaskCreateComponent {
+class QuickTaskCreateStubComponent {
   @Output()
   public readonly afterAddedTask = new EventEmitter<Task>();
 }
 
 @Component({
-    selector: 'tm-task',
-    template: `
+  selector: 'tm-task',
+  template: `
     <div class="task-select" (click)="clickTask.emit(task)"></div>
-    <div class="task__remove_button" (click)="removeTask.emit(task)"></div>`,
-    standalone: false
+    <div class="task__remove_button" (click)="removeTask.emit(task)"></div>
+  `,
+  standalone: true,
 })
-class TaskComponent {
+class TaskStubComponent {
   @Output()
   public readonly clickTask = new EventEmitter<Task>();
   @Output()
@@ -41,12 +46,18 @@ class TaskComponent {
 }
 
 describe('TaskListComponent', () => {
-
   let fixture: ComponentFixture<TaskListComponent>;
   let comp: TaskListComponent;
   let routerSpy: any;
-  let activatedRouteStub: any;
+  let activatedRouteStub: ActivatedRouteStub;
   let taskServiceSpy: any;
+  let taskCategoryService: TaskCategoryService;
+
+  function paged(tasks: Task[] = []): PagedResourceCollection<Task> {
+    const page = new PagedResourceCollection(new ResourceCollection<Task>());
+    page.resources = tasks;
+    return page;
+  }
 
   beforeEach(waitForAsync(() => {
     routerSpy = {
@@ -58,14 +69,13 @@ describe('TaskListComponent', () => {
       getAllUserTasks: jasmine.createSpy('getAllUserTasks'),
       getFilteredUserTasksByCategories: jasmine.createSpy('getFilteredUserTasksByCategories')
     };
+
+    taskServiceSpy.getAllUserTasks.and.returnValue(of(paged([])));
+
     TestBed.configureTestingModule({
       imports: [
-        LoggerTestingModule
-      ],
-      declarations: [
-        QuickTaskCreateComponent,
-        TaskComponent,
-        TaskListComponent
+        NgClass,
+        TaskListComponent,
       ],
       providers: [
         {provide: Router, useValue: routerSpy},
@@ -73,24 +83,43 @@ describe('TaskListComponent', () => {
         {provide: TaskService, useValue: taskServiceSpy},
         TaskCategoryService
       ]
-    })
-      .compileComponents()
+    });
+
+    TestBed.overrideComponent(TaskListComponent, {
+      remove: {
+        imports: [
+          QuickTaskCreateComponent,
+          TaskComponent,
+        ],
+      },
+      add: {
+        imports: [
+          QuickTaskCreateStubComponent,
+          TaskStubComponent,
+        ],
+      },
+    });
+
+    TestBed.compileComponents()
       .then(() => {
-        fixture = TestBed.createComponent(TaskListComponent);
-        comp = fixture.componentInstance;
+        taskCategoryService = TestBed.inject(TaskCategoryService);
       });
   }));
 
   it('should create the comp', () => {
+    fixture = TestBed.createComponent(TaskListComponent);
+    comp = fixture.componentInstance;
     expect(comp).toBeTruthy();
   });
 
   it('should load all users tasks after init comp', () => {
-    taskServiceSpy.getAllUserTasks.and.returnValue(of(new Task()));
+    taskServiceSpy.getAllUserTasks.and.returnValue(of(paged()));
+    fixture = TestBed.createComponent(TaskListComponent);
+    comp = fixture.componentInstance;
 
     fixture.detectChanges();
 
-    expect(taskServiceSpy.getAllUserTasks.calls.count()).toBe(1);
+    expect(taskServiceSpy.getAllUserTasks).toHaveBeenCalledTimes(1);
   });
 
   it('should navigate to edit task form when click by task', () => {
@@ -101,7 +130,9 @@ describe('TaskListComponent', () => {
     resourcePage.resources = [testTask];
 
     taskServiceSpy.getAllUserTasks.and.returnValue(of(resourcePage));
-    routerSpy.navigate.and.returnValue(Promise.resolve());
+    routerSpy.navigate.and.returnValue(Promise.resolve(true));
+    fixture = TestBed.createComponent(TaskListComponent);
+    comp = fixture.componentInstance;
 
     fixture.detectChanges();
 
@@ -117,12 +148,16 @@ describe('TaskListComponent', () => {
     const resourcePage = new PagedResourceCollection(new ResourceCollection<Task>());
     resourcePage.resources = [new Task()];
     taskServiceSpy.getAllUserTasks.and.returnValue(of(resourcePage));
-    fixture.detectChanges();
-
-    comp.onMinimizeTasks();
+    fixture = TestBed.createComponent(TaskListComponent);
+    comp = fixture.componentInstance;
     fixture.detectChanges();
 
     const templateHelper = new TemplateHelper(fixture);
+    const hideIcon = templateHelper.query<HTMLElement>('.task-list__minimize_button__icon');
+    hideIcon.click();
+
+    fixture.detectChanges();
+
     expect(templateHelper.query('tm-quick-task-create')).toBeNull();
     expect(templateHelper.query('tm-task')).toBeNull();
     expect(templateHelper.query('.task-list__minimize_button__icon .fa-eye')).toBeDefined();
@@ -132,12 +167,16 @@ describe('TaskListComponent', () => {
     const resourcePage = new PagedResourceCollection(new ResourceCollection<Task>());
     resourcePage.resources = [new Task()];
     taskServiceSpy.getAllUserTasks.and.returnValue(of(resourcePage));
-    fixture.detectChanges();
-
-    comp.onMinimizeTasks();
+    fixture = TestBed.createComponent(TaskListComponent);
+    comp = fixture.componentInstance;
     fixture.detectChanges();
 
     const templateHelper = new TemplateHelper(fixture);
+    const hideIcon = templateHelper.query<HTMLElement>('.task-list__minimize_button__icon');
+    hideIcon.click();
+    comp.onMinimizeTasks();
+    fixture.detectChanges();
+
     expect(templateHelper.query('tm-quick-task-create')).toBeDefined();
     expect(templateHelper.query('tm-task')).toBeDefined();
     expect(templateHelper.query('.task-list__minimize_button__icon .fa-eye-slash')).toBeDefined();
@@ -148,6 +187,8 @@ describe('TaskListComponent', () => {
     resourcePage.resources = [new Task()];
     taskServiceSpy.getAllUserTasks.and.returnValue(of(resourcePage));
     taskServiceSpy.deleteResource.and.returnValue(of());
+    fixture = TestBed.createComponent(TaskListComponent);
+    comp = fixture.componentInstance;
     fixture.detectChanges();
 
     const templateHelper = new TemplateHelper(fixture);
@@ -159,55 +200,52 @@ describe('TaskListComponent', () => {
   });
 
   it('should update task list after added new one', () => {
-    const resourcePage = new PagedResourceCollection(new ResourceCollection<Task>());
-    resourcePage.resources = [new Task()];
-    taskServiceSpy.getAllUserTasks.and.returnValue(of(resourcePage));
+    taskServiceSpy.getAllUserTasks.and.returnValue(of(paged([new Task()])));
+    fixture = TestBed.createComponent(TaskListComponent);
+    comp = fixture.componentInstance;
     fixture.detectChanges();
 
-    const templateHelper = new TemplateHelper(fixture);
-    const quickTaskCreateEl = templateHelper.query<HTMLElement>('.task-add');
+    const template = new TemplateHelper(fixture);
+    template.query<HTMLElement>('.task-add').click();
 
-    quickTaskCreateEl.click();
-
-    expect(taskServiceSpy.getAllUserTasks.calls.count()).toBe(2);
+    expect(taskServiceSpy.getAllUserTasks).toHaveBeenCalledTimes(2);
   });
 
   it('should refresh task list by taskCategoryService tasks change event', () => {
-    taskServiceSpy.getAllUserTasks.and.returnValue(of());
+    taskServiceSpy.getAllUserTasks.and.returnValue(of(paged()));
+    fixture = TestBed.createComponent(TaskListComponent);
+    comp = fixture.componentInstance;
     fixture.detectChanges();
 
-    expect(taskServiceSpy.getAllUserTasks.calls.count()).toBe(1);
-
-    const taskCategoryService: TaskCategoryService = TestBed.inject(TaskCategoryService);
     taskCategoryService.refreshTasks();
 
-    expect(taskServiceSpy.getAllUserTasks.calls.count()).toBe(2);
+    expect(taskServiceSpy.getAllUserTasks).toHaveBeenCalledTimes(2);
   });
 
   it('should filtered task list using list of categories by taskCategoryService categoriesByFilter change event', () => {
-    taskServiceSpy.getAllUserTasks.and.returnValue(of());
-    taskServiceSpy.getFilteredUserTasksByCategories.and.returnValue(of());
+    taskServiceSpy.getAllUserTasks.and.returnValue(of(paged()));
+    taskServiceSpy.getFilteredUserTasksByCategories.and.returnValue(of(paged()));
+    fixture = TestBed.createComponent(TaskListComponent);
+    comp = fixture.componentInstance;
     fixture.detectChanges();
 
     const taskCategory = new TaskCategory();
     taskCategory.id = 1;
-    const taskCategories = new Array<TaskCategory>(taskCategory);
+    taskCategoryService.updateCategoriesByFilter([taskCategory]);
 
-    const taskCategoryService: TaskCategoryService = TestBed.inject(TaskCategoryService);
-    taskCategoryService.updateCategoriesByFilter(taskCategories);
-
-    expect(taskServiceSpy.getFilteredUserTasksByCategories.calls.count()).toBe(1);
+    expect(taskServiceSpy.getFilteredUserTasksByCategories).toHaveBeenCalled();
   });
 
   it('should invoke refresh category list after add new task', () => {
-    taskServiceSpy.getAllUserTasks.and.returnValue(of());
+    taskServiceSpy.getAllUserTasks.and.returnValue(of(paged()));
+    fixture = TestBed.createComponent(TaskListComponent);
+    comp = fixture.componentInstance;
     fixture.detectChanges();
-    const taskCategoryService: TaskCategoryService = TestBed.inject(TaskCategoryService);
+
     const spyRefreshCategories = spyOn(taskCategoryService, 'refreshCategories');
 
     comp.onAddedTask();
 
-    expect(spyRefreshCategories.calls.count()).toBe(1);
+    expect(spyRefreshCategories).toHaveBeenCalled();
   });
-
 });

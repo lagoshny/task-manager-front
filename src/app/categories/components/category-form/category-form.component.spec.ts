@@ -1,21 +1,20 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
+import { TaskCategory } from '../../../core/models/task-category.model';
+import { CategoryService } from '../../services/category.service';
+import { CategoryFormComponent } from './category-form.component';
+import { provideNgxValidationMessages } from '@lagoshny/ngx-validation-messages';
+import { ActivatedRouteStub } from '../../../utils/activated-route-stub';
+import { MatDialog } from '@angular/material/dialog';
 import {
   FontIconListDialogComponent
 } from '../../../core/components/font-icon-list-dialog/font-icon-list-dialog.component';
-import { CoreModule } from '../../../core/core.module';
-import { TaskCategory } from '../../../core/models/task-category.model';
-import { ActivatedRouteStub } from '../../../utils/activated-route-stub';
-import { CategoryService } from '../../services/category.service';
-import { CategoryFormComponent } from './category-form.component';
-import { LoggerTestingModule } from 'ngx-logger/testing';
-import { provideNgxValidationMessages } from '@lagoshny/ngx-validation-messages';
+import { TemplateHelper } from '../../../utils/template.helper';
 
 describe('CategoryFormComponent', () => {
   let routerSpy: any;
@@ -37,23 +36,19 @@ describe('CategoryFormComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [
-        CoreModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
         MatFormFieldModule,
         MatInputModule,
-        LoggerTestingModule,
-      ],
-      declarations: [
-        CategoryFormComponent
+        CategoryFormComponent,
       ],
       providers: [
         provideNgxValidationMessages({
-            messages: {}
-          }),
+          messages: {}
+        }),
         {provide: Router, useValue: routerSpy},
         {provide: ActivatedRoute, useValue: activatedRouteStub},
-        {provide: CategoryService, useValue: categoryServiceSpy}
+        {provide: CategoryService, useValue: categoryServiceSpy},
       ]
     })
       .compileComponents()
@@ -83,6 +78,9 @@ describe('CategoryFormComponent', () => {
     });
     categoryServiceSpy.getByPrefix.and.returnValue(of(new TaskCategory()));
 
+    fixture = TestBed.createComponent(CategoryFormComponent);
+    comp = fixture.componentInstance;
+
     fixture.detectChanges();
 
     expect(comp.buttonName).toBe('Save');
@@ -100,6 +98,9 @@ describe('CategoryFormComponent', () => {
     });
     categoryServiceSpy.getByPrefix.and.returnValue(of(new TaskCategory()));
 
+    fixture = TestBed.createComponent(CategoryFormComponent);
+    comp = fixture.componentInstance;
+
     fixture.detectChanges();
 
     expect(comp.formHeader).toBe('Edit category');
@@ -116,6 +117,9 @@ describe('CategoryFormComponent', () => {
 
     categoryServiceSpy.getByPrefix.and.returnValue(of(expectedCategory));
 
+    fixture = TestBed.createComponent(CategoryFormComponent);
+    comp = fixture.componentInstance;
+
     fixture.detectChanges();
 
     const resultCategory = comp.categoryForm.getRawValue() as TaskCategory;
@@ -131,6 +135,7 @@ describe('CategoryFormComponent', () => {
     routerSpy.navigate.and.returnValue(Promise.resolve());
     categoryServiceSpy.getByPrefix.and.returnValue(throwError('Test error'));
 
+    fixture = TestBed.createComponent(CategoryFormComponent);
     fixture.detectChanges();
 
     expect(routerSpy.navigate).toHaveBeenCalledWith(['home']);
@@ -154,22 +159,24 @@ describe('CategoryFormComponent', () => {
   });
 
   it('should be forward to home page when edit category success', () => {
-    activatedRouteStub.setParamMap({
-      prefix: 'TEST-1'
-    });
+    activatedRouteStub.setParamMap({prefix: 'TEST-1'});
     const existingCategory = new TaskCategory();
     existingCategory.name = 'Test';
     existingCategory.prefix = 'Prefix';
     existingCategory.description = 'Description';
     categoryServiceSpy.getByPrefix.and.returnValue(of(existingCategory));
 
-    fixture.detectChanges();
+    fixture = TestBed.createComponent(CategoryFormComponent);
+    comp = fixture.componentInstance;
 
     routerSpy.navigate.and.returnValue(Promise.resolve());
     categoryServiceSpy.patchResource.and.returnValue(of(existingCategory));
 
+    fixture.detectChanges();
+
     comp.sendForm();
 
+    expect(categoryServiceSpy.getByPrefix).toHaveBeenCalledWith('TEST-1');
     expect(categoryServiceSpy.patchResource).toHaveBeenCalled();
     expect(routerSpy.navigate).toHaveBeenCalledWith(['home']);
   });
@@ -192,7 +199,12 @@ describe('CategoryFormComponent', () => {
     const dialogComp = fixture.debugElement.injector.get(MatDialog);
     spyOn(dialogComp, 'open').and.returnValue(afterClose);
 
-    comp.onShowIconList();
+    const templateHelper = new TemplateHelper(fixture);
+    const showIconListButton = templateHelper
+      .query<HTMLElement>('.category-form_show_icon_list_button');
+    showIconListButton.click();
+
+    fixture.detectChanges();
 
     expect(afterClose.afterClosed).toHaveBeenCalled();
     expect(comp.categoryForm.getRawValue().icon).toBe('fa-tree');

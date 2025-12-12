@@ -1,63 +1,53 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
-import { LoginGuard } from './login.guard';
-import { LoggerTestingModule } from 'ngx-logger/testing';
+import { loginGuard } from './login.guard';
 
 describe('LoginService', () => {
-  let guard: LoginGuard;
-
-  let routerSpy: any;
-  let authServiceSpy: any;
+  let routerSpy: jasmine.SpyObj<Router>;
+  let authServiceSpy: jasmine.SpyObj<AuthService>;
 
   beforeEach(() => {
-    routerSpy = {
-      navigate: jasmine.createSpy('navigate')
-    };
-    authServiceSpy = {
-      isAuthenticated: jasmine.createSpy('isAuthenticated')
-    };
+    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+    authServiceSpy = jasmine.createSpyObj('AuthService', ['isAuthenticated']);
+
     TestBed.configureTestingModule({
-      imports: [
-        LoggerTestingModule
-      ],
       providers: [
-        LoginGuard,
-        {provide: Router, useValue: routerSpy},
-        {provide: AuthService, useValue: authServiceSpy}
-      ]
+        { provide: Router, useValue: routerSpy },
+        { provide: AuthService, useValue: authServiceSpy },
+      ],
     });
   });
 
   it('should pass to home page if already logged in', () => {
-    guard = TestBed.inject(LoginGuard);
     authServiceSpy.isAuthenticated.and.returnValue(true);
-    routerSpy.navigate.and.returnValue(Promise.resolve());
+    routerSpy.navigate.and.returnValue(Promise.resolve(true));
 
-    guard.canActivate(null, null);
+    TestBed.runInInjectionContext(() => {
+      loginGuard(null as any, null as any);
+    });
 
-    expect(routerSpy.navigate.calls.count()).toBe(1);
-    expect(routerSpy.navigate.calls.first().args[0]).toEqual(['home']);
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['home']);
   });
 
   it('should return false if already logged in', () => {
-    guard = TestBed.inject(LoginGuard);
     authServiceSpy.isAuthenticated.and.returnValue(true);
-    routerSpy.navigate.and.returnValue(Promise.resolve());
+    routerSpy.navigate.and.returnValue(Promise.resolve(true));
 
-    const result = guard.canActivate(null, null);
+    const result = TestBed.runInInjectionContext(() =>
+      loginGuard(null as any, null as any)
+    );
 
-    expect(result).toBeFalsy();
+    expect(result).toBeFalse();
   });
 
   it('should return true if user is not logged in', () => {
-    guard = TestBed.inject(LoginGuard);
     authServiceSpy.isAuthenticated.and.returnValue(false);
-    routerSpy.navigate.and.returnValue(Promise.resolve());
 
-    const result = guard.canActivate(null, null);
+    const result = TestBed.runInInjectionContext(() =>
+      loginGuard(null as any, null as any)
+    );
 
-    expect(result).toBeTruthy();
+    expect(result).toBeTrue();
   });
-
 });
