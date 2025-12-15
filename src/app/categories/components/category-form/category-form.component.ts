@@ -102,7 +102,7 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
     } else {
       categoryFromForm.user = this.authService.getUser();
       this.subs.push(
-        this.categoryService.createResource({body: categoryFromForm})
+        this.categoryService.createResource({ body: categoryFromForm })
           .subscribe((/*category: TaskCategory*/) => {
             this.router.navigate(['home']);
             // .catch(reason => this.logger.error(reason));
@@ -120,6 +120,16 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  public get iconClass(): string[] {
+    return [
+      'category-form_preview_icon',
+      'fa',
+      this.categoryForm?.get('icon')?.value ?? 'fa-certificate',
+      'fa-2x'
+    ];
+  }
+
 
   private buildForm(): UntypedFormGroup {
     return this.formBuilder.group({

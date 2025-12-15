@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -24,7 +24,7 @@ describe('CategoryFormComponent', () => {
   let fixture: ComponentFixture<CategoryFormComponent>;
   let comp: CategoryFormComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     routerSpy = {
       navigate: vi.fn()
     };
@@ -57,7 +57,7 @@ describe('CategoryFormComponent', () => {
         fixture = TestBed.createComponent(CategoryFormComponent);
         comp = fixture.componentInstance;
       });
-  }));
+  });
 
   afterEach(() => {
     activatedRouteStub.setParamMap({});

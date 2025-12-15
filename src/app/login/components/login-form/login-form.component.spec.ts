@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
@@ -17,7 +17,7 @@ describe('LoginFormComponent', () => {
   let loginServiceSpy: Mocked<Pick<LoginService, 'login'>>;
   let authServiceSpy: Mocked<Pick<AuthService, 'setCredentials' | 'setUser'>>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     routerSpy = {
       navigate: vi.fn()
     };
@@ -49,7 +49,7 @@ describe('LoginFormComponent', () => {
         fixture = TestBed.createComponent(LoginFormComponent);
         comp = fixture.componentInstance;
       });
-  }));
+  });
 
   it('should save user credentials after success login', () => {
     const authUser = new User();

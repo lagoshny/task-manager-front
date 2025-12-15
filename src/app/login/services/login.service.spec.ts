@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { User } from '../../core/models/user.model';
 import { LoginService } from './login.service';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { ServerApi } from '../../app.config';
 
 describe('LoginService', () => {
   let service: LoginService;
@@ -27,8 +28,8 @@ describe('LoginService', () => {
     const authUser = new User();
     authUser.username = 'test';
     authUser.password = '123456';
-    service.login(authUser);
-    const req = httpMock.expectOne('/api/login');
+    service.login(authUser).subscribe();
+    const req = httpMock.expectOne(ServerApi.LOGIN.path);
 
     const authHeaderValue = 'Basic ' + btoa(authUser.username + ':' + authUser.password);
 

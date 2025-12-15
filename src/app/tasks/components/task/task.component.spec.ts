@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TaskStatus } from '../../../core/models/constants/task-status.items';
 import { Task } from '../../../core/models/task.model';
-import { getTestTask } from '../test.helper';
+import { getTestTaskProjection } from '../test.helper';
 import { TaskComponent } from './task.component';
 
 @Component({
@@ -30,7 +30,7 @@ describe('TaskComponent', () => {
 
     fixture = TestBed.createComponent(TaskComponent);
     comp = fixture.componentInstance;
-    comp.task = getTestTask();
+    comp.task = getTestTaskProjection();
   });
 
   it('should create the comp', () => {
@@ -38,7 +38,7 @@ describe('TaskComponent', () => {
   });
 
   it('should be without time management when total time is undefined', () => {
-    const task = getTestTask();
+    const task = getTestTaskProjection();
     task.totalTime = 0;
     comp.task = task;
 
@@ -48,7 +48,7 @@ describe('TaskComponent', () => {
   });
 
   it('should be with time management when total time is defined', () => {
-    const task = getTestTask();
+    const task = getTestTaskProjection();
     task.totalTime = 10;
     comp.task = task;
 
@@ -58,7 +58,7 @@ describe('TaskComponent', () => {
   });
 
   it('should emit clickTask when click by task', () => {
-    const task = getTestTask();
+    const task = getTestTaskProjection();
     let selectedTask = undefined;
     comp.task = task;
 
@@ -72,7 +72,7 @@ describe('TaskComponent', () => {
   });
 
   it('left time should be -1 when task is new', () => {
-    const task = getTestTask();
+    const task = getTestTaskProjection();
     task.status = TaskStatus.NEW.name;
     task.needTimeManagement = true;
     task.totalTime = 10;
@@ -85,7 +85,7 @@ describe('TaskComponent', () => {
   });
 
   it('left time should be -1 when task is completed', () => {
-    const task = getTestTask();
+    const task = getTestTaskProjection();
     task.status = TaskStatus.COMPLETED.name;
     task.needTimeManagement = true;
     task.totalTime = 10;
@@ -98,7 +98,7 @@ describe('TaskComponent', () => {
   });
 
   it('left time should be great than 0 when task in progress', () => {
-    const task = getTestTask();
+    const task = getTestTaskProjection();
     task.status = TaskStatus.IN_PROGRESS.name;
     task.needTimeManagement = true;
     task.totalTime = 10;
@@ -111,7 +111,7 @@ describe('TaskComponent', () => {
   });
 
   it('left time as string should be \'without time\' when needTimeManagement is false', () => {
-    const task = getTestTask();
+    const task = getTestTaskProjection();
     task.needTimeManagement = false;
     comp.task = task;
 
@@ -121,7 +121,7 @@ describe('TaskComponent', () => {
   });
 
   it('left time as string should be \'not started\' when task in new status', () => {
-    const task = getTestTask();
+    const task = getTestTaskProjection();
     task.status = TaskStatus.NEW.name;
     task.needTimeManagement = true;
     comp.task = task;
@@ -132,7 +132,7 @@ describe('TaskComponent', () => {
   });
 
   it('left time as string should be \'completed\' when task in completed status', () => {
-    const task = getTestTask();
+    const task = getTestTaskProjection();
     task.status = TaskStatus.COMPLETED.name;
     task.needTimeManagement = true;
     comp.task = task;
@@ -143,7 +143,7 @@ describe('TaskComponent', () => {
   });
 
   it('left time as string should be \'expired\' when left time less than 0', () => {
-    const task = getTestTask();
+    const task = getTestTaskProjection();
     task.status = TaskStatus.IN_PROGRESS.name;
     task.needTimeManagement = true;
     task.totalTime = 5;
@@ -156,7 +156,7 @@ describe('TaskComponent', () => {
   });
 
   it('left time as string should be great than 0 when left time more than 0', () => {
-    const task = getTestTask();
+    const task = getTestTaskProjection();
     task.status = TaskStatus.IN_PROGRESS.name;
     task.needTimeManagement = true;
     task.totalTime = 15;

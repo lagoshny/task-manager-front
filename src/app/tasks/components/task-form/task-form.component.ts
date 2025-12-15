@@ -66,6 +66,16 @@ import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 })
 export class TaskFormComponent implements OnInit, OnDestroy {
 
+  constructor(public router: Router,
+              private formBuilder: UntypedFormBuilder,
+              private activatedRoute: ActivatedRoute,
+              // private logger: NGXLogger,
+              private notificationService: NotificationService,
+              private authService: AuthService,
+              private taskService: TaskService,
+              private categoryService: CategoryService) {
+  }
+
   public taskForm: UntypedFormGroup;
 
   public formHeader = 'Create task';
@@ -83,15 +93,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
 
   private subs: Array<Subscription> = [];
 
-  constructor(public router: Router,
-              private formBuilder: UntypedFormBuilder,
-              private activatedRoute: ActivatedRoute,
-              // private logger: NGXLogger,
-              private notificationService: NotificationService,
-              private authService: AuthService,
-              private taskService: TaskService,
-              private categoryService: CategoryService) {
-  }
+  protected readonly availableStatuses = TaskStatus;
 
   public ngOnInit(): void {
     this.buildForm();
@@ -274,6 +276,4 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     return this.viewCategories
       .filter((option: TaskCategory) => option.name.toLowerCase().indexOf(filterValue) === 0);
   }
-
-  protected readonly availableStatuses = TaskStatus;
 }

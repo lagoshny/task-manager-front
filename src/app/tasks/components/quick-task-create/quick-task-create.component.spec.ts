@@ -1,4 +1,4 @@
-import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 import { TaskPriority } from '../../../core/models/constants/task-priority.items';
@@ -45,7 +45,7 @@ describe('QuickTaskCreateComponent', () => {
   });
 
 
-  it('should show error when task name is empty', fakeAsync(() => {
+  it('should show error when task name is empty', () => {
     fixture.detectChanges();
     const template = new TemplateHelper(fixture);
     const createTaskButton = template.query<HTMLButtonElement>('.quick_task_create_input_button');
@@ -55,7 +55,7 @@ describe('QuickTaskCreateComponent', () => {
 
     expect(comp.needShowError).toBeTruthy();
     expect(template.query('ngx-validation-messages')).toBeDefined();
-  }));
+  });
 
   it('should create task with name', () => {
     fixture.detectChanges();

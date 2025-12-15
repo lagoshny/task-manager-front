@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -18,7 +18,7 @@ describe('RegistrationFormComponent', () => {
   let userServiceSpy: Mocked<Pick<UserService, 'createResource'>>;
   let authServiceSpy: Mocked<Pick<AuthService, 'setCredentials' | 'setUser'>>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     routerSpy = {
       navigate: vi.fn()
     };
@@ -51,7 +51,7 @@ describe('RegistrationFormComponent', () => {
         fixture = TestBed.createComponent(RegistrationFormComponent);
         comp = fixture.componentInstance;
       });
-  }));
+  });
 
   it('should navigate to login form after success registration', () => {
     userServiceSpy.createResource.mockReturnValue(of(new User()));

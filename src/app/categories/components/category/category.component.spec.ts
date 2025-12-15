@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TaskCategory } from '../../../core/models/task-category.model';
 import { StringUtils } from '../../../core/utils/string.utils';
 import { TemplateHelper } from '../../../utils/template.helper';
@@ -20,7 +20,7 @@ describe('CategoryComponent', () => {
   let fixture: ComponentFixture<CategoryComponent>;
   let comp: CategoryComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         CategoryComponent,
@@ -37,7 +37,7 @@ describe('CategoryComponent', () => {
         icon: ''
       } as TaskCategory;
     });
-  }));
+  });
 
   it('should create the comp', () => {
     expect(comp).toBeTruthy();

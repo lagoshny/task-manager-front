@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { TaskCategory } from '../../../core/models/task-category.model';
@@ -7,7 +7,6 @@ import { Task } from '../../../core/models/task.model';
 import { TaskCategoryService } from '../../../core/services/task-category.service';
 import { ActivatedRouteStub } from '../../../utils/activated-route-stub';
 import { TemplateHelper } from '../../../utils/template.helper';
-import { TaskService } from '../../services/task.service';
 import { getTestTask } from '../test.helper';
 import { TaskListComponent } from './task-list.component';
 import { PagedResourceCollection, ResourceCollection } from '@lagoshny/ngx-hateoas-client';
@@ -52,7 +51,8 @@ describe('TaskListComponent', () => {
   let comp: TaskListComponent;
   let routerSpy: Mocked<Pick<Router, 'navigate'>>;
   let activatedRouteStub: ActivatedRouteStub;
-  let taskServiceSpy: Mocked<Pick<TaskProjectionService, 'deleteResource' | 'getAllUserTasks' | 'getFilteredUserTasksByCategories'>>;
+  let taskProjectionServiceSpy: Mocked<Pick<TaskProjectionService,
+    'deleteResource' | 'getAllUserTasks' | 'getFilteredUserTasksByCategories'>>;
   let taskCategoryService: TaskCategoryService;
 
   function paged(tasks: Task[] = []): PagedResourceCollection<Task> {
@@ -61,16 +61,16 @@ describe('TaskListComponent', () => {
     return page;
   }
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     routerSpy = { navigate: vi.fn() };
     activatedRouteStub = new ActivatedRouteStub({});
-    taskServiceSpy = {
+    taskProjectionServiceSpy = {
       deleteResource: vi.fn(),
       getAllUserTasks: vi.fn(),
       getFilteredUserTasksByCategories: vi.fn()
     };
 
-    taskServiceSpy.getAllUserTasks.mockReturnValue(of(paged([])));
+    taskProjectionServiceSpy.getAllUserTasks.mockReturnValue(of(paged([])));
 
     TestBed.configureTestingModule({
       imports: [
@@ -80,7 +80,7 @@ describe('TaskListComponent', () => {
       providers: [
         { provide: Router, useValue: routerSpy },
         { provide: ActivatedRoute, useValue: activatedRouteStub },
-        { provide: TaskService, useValue: taskServiceSpy },
+        { provide: TaskProjectionService, useValue: taskProjectionServiceSpy },
         TaskCategoryService
       ]
     });
@@ -104,22 +104,16 @@ describe('TaskListComponent', () => {
       .then(() => {
         taskCategoryService = TestBed.inject(TaskCategoryService);
       });
-  }));
-
-  it('should create the comp', () => {
-    fixture = TestBed.createComponent(TaskListComponent);
-    comp = fixture.componentInstance;
-    expect(comp).toBeTruthy();
   });
 
   it('should load all users tasks after init comp', () => {
-    taskServiceSpy.getAllUserTasks.mockReturnValue(of(paged()));
+    taskProjectionServiceSpy.getAllUserTasks.mockReturnValue(of(paged()));
     fixture = TestBed.createComponent(TaskListComponent);
     comp = fixture.componentInstance;
 
     fixture.detectChanges();
 
-    expect(taskServiceSpy.getAllUserTasks).toHaveBeenCalledTimes(1);
+    expect(taskProjectionServiceSpy.getAllUserTasks).toHaveBeenCalledTimes(1);
   });
 
   it('should navigate to edit task form when click by task', () => {
@@ -129,7 +123,7 @@ describe('TaskListComponent', () => {
     const resourcePage = new PagedResourceCollection(new ResourceCollection<Task>());
     resourcePage.resources = [testTask];
 
-    taskServiceSpy.getAllUserTasks.mockReturnValue(of(resourcePage));
+    taskProjectionServiceSpy.getAllUserTasks.mockReturnValue(of(resourcePage));
     routerSpy.navigate.mockResolvedValue(true);
     fixture = TestBed.createComponent(TaskListComponent);
     comp = fixture.componentInstance;
@@ -147,7 +141,7 @@ describe('TaskListComponent', () => {
   it('should hide tasks list when minimize is TRUE', () => {
     const resourcePage = new PagedResourceCollection(new ResourceCollection<Task>());
     resourcePage.resources = [new Task()];
-    taskServiceSpy.getAllUserTasks.mockReturnValue(of(resourcePage));
+    taskProjectionServiceSpy.getAllUserTasks.mockReturnValue(of(resourcePage));
     fixture = TestBed.createComponent(TaskListComponent);
     comp = fixture.componentInstance;
     fixture.detectChanges();
@@ -166,7 +160,7 @@ describe('TaskListComponent', () => {
   it('should show tasks list when minimize is FALSE', () => {
     const resourcePage = new PagedResourceCollection(new ResourceCollection<Task>());
     resourcePage.resources = [new Task()];
-    taskServiceSpy.getAllUserTasks.mockReturnValue(of(resourcePage));
+    taskProjectionServiceSpy.getAllUserTasks.mockReturnValue(of(resourcePage));
     fixture = TestBed.createComponent(TaskListComponent);
     comp = fixture.componentInstance;
     fixture.detectChanges();
@@ -185,22 +179,22 @@ describe('TaskListComponent', () => {
   it('should delete task when click by delete button', () => {
     const resourcePage = new PagedResourceCollection(new ResourceCollection<Task>());
     resourcePage.resources = [new Task()];
-    taskServiceSpy.getAllUserTasks.mockReturnValue(of(resourcePage));
-    taskServiceSpy.deleteResource.mockReturnValue(of());
+    taskProjectionServiceSpy.getAllUserTasks.mockReturnValue(of(resourcePage));
+    taskProjectionServiceSpy.deleteResource.mockReturnValue(of());
     fixture = TestBed.createComponent(TaskListComponent);
     comp = fixture.componentInstance;
     fixture.detectChanges();
 
     const templateHelper = new TemplateHelper(fixture);
-    const removeTaskButton = templateHelper.query<HTMLDivElement>('.task__remove_button');
+    const removeTaskButton = templateHelper.query<HTMLElement>('.task__remove_button');
 
     removeTaskButton.click();
 
-    expect(taskServiceSpy.deleteResource).toHaveBeenCalledOnce();
+    expect(taskProjectionServiceSpy.deleteResource).toHaveBeenCalledOnce();
   });
 
   it('should update task list after added new one', () => {
-    taskServiceSpy.getAllUserTasks.mockReturnValue(of(paged([new Task()])));
+    taskProjectionServiceSpy.getAllUserTasks.mockReturnValue(of(paged([new Task()])));
     fixture = TestBed.createComponent(TaskListComponent);
     comp = fixture.componentInstance;
     fixture.detectChanges();
@@ -208,23 +202,23 @@ describe('TaskListComponent', () => {
     const template = new TemplateHelper(fixture);
     template.query<HTMLElement>('.task-add').click();
 
-    expect(taskServiceSpy.getAllUserTasks).toHaveBeenCalledTimes(2);
+    expect(taskProjectionServiceSpy.getAllUserTasks).toHaveBeenCalledTimes(2);
   });
 
   it('should refresh task list by taskCategoryService tasks change event', () => {
-    taskServiceSpy.getAllUserTasks.mockReturnValue(of(paged()));
+    taskProjectionServiceSpy.getAllUserTasks.mockReturnValue(of(paged()));
     fixture = TestBed.createComponent(TaskListComponent);
     comp = fixture.componentInstance;
     fixture.detectChanges();
 
     taskCategoryService.refreshTasks();
 
-    expect(taskServiceSpy.getAllUserTasks).toHaveBeenCalledTimes(2);
+    expect(taskProjectionServiceSpy.getAllUserTasks).toHaveBeenCalledTimes(2);
   });
 
-  it('should filtered task list using list of categories by taskCategoryService categoriesByFilter change event', () => {
-    taskServiceSpy.getAllUserTasks.mockReturnValue(of(paged()));
-    taskServiceSpy.getFilteredUserTasksByCategories.mockReturnValue(of(paged()));
+  it('should filtered task list using list of categories by taskCategoryService categoriesByFilter change event', async () => {
+    taskProjectionServiceSpy.getAllUserTasks.mockReturnValue(of(paged()));
+    taskProjectionServiceSpy.getFilteredUserTasksByCategories.mockReturnValue(of(paged()));
     fixture = TestBed.createComponent(TaskListComponent);
     comp = fixture.componentInstance;
     fixture.detectChanges();
@@ -233,11 +227,11 @@ describe('TaskListComponent', () => {
     taskCategory.id = 1;
     taskCategoryService.updateCategoriesByFilter([taskCategory]);
 
-    expect(taskServiceSpy.getFilteredUserTasksByCategories).toHaveBeenCalled();
+    expect(taskProjectionServiceSpy.getFilteredUserTasksByCategories).toHaveBeenCalled();
   });
 
   it('should invoke refresh category list after add new task', () => {
-    taskServiceSpy.getAllUserTasks.mockReturnValue(of(paged()));
+    taskProjectionServiceSpy.getAllUserTasks.mockReturnValue(of(paged()));
     fixture = TestBed.createComponent(TaskListComponent);
     comp = fixture.componentInstance;
     fixture.detectChanges();

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -19,7 +19,7 @@ describe('UserFormComponent', () => {
   let authServiceSpy: Mocked<Pick<AuthService, 'getUser' | 'setUser'>>;
   let userServiceSpy: Mocked<Pick<UserService, 'patchResource' | 'getResource'>>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     routerSpy = { navigate: vi.fn() };
     authServiceSpy = {
       getUser: vi.fn(),
@@ -30,7 +30,7 @@ describe('UserFormComponent', () => {
       getResource: vi.fn(),
     };
 
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
         ReactiveFormsModule,
@@ -45,7 +45,7 @@ describe('UserFormComponent', () => {
         { provide: UserService, useValue: userServiceSpy },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserFromComponent);

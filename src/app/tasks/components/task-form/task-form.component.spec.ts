@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -13,7 +13,6 @@ import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { TaskStatus } from '../../../core/models/constants/task-status.items';
 import { TaskCategory } from '../../../core/models/task-category.model';
-import { Task } from '../../../core/models/task.model';
 import { NotificationService } from '../../../core/services/notification.service';
 import { TemplateHelper } from '../../../utils/template.helper';
 import { CategoryService } from '../../services/category.service';
@@ -35,7 +34,7 @@ export class TaskStatusChangerComponent {
   public status: string;
 }
 
-describe('TaskFormComponent', () => {
+describe('TaskFormComponent', async () => {
   let fixture: ComponentFixture<TaskFormComponent>;
   let comp: TaskFormComponent;
   let router: Router;
@@ -177,7 +176,7 @@ describe('TaskFormComponent', () => {
   it('when EDIT task should get category for this task', () => {
     taskCategoryServiceSpy.getAllByUser.mockReturnValue(of());
 
-    const taskToEdit = new Task();
+    const taskToEdit = getTestTask();
     vi.spyOn(taskToEdit, 'getRelation').mockReturnValue(
       of(new TaskCategory())
     );
@@ -252,7 +251,7 @@ describe('TaskFormComponent', () => {
     expect(notificationServiceSpy.showSuccess).toHaveBeenCalledOnce();
   });
 
-  it('should update task', fakeAsync(() => {
+  it('should update task', () => {
     taskCategoryServiceSpy.getAllByUser.mockReturnValue(of());
     const taskToEdit = getTestTask();
     taskToEdit.status = TaskStatus.IN_PROGRESS.code;
@@ -269,7 +268,7 @@ describe('TaskFormComponent', () => {
 
     expect(taskServiceSpy.patchResource).toHaveBeenCalledOnce();
     expect(taskServiceSpy.patchResource.mock.calls[0][0]).toBeDefined();
-  }));
+  });
 
   it('when needTimeManagement is TRUE then totalTime and spentTime are equal or great than 0', () => {
     taskCategoryServiceSpy.getAllByUser.mockReturnValue(of());
