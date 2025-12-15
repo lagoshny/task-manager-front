@@ -2,11 +2,11 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { Subscription, timer } from 'rxjs';
 import { TaskStatus } from '../../../core/models/constants/task-status.items';
 import { TaskTimeStatus } from '../../../core/models/constants/task-time-status.const';
-import { Task } from '../../../core/models/task.model';
 import { DateUtils } from '../../../core/utils/date.utils';
 import { DateTime } from 'luxon';
 import { DatePipe, NgClass, UpperCasePipe } from '@angular/common';
 import { TimeIconComponent } from './time-icon/time-icon.component';
+import { TaskProjection } from '../../../core/models/task.projection';
 
 @Component({
   selector: 'tm-task',
@@ -24,13 +24,13 @@ export class TaskComponent implements OnInit, OnDestroy {
 
   // TODO: task projection | task
   @Input()
-  public task: Task;
+  public task: TaskProjection;
 
   @Output()
-  public readonly clickTask = new EventEmitter<Task>();
+  public readonly clickTask = new EventEmitter<TaskProjection>();
 
   @Output()
-  public readonly removeTask = new EventEmitter<Task>();
+  public readonly removeTask = new EventEmitter<TaskProjection>();
 
   public totalMinutesAsString: string;
 

@@ -26,6 +26,7 @@ export class CommonSelectItem {
         }
       }
     }
+    throw Error('Can\'t find selected item by name: ' + name);
   }
 
   protected static getAllByType<T extends CommonSelectItem>(type: new() => T): Array<T> {
@@ -47,6 +48,7 @@ export class CommonSelectItem {
         }
       }
     }
+    throw Error('Can\'t find selected item by code: ' + code);
   }
 
 }

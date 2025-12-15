@@ -20,5 +20,8 @@ export class TaskProjection extends Resource {
   public totalTime: number;
   public spentTime: number;
   public autoReduce: boolean;
+  public leftTime: number;
+  public startedDate: Date;
+  public creationDate: Date;
 
 }

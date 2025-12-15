@@ -15,6 +15,7 @@ import { NgClass } from '@angular/common';
 import { QuickTaskCreateComponent } from '../quick-task-create/quick-task-create.component';
 import { TaskComponent } from '../task/task.component';
 import { Mocked } from 'vitest';
+import { TaskProjectionService } from '../../services/task-projection.service';
 
 // import { LoggerTestingModule } from 'ngx-logger/testing';
 
@@ -51,7 +52,7 @@ describe('TaskListComponent', () => {
   let comp: TaskListComponent;
   let routerSpy: Mocked<Pick<Router, 'navigate'>>;
   let activatedRouteStub: ActivatedRouteStub;
-  let taskServiceSpy: Mocked<Pick<TaskService, 'deleteResource' | 'getAllUserTasks' | 'getFilteredUserTasksByCategories'>>;
+  let taskServiceSpy: Mocked<Pick<TaskProjectionService, 'deleteResource' | 'getAllUserTasks' | 'getFilteredUserTasksByCategories'>>;
   let taskCategoryService: TaskCategoryService;
 
   function paged(tasks: Task[] = []): PagedResourceCollection<Task> {
