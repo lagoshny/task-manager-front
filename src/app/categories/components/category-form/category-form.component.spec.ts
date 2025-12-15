@@ -15,22 +15,23 @@ import {
   FontIconListDialogComponent
 } from '../../../core/components/font-icon-list-dialog/font-icon-list-dialog.component';
 import { TemplateHelper } from '../../../utils/template.helper';
+import { Mocked } from 'vitest';
 
 describe('CategoryFormComponent', () => {
-  let routerSpy: any;
-  let categoryServiceSpy: any;
+  let routerSpy: Mocked<Pick<Router, 'navigate'>>;
+  let categoryServiceSpy: Mocked<Pick<CategoryService, 'getByPrefix' | 'createResource' | 'patchResource'>>;
   let activatedRouteStub: ActivatedRouteStub;
   let fixture: ComponentFixture<CategoryFormComponent>;
   let comp: CategoryFormComponent;
 
   beforeEach(waitForAsync(() => {
     routerSpy = {
-      navigate: jasmine.createSpy('navigate')
+      navigate: vi.fn()
     };
     categoryServiceSpy = {
-      getByPrefix: jasmine.createSpy('getByPrefix'),
-      createResource: jasmine.createSpy('createResource'),
-      patchResource: jasmine.createSpy('patchResource')
+      getByPrefix: vi.fn(),
+      createResource: vi.fn(),
+      patchResource: vi.fn()
     };
     activatedRouteStub = new ActivatedRouteStub({});
 
@@ -76,7 +77,7 @@ describe('CategoryFormComponent', () => {
     activatedRouteStub.setParamMap({
       prefix: 'TEST-1'
     });
-    categoryServiceSpy.getByPrefix.and.returnValue(of(new TaskCategory()));
+    categoryServiceSpy.getByPrefix.mockReturnValue(of(new TaskCategory()));
 
     fixture = TestBed.createComponent(CategoryFormComponent);
     comp = fixture.componentInstance;
@@ -96,7 +97,7 @@ describe('CategoryFormComponent', () => {
     activatedRouteStub.setParamMap({
       prefix: 'TEST-1'
     });
-    categoryServiceSpy.getByPrefix.and.returnValue(of(new TaskCategory()));
+    categoryServiceSpy.getByPrefix.mockReturnValue(of(new TaskCategory()));
 
     fixture = TestBed.createComponent(CategoryFormComponent);
     comp = fixture.componentInstance;
@@ -115,7 +116,7 @@ describe('CategoryFormComponent', () => {
     expectedCategory.prefix = 'Prefix';
     expectedCategory.description = 'Description';
 
-    categoryServiceSpy.getByPrefix.and.returnValue(of(expectedCategory));
+    categoryServiceSpy.getByPrefix.mockReturnValue(of(expectedCategory));
 
     fixture = TestBed.createComponent(CategoryFormComponent);
     comp = fixture.componentInstance;
@@ -132,8 +133,8 @@ describe('CategoryFormComponent', () => {
     activatedRouteStub.setParamMap({
       prefix: 'TEST-1'
     });
-    routerSpy.navigate.and.returnValue(Promise.resolve());
-    categoryServiceSpy.getByPrefix.and.returnValue(throwError('Test error'));
+    routerSpy.navigate.mockReturnValue(Promise.resolve(true));
+    categoryServiceSpy.getByPrefix.mockReturnValue(throwError(() => 'Test error'));
 
     fixture = TestBed.createComponent(CategoryFormComponent);
     fixture.detectChanges();
@@ -149,8 +150,8 @@ describe('CategoryFormComponent', () => {
     newCategory.description = 'Description';
     comp.categoryForm.patchValue(newCategory);
 
-    routerSpy.navigate.and.returnValue(Promise.resolve());
-    categoryServiceSpy.createResource.and.returnValue(of(newCategory));
+    routerSpy.navigate.mockReturnValue(Promise.resolve(true));
+    categoryServiceSpy.createResource.mockReturnValue(of(newCategory));
 
     comp.sendForm();
 
@@ -164,13 +165,13 @@ describe('CategoryFormComponent', () => {
     existingCategory.name = 'Test';
     existingCategory.prefix = 'Prefix';
     existingCategory.description = 'Description';
-    categoryServiceSpy.getByPrefix.and.returnValue(of(existingCategory));
+    categoryServiceSpy.getByPrefix.mockReturnValue(of(existingCategory));
 
     fixture = TestBed.createComponent(CategoryFormComponent);
     comp = fixture.componentInstance;
 
-    routerSpy.navigate.and.returnValue(Promise.resolve());
-    categoryServiceSpy.patchResource.and.returnValue(of(existingCategory));
+    routerSpy.navigate.mockReturnValue(Promise.resolve(true));
+    categoryServiceSpy.patchResource.mockReturnValue(of(existingCategory));
 
     fixture.detectChanges();
 
@@ -185,7 +186,7 @@ describe('CategoryFormComponent', () => {
     fixture.detectChanges();
 
     const dialogComp = fixture.debugElement.injector.get(MatDialog);
-    const spyDialog = spyOn(dialogComp, 'open').and.callThrough();
+    const spyDialog = vi.spyOn(dialogComp, 'open');
     comp.onShowIconList();
 
     expect(spyDialog).toHaveBeenCalled();
@@ -195,9 +196,9 @@ describe('CategoryFormComponent', () => {
   it('should get selected icon from list dialog', () => {
     fixture.detectChanges();
 
-    const afterClose = jasmine.createSpyObj({afterClosed: of('fa-tree'), close: null});
+    const afterClose = { afterClosed: vi.fn().mockReturnValue(of('fa-tree')), close: vi.fn() };
     const dialogComp = fixture.debugElement.injector.get(MatDialog);
-    spyOn(dialogComp, 'open').and.returnValue(afterClose);
+    vi.spyOn(dialogComp, 'open').mockReturnValue(afterClose as any);
 
     const templateHelper = new TemplateHelper(fixture);
     const showIconListButton = templateHelper

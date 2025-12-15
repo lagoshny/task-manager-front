@@ -1,23 +1,25 @@
-import { HttpClient } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { User } from '../../core/models/user.model';
 import { LoginService } from './login.service';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('LoginService', () => {
   let service: LoginService;
-
-  let httpClientSpy: any;
+  let httpMock: HttpTestingController;
 
   beforeEach(() => {
-    httpClientSpy = {
-      post: jasmine.createSpy('post')
-    };
     TestBed.configureTestingModule({
       providers: [
-        {provide: HttpClient, useValue: httpClientSpy},
+        provideHttpClientTesting(),
         LoginService
       ]
     });
+
+    httpMock = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => {
+    httpMock.verify();
   });
 
   it('should set auth header when get user information', () => {
@@ -26,11 +28,14 @@ describe('LoginService', () => {
     authUser.username = 'test';
     authUser.password = '123456';
     service.login(authUser);
+    const req = httpMock.expectOne('/api/login');
 
     const authHeaderValue = 'Basic ' + btoa(authUser.username + ':' + authUser.password);
-    expect(httpClientSpy.post.calls.count()).toBe(1);
-    expect(httpClientSpy.post.calls.first().args[2].headers.has('Authorization')).toBeTruthy();
-    expect(httpClientSpy.post.calls.first().args[2].headers.get('Authorization')).toEqual(authHeaderValue);
+
+    expect(req.request.method).toBe('POST');
+    expect(req.request.headers.has('Authorization')).toBe(true);
+    expect(req.request.headers.get('Authorization')).toBe(authHeaderValue);
+    req.flush({});
   });
 
 });

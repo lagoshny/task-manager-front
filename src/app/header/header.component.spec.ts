@@ -4,6 +4,7 @@ import { provideRouter, Router } from '@angular/router';
 import { AuthService } from '../core/services/auth.service';
 import { HeaderComponent } from './header.component';
 import { User } from '../core/models/user.model';
+import { Mocked } from 'vitest';
 
 @Component({
   selector: 'tm-menu',
@@ -15,13 +16,13 @@ class MenuStubComponent {}
 describe('HeaderComponent', () => {
   let fixture: ComponentFixture<HeaderComponent>;
   let comp: HeaderComponent;
-  let authServiceSpy: any;
+  let authServiceSpy: Mocked<Pick<AuthService, 'getUser' | 'logOut'>>;
   let router: Router;
 
   beforeEach(async () => {
     authServiceSpy = {
-      getUser: jasmine.createSpy('getUser'),
-      logOut: jasmine.createSpy('logOut')
+      getUser: vi.fn(),
+      logOut: vi.fn(),
     };
 
     await TestBed.configureTestingModule({
@@ -39,13 +40,13 @@ describe('HeaderComponent', () => {
     comp = fixture.componentInstance;
     router = TestBed.inject(Router);
 
-    spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
+    vi.spyOn(router, 'navigate').mockReturnValue(Promise.resolve(true));
   });
 
   it('when user logged in userName should be eq auth username ', () => {
     const authUser = new User();
     authUser.username = 'Test';
-    authServiceSpy.getUser.and.returnValue(authUser);
+    authServiceSpy.getUser.mockReturnValue(authUser);
 
     fixture.detectChanges();
 
@@ -53,7 +54,7 @@ describe('HeaderComponent', () => {
   });
 
   it('should navigate to login page after logout', () => {
-    authServiceSpy.getUser.and.returnValue(new User());
+    authServiceSpy.getUser.mockReturnValue(new User());
     fixture.detectChanges();
 
     comp.logout();

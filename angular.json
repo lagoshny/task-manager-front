@@ -90,11 +90,10 @@
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
             "main": "src/test.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
+            "tsConfig": "projects/ngx-validation-messages/tsconfig.spec.json",
             "assets": [
               "src/favicon.ico",
               "src/assets"

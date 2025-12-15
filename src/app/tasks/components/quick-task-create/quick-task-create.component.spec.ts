@@ -9,16 +9,19 @@ import { TaskService } from '../../services/task.service';
 import { QuickTaskCreateComponent } from './quick-task-create.component';
 import { provideNgxValidationMessages } from '@lagoshny/ngx-validation-messages';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { Mocked } from 'vitest';
 
 describe('QuickTaskCreateComponent', () => {
   let fixture: ComponentFixture<QuickTaskCreateComponent>;
   let comp: QuickTaskCreateComponent;
-  let taskServiceSpy: jasmine.SpyObj<TaskService>;
+  let taskServiceSpy: Mocked<Pick<TaskService, 'create'>>;
   let templateHelper: TemplateHelper<QuickTaskCreateComponent>;
 
   beforeEach(async () => {
-    taskServiceSpy = jasmine.createSpyObj<TaskService>('TaskService', ['create']);
-    taskServiceSpy.create.and.returnValue(of(new Task()));
+    taskServiceSpy = {
+      create: vi.fn(),
+    };
+    taskServiceSpy.create.mockReturnValue(of(new Task()));
 
     await TestBed.configureTestingModule({
       imports: [
@@ -67,7 +70,7 @@ describe('QuickTaskCreateComponent', () => {
 
     createTaskByButton();
 
-    const taskToCreate = taskServiceSpy.create.calls.argsFor(0)[0] as Task;
+    const taskToCreate = taskServiceSpy.create.mock.calls[0][0] as Task;
     expect(taskToCreate.status).toBe(TaskStatus.NEW.code);
   });
 
@@ -76,7 +79,7 @@ describe('QuickTaskCreateComponent', () => {
 
     createTaskByButton();
 
-    const taskToCreate = taskServiceSpy.create.calls.argsFor(0)[0] as Task;
+    const taskToCreate = taskServiceSpy.create.mock.calls[0][0] as Task;
     expect(taskToCreate.priority).toBe(TaskPriority.MIDDLE.code);
   });
 

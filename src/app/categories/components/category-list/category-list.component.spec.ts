@@ -9,6 +9,7 @@ import { TaskCategoryService } from '../../../core/services/task-category.servic
 import { TemplateHelper } from '../../../utils/template.helper';
 import { CategoryService } from '../../services/category.service';
 import { CategoryListComponent } from './category-list.component';
+import { Mocked } from 'vitest';
 
 @Component({
   selector: 'tm-category',
@@ -23,18 +24,19 @@ describe('CategoryListComponent', () => {
   let fixture: ComponentFixture<CategoryListComponent>;
   let comp: CategoryListComponent;
 
-  let routerSpy: jasmine.SpyObj<Router>;
-  let categoryServiceSpy: jasmine.SpyObj<CategoryService>;
-  let dialogSpy: jasmine.SpyObj<MatDialog>;
+  let routerSpy: Mocked<Pick<Router, 'navigate'>>;
+  let categoryServiceSpy: Mocked<Pick<CategoryService, 'getAllByUser' | 'deleteResource'>>;
+  let dialogSpy: Mocked<Pick<MatDialog, 'open'>>;
   let taskCategoryService: TaskCategoryService;
 
   beforeEach(waitForAsync(() => {
-    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
-    categoryServiceSpy = jasmine.createSpyObj('CategoryService', [
-      'getAllByUser',
-      'deleteResource'
-    ]);
-    dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
+    routerSpy = { navigate: vi.fn() };
+    categoryServiceSpy = {
+      getAllByUser: vi.fn(),
+      deleteResource: vi.fn(),
+    };
+
+    dialogSpy = { open: vi.fn() };
 
     TestBed.configureTestingModule({
       imports: [
@@ -43,17 +45,17 @@ describe('CategoryListComponent', () => {
         CategoryStubComponent,
       ],
       providers: [
-        {provide: Router, useValue: routerSpy},
-        {provide: CategoryService, useValue: categoryServiceSpy},
-        {provide: MatDialog, useValue: dialogSpy},
+        { provide: Router, useValue: routerSpy },
+        { provide: CategoryService, useValue: categoryServiceSpy },
+        { provide: MatDialog, useValue: dialogSpy },
         TaskCategoryService
       ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    categoryServiceSpy.getAllByUser.and.returnValue(of([]));
-    dialogSpy.open.and.returnValue({
+    categoryServiceSpy.getAllByUser.mockReturnValue(of([]));
+    dialogSpy.open.mockReturnValue({
       afterClosed: () => of(false)
     } as any);
 
@@ -67,7 +69,7 @@ describe('CategoryListComponent', () => {
   });
 
   it('should load categories', () => {
-    categoryServiceSpy.getAllByUser.and.returnValue(
+    categoryServiceSpy.getAllByUser.mockReturnValue(
       of([new TaskCategory(), new TaskCategory()])
     );
 
@@ -78,7 +80,7 @@ describe('CategoryListComponent', () => {
 
   it('should hide category list when minimize #click', () => {
     comp.minimizeCategories = false;
-    categoryServiceSpy.getAllByUser.and.returnValue(of([new TaskCategory()]));
+    categoryServiceSpy.getAllByUser.mockReturnValue(of([new TaskCategory()]));
     fixture.detectChanges();
 
     const templateHelper = new TemplateHelper(fixture);
@@ -92,7 +94,7 @@ describe('CategoryListComponent', () => {
 
   it('should show category list when maximize #click', () => {
     comp.minimizeCategories = true;
-    categoryServiceSpy.getAllByUser.and.returnValue(of([new TaskCategory()]));
+    categoryServiceSpy.getAllByUser.mockReturnValue(of([new TaskCategory()]));
     fixture.detectChanges();
 
     const templateHelper = new TemplateHelper(fixture);
@@ -105,7 +107,7 @@ describe('CategoryListComponent', () => {
   });
 
   it('should navigate to add category url', () => {
-    routerSpy.navigate.and.returnValue(Promise.resolve(true));
+    routerSpy.navigate.mockResolvedValue(true);
 
     comp.onAddCategory();
 
@@ -113,7 +115,7 @@ describe('CategoryListComponent', () => {
   });
 
   it('should navigate to edit category url', () => {
-    routerSpy.navigate.and.returnValue(Promise.resolve(true));
+    routerSpy.navigate.mockResolvedValue(true);
     const categoryToEdit = new TaskCategory();
     categoryToEdit.prefix = 'TEST';
 
@@ -123,7 +125,7 @@ describe('CategoryListComponent', () => {
   });
 
   it('should open dialog to delete category', () => {
-    dialogSpy.open.and.returnValue({
+    dialogSpy.open.mockReturnValue({
       afterClosed: () => of(false)
     } as any);
 
@@ -133,10 +135,13 @@ describe('CategoryListComponent', () => {
   });
 
   it('should delete category after deletion dialog confirm', () => {
-    const afterClose = jasmine.createSpyObj({afterClosed: of(true), close: null});
-    dialogSpy.open.and.returnValue(afterClose);
+    const afterClose = {
+      afterClosed: vi.fn().mockReturnValue(of(true)),
+      close: vi.fn(),
+    };
+    dialogSpy.open.mockReturnValue(afterClose as any);
 
-    categoryServiceSpy.deleteResource.and.returnValue(of());
+    categoryServiceSpy.deleteResource.mockReturnValue(of());
 
     comp.onCategoryDelete(new TaskCategory());
 
@@ -145,8 +150,11 @@ describe('CategoryListComponent', () => {
   });
 
   it('should NOT delete category after deletion dialog reject', () => {
-    const afterClose = jasmine.createSpyObj({afterClosed: of(false), close: null});
-    dialogSpy.open.and.returnValue(afterClose);
+    const afterClose = {
+      afterClosed: vi.fn().mockReturnValue(of(false)),
+      close: vi.fn(),
+    };
+    dialogSpy.open.mockReturnValue(afterClose as any);
 
     comp.onCategoryDelete(new TaskCategory());
 
@@ -155,11 +163,14 @@ describe('CategoryListComponent', () => {
   });
 
   it('should update category list after delete category', () => {
-    const afterClose = jasmine.createSpyObj({afterClosed: of(true), close: null});
-    dialogSpy.open.and.returnValue(afterClose);
+    const afterClose = {
+      afterClosed: vi.fn().mockReturnValue(of(true)),
+      close: vi.fn(),
+    };
+    dialogSpy.open.mockReturnValue(afterClose as any);
 
-    categoryServiceSpy.deleteResource.and.returnValue(of(new TaskCategory()));
-    categoryServiceSpy.getAllByUser.and.returnValue(of([new TaskCategory()]));
+    categoryServiceSpy.deleteResource.mockReturnValue(of(new TaskCategory()));
+    categoryServiceSpy.getAllByUser.mockReturnValue(of([new TaskCategory()]));
 
     fixture.detectChanges();
 
@@ -171,19 +182,22 @@ describe('CategoryListComponent', () => {
   });
 
   it('should refresh task list after delete category', () => {
-    const afterClose = jasmine.createSpyObj({afterClosed: of(true), close: null});
-    dialogSpy.open.and.returnValue(afterClose);
-    categoryServiceSpy.getAllByUser.and.returnValue(of([new TaskCategory()]));
-    categoryServiceSpy.deleteResource.and.returnValue(of(new TaskCategory()));
-    const spyRefreshTasks = spyOn(taskCategoryService, 'refreshTasks');
+    const afterClose = {
+      afterClosed: vi.fn().mockReturnValue(of(true)),
+      close: vi.fn(),
+    };
+    dialogSpy.open.mockReturnValue(afterClose as any);
+    categoryServiceSpy.getAllByUser.mockReturnValue(of([new TaskCategory()]));
+    categoryServiceSpy.deleteResource.mockReturnValue(of(new TaskCategory()));
+    const spyRefreshTasks = vi.spyOn(taskCategoryService, 'refreshTasks');
 
     comp.onCategoryDelete(new TaskCategory());
 
-    expect(spyRefreshTasks.calls.count()).toBe(1);
+    expect(spyRefreshTasks).toHaveBeenCalledTimes(1);
   });
 
   it('should refresh category list by taskCategoryService category change event', () => {
-    categoryServiceSpy.getAllByUser.and.returnValue(of([new TaskCategory()]));
+    categoryServiceSpy.getAllByUser.mockReturnValue(of([new TaskCategory()]));
     fixture.detectChanges();
 
     expect(categoryServiceSpy.getAllByUser).toHaveBeenCalledTimes(1);
@@ -194,10 +208,10 @@ describe('CategoryListComponent', () => {
   });
 
   it('should be 2 selected categories when double CategoryClick', () => {
-    categoryServiceSpy.getAllByUser.and.returnValue(of([new TaskCategory()]));
+    categoryServiceSpy.getAllByUser.mockReturnValue(of([new TaskCategory()]));
     fixture.detectChanges();
 
-    const spyUpdateCategoriesByFilter = spyOn(taskCategoryService, 'updateCategoriesByFilter');
+    const spyUpdateCategoriesByFilter = vi.spyOn(taskCategoryService, 'updateCategoriesByFilter');
 
     const firstCategory = new TaskCategory();
     firstCategory.id = 1;
@@ -207,18 +221,20 @@ describe('CategoryListComponent', () => {
     comp.onCategoryClick(firstCategory);
     comp.onCategoryClick(secondCategory);
 
-    expect(spyUpdateCategoriesByFilter.calls.mostRecent().args[0].length).toBe(2);
+    const calls = spyUpdateCategoriesByFilter.mock.calls;
+    const lastCallArgs = calls[calls.length - 1];
+    expect(lastCallArgs[0].length).toBe(2);
   });
 
   it('should fire updateCategoriesByFilter when click by category', () => {
-    categoryServiceSpy.getAllByUser.and.returnValue(of([new TaskCategory()]));
+    categoryServiceSpy.getAllByUser.mockReturnValue(of([new TaskCategory()]));
     fixture.detectChanges();
 
-    const spyUpdateCategoriesByFilter = spyOn(taskCategoryService, 'updateCategoriesByFilter');
+    const spyUpdateCategoriesByFilter = vi.spyOn(taskCategoryService, 'updateCategoriesByFilter');
 
     comp.onCategoryClick(new TaskCategory());
 
-    expect(spyUpdateCategoriesByFilter.calls.count()).toBe(1);
+    expect(spyUpdateCategoriesByFilter).toHaveBeenCalledOnce();
   });
 
 });

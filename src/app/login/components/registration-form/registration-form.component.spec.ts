@@ -9,24 +9,25 @@ import { AuthService } from '../../../core/services/auth.service';
 import { UserService } from '../../../users/services/user.service';
 import { RegistrationFormComponent } from './registration-form.component';
 import { provideNgxValidationMessages } from '@lagoshny/ngx-validation-messages';
+import { Mocked } from 'vitest';
 
 describe('RegistrationFormComponent', () => {
   let fixture: ComponentFixture<RegistrationFormComponent>;
   let comp: RegistrationFormComponent;
-  let routerSpy: any;
-  let userServiceSpy: any;
-  let authServiceSpy: any;
+  let routerSpy: Mocked<Pick<Router, 'navigate'>>;
+  let userServiceSpy: Mocked<Pick<UserService, 'createResource'>>;
+  let authServiceSpy: Mocked<Pick<AuthService, 'setCredentials' | 'setUser'>>;
 
   beforeEach(waitForAsync(() => {
     routerSpy = {
-      navigate: jasmine.createSpy('navigate')
+      navigate: vi.fn()
     };
     userServiceSpy = {
-      createResource: jasmine.createSpy('createResource')
+      createResource: vi.fn()
     };
     authServiceSpy = {
-      setCredentials: jasmine.createSpy('setCredentials'),
-      setUser: jasmine.createSpy('setUser')
+      setCredentials: vi.fn(),
+      setUser: vi.fn(),
     };
 
     TestBed.configureTestingModule({
@@ -40,9 +41,9 @@ describe('RegistrationFormComponent', () => {
         provideNgxValidationMessages({
           messages: {}
         }),
-        {provide: Router, useValue: routerSpy},
-        {provide: UserService, useValue: userServiceSpy},
-        {provide: AuthService, useValue: authServiceSpy}
+        { provide: Router, useValue: routerSpy },
+        { provide: UserService, useValue: userServiceSpy },
+        { provide: AuthService, useValue: authServiceSpy }
       ]
     })
       .compileComponents()
@@ -53,13 +54,13 @@ describe('RegistrationFormComponent', () => {
   }));
 
   it('should navigate to login form after success registration', () => {
-    userServiceSpy.createResource.and.returnValue(of(new User()));
-    routerSpy.navigate.and.returnValue(Promise.resolve());
+    userServiceSpy.createResource.mockReturnValue(of(new User()));
+    routerSpy.navigate.mockReturnValue(Promise.resolve(true));
 
     comp.sendForm();
 
-    expect(routerSpy.navigate.calls.count()).toBe(1);
-    expect(routerSpy.navigate.calls.first().args[0]).toEqual(['login']);
+    expect(routerSpy.navigate).toHaveBeenCalledOnce();
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['login']);
   });
 
 });

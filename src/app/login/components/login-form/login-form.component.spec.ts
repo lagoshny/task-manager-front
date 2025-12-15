@@ -8,24 +8,25 @@ import { AuthService } from '../../../core/services/auth.service';
 import { LoginService } from '../../services/login.service';
 import { LoginFormComponent } from './login-form.component';
 import { provideNgxValidationMessages } from '@lagoshny/ngx-validation-messages';
+import { Mocked } from 'vitest';
 
 describe('LoginFormComponent', () => {
   let fixture: ComponentFixture<LoginFormComponent>;
   let comp: LoginFormComponent;
-  let routerSpy: any;
-  let loginServiceSpy: any;
-  let authServiceSpy: any;
+  let routerSpy: Mocked<Pick<Router, 'navigate'>>;
+  let loginServiceSpy: Mocked<Pick<LoginService, 'login'>>;
+  let authServiceSpy: Mocked<Pick<AuthService, 'setCredentials' | 'setUser'>>;
 
   beforeEach(waitForAsync(() => {
     routerSpy = {
-      navigate: jasmine.createSpy('navigate')
+      navigate: vi.fn()
     };
     loginServiceSpy = {
-      login: jasmine.createSpy('login')
+      login: vi.fn()
     };
     authServiceSpy = {
-      setCredentials: jasmine.createSpy('setCredentials'),
-      setUser: jasmine.createSpy('setUser')
+      setCredentials: vi.fn(),
+      setUser: vi.fn()
     };
 
     TestBed.configureTestingModule({
@@ -55,37 +56,37 @@ describe('LoginFormComponent', () => {
     authUser.username = 'test';
     authUser.password = '123456';
     comp.loginForm.patchValue(authUser);
-    loginServiceSpy.login.and.returnValue(of(new User()));
-    routerSpy.navigate.and.returnValue(Promise.resolve());
+    loginServiceSpy.login.mockReturnValue(of(new User()));
+    routerSpy.navigate.mockReturnValue(Promise.resolve(true));
 
     comp.login();
 
-    expect(authServiceSpy.setCredentials.calls.count()).toBe(1);
+    expect(authServiceSpy.setCredentials).toHaveBeenCalledOnce();
     const authUserCredentials = btoa(authUser.username + ':' + authUser.password);
-    expect(authServiceSpy.setCredentials.calls.first().args[0]).toBe(authUserCredentials);
+    expect(authServiceSpy.setCredentials).toHaveBeenCalledWith(authUserCredentials);
   });
 
   it('should save user data after success login', () => {
     const authUser = new User();
     authUser.username = 'test';
     authUser.password = '123456';
-    loginServiceSpy.login.and.returnValue(of(authUser));
-    routerSpy.navigate.and.returnValue(Promise.resolve());
+    loginServiceSpy.login.mockReturnValue(of(authUser));
+    routerSpy.navigate.mockReturnValue(Promise.resolve(true));
 
     comp.login();
 
-    expect(authServiceSpy.setUser.calls.count()).toBe(1);
-    expect(authServiceSpy.setUser.calls.first().args[0]).toBe(authUser);
+    expect(authServiceSpy.setUser).toHaveBeenCalledOnce();
+    expect(authServiceSpy.setUser).toHaveBeenCalledWith(authUser);
   });
 
   it('should navigate to home page after success login', () => {
-    loginServiceSpy.login.and.returnValue(of(new User()));
-    routerSpy.navigate.and.returnValue(Promise.resolve());
+    loginServiceSpy.login.mockReturnValue(of(new User()));
+    routerSpy.navigate.mockReturnValue(Promise.resolve(true));
 
     comp.login();
 
-    expect(routerSpy.navigate.calls.count()).toBe(1);
-    expect(routerSpy.navigate.calls.first().args[0]).toEqual(['home']);
+    expect(routerSpy.navigate).toHaveBeenCalledOnce();
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['home']);
   });
 
 });

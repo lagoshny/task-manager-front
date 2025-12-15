@@ -10,18 +10,25 @@ import { AuthService } from '../../../core/services/auth.service';
 import { UserService } from '../../services/user.service';
 import { UserFromComponent } from './user-from.component';
 import { provideNgxValidationMessages } from '@lagoshny/ngx-validation-messages';
+import { Mocked } from 'vitest';
 
 describe('UserFormComponent', () => {
   let fixture: ComponentFixture<UserFromComponent>;
   let comp: UserFromComponent;
-  let routerSpy: jasmine.SpyObj<Router>;
-  let authServiceSpy: jasmine.SpyObj<AuthService>;
-  let userServiceSpy: jasmine.SpyObj<UserService>;
+  let routerSpy: Mocked<Pick<Router, 'navigate'>>;
+  let authServiceSpy: Mocked<Pick<AuthService, 'getUser' | 'setUser'>>;
+  let userServiceSpy: Mocked<Pick<UserService, 'patchResource' | 'getResource'>>;
 
   beforeEach(waitForAsync(() => {
-    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
-    authServiceSpy = jasmine.createSpyObj('AuthService', ['getUser', 'setUser']);
-    userServiceSpy = jasmine.createSpyObj('UserService', ['patchResource', 'getResource']);
+    routerSpy = { navigate: vi.fn() };
+    authServiceSpy = {
+      getUser: vi.fn(),
+      setUser: vi.fn(),
+    };
+    userServiceSpy = {
+      patchResource: vi.fn(),
+      getResource: vi.fn(),
+    };
 
     TestBed.configureTestingModule({
       imports: [
@@ -49,8 +56,8 @@ describe('UserFormComponent', () => {
     const user = new User();
     user.id = 1;
 
-    authServiceSpy.getUser.and.returnValue(user);
-    userServiceSpy.getResource.and.returnValue(of(user));
+    authServiceSpy.getUser.mockReturnValue(user);
+    userServiceSpy.getResource.mockReturnValue(of(user));
 
     fixture.detectChanges();
 
@@ -61,10 +68,10 @@ describe('UserFormComponent', () => {
     const user = new User();
     user.id = 1;
 
-    authServiceSpy.getUser.and.returnValue(user);
-    userServiceSpy.getResource.and.returnValue(of(user));
-    userServiceSpy.patchResource.and.returnValue(of(user));
-    routerSpy.navigate.and.returnValue(Promise.resolve(true));
+    authServiceSpy.getUser.mockReturnValue(user);
+    userServiceSpy.getResource.mockReturnValue(of(user));
+    userServiceSpy.patchResource.mockReturnValue(of(user));
+    routerSpy.navigate.mockResolvedValue(true);
 
     fixture.detectChanges();
 
@@ -77,10 +84,10 @@ describe('UserFormComponent', () => {
     const user = new User();
     user.id = 1;
 
-    authServiceSpy.getUser.and.returnValue(user);
-    userServiceSpy.getResource.and.returnValue(of(user));
-    userServiceSpy.patchResource.and.returnValue(of(user));
-    routerSpy.navigate.and.returnValue(Promise.resolve(true));
+    authServiceSpy.getUser.mockReturnValue(user);
+    userServiceSpy.getResource.mockReturnValue(of(user));
+    userServiceSpy.patchResource.mockReturnValue(of(user));
+    routerSpy.navigate.mockResolvedValue(true);
 
     fixture.detectChanges();
 
