@@ -7,7 +7,7 @@ import { Task } from '../../../core/models/task.model';
 import { TemplateHelper } from '../../../utils/template.helper';
 import { TaskService } from '../../services/task.service';
 import { QuickTaskCreateComponent } from './quick-task-create.component';
-import { provideNgxValidationMessages } from '@lagoshny/ngx-validation-messages';
+import { provideNgxValidationMessagesTesting } from '@lagoshny/ngx-validation-messages';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Mocked } from 'vitest';
 
@@ -30,7 +30,7 @@ describe('QuickTaskCreateComponent', () => {
         QuickTaskCreateComponent
       ],
       providers: [
-        provideNgxValidationMessages({ messages: {} }),
+        provideNgxValidationMessagesTesting(),
         { provide: TaskService, useValue: taskServiceSpy }
       ]
     }).compileComponents();

@@ -9,7 +9,7 @@ import { User } from '../../../core/models/user.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { UserService } from '../../services/user.service';
 import { UserFromComponent } from './user-from.component';
-import { provideNgxValidationMessages } from '@lagoshny/ngx-validation-messages';
+import { provideNgxValidationMessagesTesting } from '@lagoshny/ngx-validation-messages';
 import { Mocked } from 'vitest';
 
 describe('UserFormComponent', () => {
@@ -39,7 +39,7 @@ describe('UserFormComponent', () => {
         UserFromComponent,
       ],
       providers: [
-        provideNgxValidationMessages({ messages: {} }),
+        provideNgxValidationMessagesTesting(),
         { provide: Router, useValue: routerSpy },
         { provide: AuthService, useValue: authServiceSpy },
         { provide: UserService, useValue: userServiceSpy },

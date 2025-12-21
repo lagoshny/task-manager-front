@@ -19,7 +19,7 @@ import { CategoryService } from '../../services/category.service';
 import { TaskService } from '../../services/task.service';
 import { getTestTask } from '../test.helper';
 import { TaskFormComponent } from './task-form.component';
-import { provideNgxValidationMessages } from '@lagoshny/ngx-validation-messages';
+import { provideNgxValidationMessagesTesting } from '@lagoshny/ngx-validation-messages';
 import { AuthService } from '../../../core/services/auth.service';
 import { ActivatedRouteStub } from '../../../utils/activated-route-stub';
 import { Mocked } from 'vitest';
@@ -84,7 +84,7 @@ describe('TaskFormComponent', async () => {
         TaskFormComponent,
       ],
       providers: [
-        provideNgxValidationMessages({ messages: {} }),
+        provideNgxValidationMessagesTesting(),
         provideRouter([]),
         { provide: ActivatedRoute, useValue: activatedRouteStub },
         { provide: TaskService, useValue: taskServiceSpy },
