@@ -1,6 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgxValidationMessagesModule } from '@lagoshny/ngx-validation-messages';
 import { of } from 'rxjs';
 import { TaskPriority } from '../../../core/models/constants/task-priority.items';
 import { TaskStatus } from '../../../core/models/constants/task-status.items';
@@ -8,43 +7,43 @@ import { Task } from '../../../core/models/task.model';
 import { TemplateHelper } from '../../../utils/template.helper';
 import { TaskService } from '../../services/task.service';
 import { QuickTaskCreateComponent } from './quick-task-create.component';
+import { provideNgxValidationMessagesTesting } from '@lagoshny/ngx-validation-messages';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { Mocked } from 'vitest';
 
 describe('QuickTaskCreateComponent', () => {
   let fixture: ComponentFixture<QuickTaskCreateComponent>;
   let comp: QuickTaskCreateComponent;
-  let taskServiceSpy: any;
+  let taskServiceSpy: Mocked<Pick<TaskService, 'create'>>;
   let templateHelper: TemplateHelper<QuickTaskCreateComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(async () => {
     taskServiceSpy = {
-      create: jasmine.createSpy('create')
+      create: vi.fn(),
     };
+    taskServiceSpy.create.mockReturnValue(of(new Task()));
 
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        NgxValidationMessagesModule.forRoot({
-          messages: {}
-        })
-      ],
-      declarations: [
+        NoopAnimationsModule,
         QuickTaskCreateComponent
       ],
       providers: [
-        {provide: TaskService, useValue: taskServiceSpy}
+        provideNgxValidationMessagesTesting(),
+        { provide: TaskService, useValue: taskServiceSpy }
       ]
-    })
-      .compileComponents()
-      .then(() => {
-        fixture = TestBed.createComponent(QuickTaskCreateComponent);
-        comp = fixture.componentInstance;
-        templateHelper = new TemplateHelper<QuickTaskCreateComponent>(fixture);
-      });
-  }));
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(QuickTaskCreateComponent);
+    comp = fixture.componentInstance;
+    templateHelper = new TemplateHelper(fixture);
+  });
 
   it('should create the comp', () => {
     expect(comp).toBeTruthy();
   });
+
 
   it('should show error when task name is empty', () => {
     fixture.detectChanges();
@@ -63,8 +62,7 @@ describe('QuickTaskCreateComponent', () => {
 
     createTaskByButton();
 
-    fixture.detectChanges();
-    expect(taskServiceSpy.create.calls.count()).toBe(1);
+    expect(taskServiceSpy.create).toHaveBeenCalledTimes(1);
   });
 
   it('new task should be in NEW status', () => {
@@ -72,21 +70,16 @@ describe('QuickTaskCreateComponent', () => {
 
     createTaskByButton();
 
-    fixture.detectChanges();
-
-    const taskToCreate = taskServiceSpy.create.calls.argsFor(0)[0] as Task;
+    const taskToCreate = taskServiceSpy.create.mock.calls[0][0] as Task;
     expect(taskToCreate.status).toBe(TaskStatus.NEW.code);
   });
-
 
   it('new task should has middle priority', () => {
     fixture.detectChanges();
 
     createTaskByButton();
 
-    fixture.detectChanges();
-
-    const taskToCreate = taskServiceSpy.create.calls.argsFor(0)[0] as Task;
+    const taskToCreate = taskServiceSpy.create.mock.calls[0][0] as Task;
     expect(taskToCreate.priority).toBe(TaskPriority.MIDDLE.code);
   });
 
@@ -94,18 +87,20 @@ describe('QuickTaskCreateComponent', () => {
     fixture.detectChanges();
 
     createTaskByButton();
-
     fixture.detectChanges();
 
-    const taskNameInput = templateHelper.query<HTMLInputElement>('.quick_task_create_input');
+    const taskNameInput =
+      templateHelper.query<HTMLInputElement>('.quick_task_create_input');
+
     expect(taskNameInput.textContent).toBe('');
   });
 
   function createTaskByButton(): void {
-    comp.quickTaskForm.patchValue({name: 'Test task'});
-    taskServiceSpy.create.and.returnValue(of(new Task()));
-    const createTaskButton = templateHelper.query<HTMLButtonElement>('.quick_task_create_input_button');
+    comp.quickTaskForm.patchValue({ name: 'Test task' });
+
+    const createTaskButton =
+      templateHelper.query<HTMLButtonElement>('.quick_task_create_input_button');
+
     createTaskButton.click();
   }
-
 });

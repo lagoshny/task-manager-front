@@ -1,5 +1,5 @@
-@import "media-queries";
-@import "vars";
+@use "media-queries" as media;
+@use "vars" as vars;
 
 .category-list {
   font-size: 0.75em;
@@ -10,23 +10,25 @@
 .category-list__label {
   background-color: rgb(110, 174, 50);
   margin-bottom: 2px;
-  font-family: $h-font;
+  font-family: vars.$h-font;
 }
 
 .category-list__add_button {
   float: left;
   display: inline-block;
   width: 90px;
-  height: 78px;
+  height: 82px;
   margin-right: 5px;
   text-align: center;
   background-color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
   border-radius: 5px;
   cursor: pointer;
-  font-family: $h-font;
+  font-family: vars.$h-font;
   font-size: 0.9em;
-  @include df-xs {
+  padding-top: 1em;
+  margin-top: 0.2em;
+  @include media.df-xs {
     width: 80px;
     height: 70px;
   }
@@ -40,8 +42,8 @@
 .category-list__add_button__icon {
   margin-top: 16px;
   font-size: 4em;
-  color: $primary-blue;
-  @include df-xs {
+  color: vars.$primary-blue;
+  @include media.df-xs {
     font-size: 2em;
   }
 }

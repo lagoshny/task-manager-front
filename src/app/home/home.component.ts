@@ -1,5 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component } from '@angular/core';
+import { TaskListComponent } from '../tasks/components/task-list/task-list.component';
+import { CategoryListComponent } from '../categories/components/category-list/category-list.component';
 
 @Component({
   selector: 'tm-home',
@@ -14,7 +16,12 @@ import { Component } from '@angular/core';
       style({transform: 'translateX(0%)'}),
       animate('0.5s ease-in-out', style({transform: 'translateY(-100%)'}))
     ])
-  ])]
+  ])],
+  standalone: true,
+  imports: [
+    TaskListComponent,
+    CategoryListComponent
+  ]
 })
 export class HomeComponent {
 }

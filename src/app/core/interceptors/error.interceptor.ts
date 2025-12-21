@@ -1,25 +1,23 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
-import { NGXLogger } from 'ngx-logger';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 import { NotificationService } from '../services/notification.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 /**
  * Common HTTP interceptor to handle server errors.
  * When server errors occurs then show their in material {@link MatSnackBar} with {@link NotificationLayoutComponent}.
  */
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class ErrorInterceptor implements HttpInterceptor {
 
   private static readonly UNAUTHORIZED_CODE = 401;
 
   constructor(private router: Router,
-              private logger: NGXLogger,
               private notificationService: NotificationService,
               private authService: AuthService) {
   }
@@ -31,7 +29,7 @@ export class ErrorInterceptor implements HttpInterceptor {
           },
           (responseError: any) => {
             if (responseError instanceof HttpErrorResponse) {
-              this.logger.error(responseError);
+              // this.logger.error(responseError);
               if (responseError.error && responseError.error.messages) {
                 const messages = _.map(responseError.error.messages, (serverError: string) => {
                   return serverError;
@@ -42,8 +40,8 @@ export class ErrorInterceptor implements HttpInterceptor {
               }
               if (ErrorInterceptor.UNAUTHORIZED_CODE === responseError.status) {
                 this.authService.logOut();
-                this.router.navigate(['login'])
-                  .catch((err: any) => this.logger.error(err));
+                this.router.navigate(['login']);
+                  // .catch((err: any) => this.logger.error(err));
               }
             }
           })

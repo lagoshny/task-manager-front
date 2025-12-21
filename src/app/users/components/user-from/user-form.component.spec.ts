@@ -1,101 +1,98 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
-import { NgxValidationMessagesModule } from '@lagoshny/ngx-validation-messages';
 import { of } from 'rxjs';
-import { CoreModule } from '../../../core/core.module';
 import { User } from '../../../core/models/user.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { UserService } from '../../services/user.service';
 import { UserFromComponent } from './user-from.component';
-import { LoggerTestingModule } from 'ngx-logger/testing';
-
+import { provideNgxValidationMessagesTesting } from '@lagoshny/ngx-validation-messages';
+import { Mocked } from 'vitest';
 
 describe('UserFormComponent', () => {
   let fixture: ComponentFixture<UserFromComponent>;
   let comp: UserFromComponent;
-  let routerSpy: any;
-  let authServiceSpy: any;
-  let userServiceSpy: any;
+  let routerSpy: Mocked<Pick<Router, 'navigate'>>;
+  let authServiceSpy: Mocked<Pick<AuthService, 'getUser' | 'setUser'>>;
+  let userServiceSpy: Mocked<Pick<UserService, 'patchResource' | 'getResource'>>;
 
-  beforeEach(async(() => {
-    routerSpy = {
-      navigate: jasmine.createSpy('navigate')
-    };
+  beforeEach(async () => {
+    routerSpy = { navigate: vi.fn() };
     authServiceSpy = {
-      getUser: jasmine.createSpy('getUser'),
-      setUser: jasmine.createSpy('setUser')
+      getUser: vi.fn(),
+      setUser: vi.fn(),
     };
     userServiceSpy = {
-      patchResource: jasmine.createSpy('patchResource'),
-      getResource: jasmine.createSpy('getResource')
+      patchResource: vi.fn(),
+      getResource: vi.fn(),
     };
 
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
-        CoreModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
         MatInputModule,
-        MatMomentDateModule,
         MatDatepickerModule,
-        LoggerTestingModule,
-        NgxValidationMessagesModule.forRoot({
-          messages: {}
-        })
-      ],
-      declarations: [
-        UserFromComponent
+        UserFromComponent,
       ],
       providers: [
-        {provide: Router, useValue: routerSpy},
-        {provide: AuthService, useValue: authServiceSpy},
-        {provide: UserService, useValue: userServiceSpy}
-      ]
-    })
-      .compileComponents()
-      .then(() => {
-        fixture = TestBed.createComponent(UserFromComponent);
-        comp = fixture.componentInstance;
-      });
-  }));
+        provideNgxValidationMessagesTesting(),
+        { provide: Router, useValue: routerSpy },
+        { provide: AuthService, useValue: authServiceSpy },
+        { provide: UserService, useValue: userServiceSpy },
+      ],
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(UserFromComponent);
+    comp = fixture.componentInstance;
+  });
 
   it('should load user when create component', () => {
-    authServiceSpy.getUser.and.returnValue(new User());
-    userServiceSpy.getResource.and.returnValue(of(new User()));
+    const user = new User();
+    user.id = 1;
+
+    authServiceSpy.getUser.mockReturnValue(user);
+    userServiceSpy.getResource.mockReturnValue(of(user));
 
     fixture.detectChanges();
 
-    expect(userServiceSpy.getResource.calls.count()).toBe(1);
+    expect(userServiceSpy.getResource).toHaveBeenCalledWith(1);
   });
 
   it('should update user in local storage after change', () => {
-    authServiceSpy.getUser.and.returnValue(new User());
-    userServiceSpy.getResource.and.returnValue(of(new User()));
+    const user = new User();
+    user.id = 1;
+
+    authServiceSpy.getUser.mockReturnValue(user);
+    userServiceSpy.getResource.mockReturnValue(of(user));
+    userServiceSpy.patchResource.mockReturnValue(of(user));
+    routerSpy.navigate.mockResolvedValue(true);
+
     fixture.detectChanges();
-    userServiceSpy.patchResource.and.returnValue(of(new User()));
-    routerSpy.navigate.and.returnValue(Promise.resolve());
 
     comp.saveUser();
 
-    expect(authServiceSpy.setUser.calls.count()).toBe(1);
+    expect(authServiceSpy.setUser).toHaveBeenCalledWith(user);
   });
 
   it('should navigate to home page after save', () => {
-    authServiceSpy.getUser.and.returnValue(new User());
-    userServiceSpy.getResource.and.returnValue(of(new User()));
+    const user = new User();
+    user.id = 1;
+
+    authServiceSpy.getUser.mockReturnValue(user);
+    userServiceSpy.getResource.mockReturnValue(of(user));
+    userServiceSpy.patchResource.mockReturnValue(of(user));
+    routerSpy.navigate.mockResolvedValue(true);
+
     fixture.detectChanges();
-    userServiceSpy.patchResource.and.returnValue(of(new User()));
-    routerSpy.navigate.and.returnValue(Promise.resolve());
 
     comp.saveUser();
 
-    expect(routerSpy.navigate.calls.count()).toBe(1);
-    expect(routerSpy.navigate.calls.first().args[0]).toEqual(['home']);
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['home']);
   });
-
 });

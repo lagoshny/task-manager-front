@@ -1,4 +1,4 @@
-export class CommonSelectItem<T> {
+export class CommonSelectItem {
 
   public name: string;
 
@@ -18,7 +18,7 @@ export class CommonSelectItem<T> {
     this.icon = icon;
   }
 
-  public static getTypeByName<T>(type: { new(): T }, name: any): T {
+  public static getTypeByName<T extends CommonSelectItem>(type: new() => T, name: any): T {
     for (const key in type) {
       if (this[key] instanceof type) {
         if (this[key].name === name) {
@@ -26,9 +26,10 @@ export class CommonSelectItem<T> {
         }
       }
     }
+    throw Error('Can\'t find selected item by name: ' + name);
   }
 
-  protected static getAllByType<T>(type: { new(): T }): Array<T> {
+  protected static getAllByType<T extends CommonSelectItem>(type: new() => T): Array<T> {
     const items = [];
     for (const key in type) {
       if (this[key] instanceof type) {
@@ -39,7 +40,7 @@ export class CommonSelectItem<T> {
     return items;
   }
 
-  protected static getTypeByCode<T>(type: { new(): T }, code: any): T {
+  protected static getTypeByCode<T extends CommonSelectItem>(type: new() => T, code: any): T {
     for (const key in type) {
       if (this[key] instanceof type) {
         if (this[key].code === code) {
@@ -47,6 +48,7 @@ export class CommonSelectItem<T> {
         }
       }
     }
+    throw Error('Can\'t find selected item by code: ' + code);
   }
 
 }

@@ -16,7 +16,7 @@ export class TaskStatus {
               public className?: string, public color?: string, public icon?: string) {
   }
 
-  public static getByName<T>(name: any): TaskStatus {
+  public static getByName(name: any): TaskStatus {
     if (!name) {
       return {};
     }
@@ -27,6 +27,7 @@ export class TaskStatus {
         }
       }
     }
+    throw Error('Undefined task status by name: ' + name);
   }
 
   public static getByCode<T>(code: any): TaskStatus {
@@ -40,6 +41,8 @@ export class TaskStatus {
         }
       }
     }
+
+    throw Error('Undefined task status by code: ' + code);
   }
 
   public static isProgress(status: TaskStatus | string): boolean {

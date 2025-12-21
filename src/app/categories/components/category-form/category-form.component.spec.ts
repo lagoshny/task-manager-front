@@ -1,59 +1,55 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgxValidationMessagesModule } from '@lagoshny/ngx-validation-messages';
 import { of, throwError } from 'rxjs';
+import { TaskCategory } from '../../../core/models/task-category.model';
+import { CategoryService } from '../../services/category.service';
+import { CategoryFormComponent } from './category-form.component';
+import { provideNgxValidationMessages } from '@lagoshny/ngx-validation-messages';
+import { ActivatedRouteStub } from '../../../utils/activated-route-stub';
+import { MatDialog } from '@angular/material/dialog';
 import {
   FontIconListDialogComponent
 } from '../../../core/components/font-icon-list-dialog/font-icon-list-dialog.component';
-import { CoreModule } from '../../../core/core.module';
-import { TaskCategory } from '../../../core/models/task-category.model';
-import { ActivatedRouteStub } from '../../../utils/activated-route-stub';
-import { CategoryService } from '../../services/category.service';
-import { CategoryFormComponent } from './category-form.component';
-import { LoggerTestingModule } from 'ngx-logger/testing';
+import { TemplateHelper } from '../../../utils/template.helper';
+import { Mocked } from 'vitest';
 
 describe('CategoryFormComponent', () => {
-  let routerSpy: any;
-  let categoryServiceSpy: any;
+  let routerSpy: Mocked<Pick<Router, 'navigate'>>;
+  let categoryServiceSpy: Mocked<Pick<CategoryService, 'getByPrefix' | 'createResource' | 'patchResource'>>;
   let activatedRouteStub: ActivatedRouteStub;
   let fixture: ComponentFixture<CategoryFormComponent>;
   let comp: CategoryFormComponent;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     routerSpy = {
-      navigate: jasmine.createSpy('navigate')
+      navigate: vi.fn()
     };
     categoryServiceSpy = {
-      getByPrefix: jasmine.createSpy('getByPrefix'),
-      createResource: jasmine.createSpy('createResource'),
-      patchResource: jasmine.createSpy('patchResource')
+      getByPrefix: vi.fn(),
+      createResource: vi.fn(),
+      patchResource: vi.fn()
     };
     activatedRouteStub = new ActivatedRouteStub({});
 
     TestBed.configureTestingModule({
       imports: [
-        CoreModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
         MatFormFieldModule,
         MatInputModule,
-        LoggerTestingModule,
-        NgxValidationMessagesModule.forRoot({
-          messages: {}
-        })
-      ],
-      declarations: [
-        CategoryFormComponent
+        CategoryFormComponent,
       ],
       providers: [
+        provideNgxValidationMessages({
+          messages: {}
+        }),
         {provide: Router, useValue: routerSpy},
         {provide: ActivatedRoute, useValue: activatedRouteStub},
-        {provide: CategoryService, useValue: categoryServiceSpy}
+        {provide: CategoryService, useValue: categoryServiceSpy},
       ]
     })
       .compileComponents()
@@ -61,7 +57,7 @@ describe('CategoryFormComponent', () => {
         fixture = TestBed.createComponent(CategoryFormComponent);
         comp = fixture.componentInstance;
       });
-  }));
+  });
 
   afterEach(() => {
     activatedRouteStub.setParamMap({});
@@ -81,7 +77,10 @@ describe('CategoryFormComponent', () => {
     activatedRouteStub.setParamMap({
       prefix: 'TEST-1'
     });
-    categoryServiceSpy.getByPrefix.and.returnValue(of(new TaskCategory()));
+    categoryServiceSpy.getByPrefix.mockReturnValue(of(new TaskCategory()));
+
+    fixture = TestBed.createComponent(CategoryFormComponent);
+    comp = fixture.componentInstance;
 
     fixture.detectChanges();
 
@@ -98,7 +97,10 @@ describe('CategoryFormComponent', () => {
     activatedRouteStub.setParamMap({
       prefix: 'TEST-1'
     });
-    categoryServiceSpy.getByPrefix.and.returnValue(of(new TaskCategory()));
+    categoryServiceSpy.getByPrefix.mockReturnValue(of(new TaskCategory()));
+
+    fixture = TestBed.createComponent(CategoryFormComponent);
+    comp = fixture.componentInstance;
 
     fixture.detectChanges();
 
@@ -114,7 +116,10 @@ describe('CategoryFormComponent', () => {
     expectedCategory.prefix = 'Prefix';
     expectedCategory.description = 'Description';
 
-    categoryServiceSpy.getByPrefix.and.returnValue(of(expectedCategory));
+    categoryServiceSpy.getByPrefix.mockReturnValue(of(expectedCategory));
+
+    fixture = TestBed.createComponent(CategoryFormComponent);
+    comp = fixture.componentInstance;
 
     fixture.detectChanges();
 
@@ -128,9 +133,10 @@ describe('CategoryFormComponent', () => {
     activatedRouteStub.setParamMap({
       prefix: 'TEST-1'
     });
-    routerSpy.navigate.and.returnValue(Promise.resolve());
-    categoryServiceSpy.getByPrefix.and.returnValue(throwError('Test error'));
+    routerSpy.navigate.mockReturnValue(Promise.resolve(true));
+    categoryServiceSpy.getByPrefix.mockReturnValue(throwError(() => 'Test error'));
 
+    fixture = TestBed.createComponent(CategoryFormComponent);
     fixture.detectChanges();
 
     expect(routerSpy.navigate).toHaveBeenCalledWith(['home']);
@@ -144,8 +150,8 @@ describe('CategoryFormComponent', () => {
     newCategory.description = 'Description';
     comp.categoryForm.patchValue(newCategory);
 
-    routerSpy.navigate.and.returnValue(Promise.resolve());
-    categoryServiceSpy.createResource.and.returnValue(of(newCategory));
+    routerSpy.navigate.mockReturnValue(Promise.resolve(true));
+    categoryServiceSpy.createResource.mockReturnValue(of(newCategory));
 
     comp.sendForm();
 
@@ -154,22 +160,24 @@ describe('CategoryFormComponent', () => {
   });
 
   it('should be forward to home page when edit category success', () => {
-    activatedRouteStub.setParamMap({
-      prefix: 'TEST-1'
-    });
+    activatedRouteStub.setParamMap({prefix: 'TEST-1'});
     const existingCategory = new TaskCategory();
     existingCategory.name = 'Test';
     existingCategory.prefix = 'Prefix';
     existingCategory.description = 'Description';
-    categoryServiceSpy.getByPrefix.and.returnValue(of(existingCategory));
+    categoryServiceSpy.getByPrefix.mockReturnValue(of(existingCategory));
+
+    fixture = TestBed.createComponent(CategoryFormComponent);
+    comp = fixture.componentInstance;
+
+    routerSpy.navigate.mockReturnValue(Promise.resolve(true));
+    categoryServiceSpy.patchResource.mockReturnValue(of(existingCategory));
 
     fixture.detectChanges();
 
-    routerSpy.navigate.and.returnValue(Promise.resolve());
-    categoryServiceSpy.patchResource.and.returnValue(of(existingCategory));
-
     comp.sendForm();
 
+    expect(categoryServiceSpy.getByPrefix).toHaveBeenCalledWith('TEST-1');
     expect(categoryServiceSpy.patchResource).toHaveBeenCalled();
     expect(routerSpy.navigate).toHaveBeenCalledWith(['home']);
   });
@@ -178,7 +186,7 @@ describe('CategoryFormComponent', () => {
     fixture.detectChanges();
 
     const dialogComp = fixture.debugElement.injector.get(MatDialog);
-    const spyDialog = spyOn(dialogComp, 'open').and.callThrough();
+    const spyDialog = vi.spyOn(dialogComp, 'open');
     comp.onShowIconList();
 
     expect(spyDialog).toHaveBeenCalled();
@@ -188,11 +196,16 @@ describe('CategoryFormComponent', () => {
   it('should get selected icon from list dialog', () => {
     fixture.detectChanges();
 
-    const afterClose = jasmine.createSpyObj({afterClosed: of('fa-tree'), close: null});
+    const afterClose = { afterClosed: vi.fn().mockReturnValue(of('fa-tree')), close: vi.fn() };
     const dialogComp = fixture.debugElement.injector.get(MatDialog);
-    spyOn(dialogComp, 'open').and.returnValue(afterClose);
+    vi.spyOn(dialogComp, 'open').mockReturnValue(afterClose as any);
 
-    comp.onShowIconList();
+    const templateHelper = new TemplateHelper(fixture);
+    const showIconListButton = templateHelper
+      .query<HTMLElement>('.category-form_show_icon_list_button');
+    showIconListButton.click();
+
+    fixture.detectChanges();
 
     expect(afterClose.afterClosed).toHaveBeenCalled();
     expect(comp.categoryForm.getRawValue().icon).toBe('fa-tree');

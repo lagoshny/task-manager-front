@@ -1,10 +1,17 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TaskCategory } from '../../../core/models/task-category.model';
+import { AmountCharactersPipe } from '../../../core/pipes/amount-characters.pipe';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'tm-category',
   templateUrl: './category.component.html',
-  styleUrls: ['./category.component.scss']
+  styleUrls: ['./category.component.scss'],
+  standalone: true,
+  imports: [
+    AmountCharactersPipe,
+    NgClass
+  ]
 })
 export class CategoryComponent {
 

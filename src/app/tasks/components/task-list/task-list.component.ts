@@ -2,7 +2,7 @@ import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PagedResourceCollection } from '@lagoshny/ngx-hateoas-client';
 import * as _ from 'lodash';
-import { NGXLogger } from 'ngx-logger';
+// import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { TaskStatus } from '../../../core/models/constants/task-status.items';
@@ -10,13 +10,22 @@ import { TaskCategory } from '../../../core/models/task-category.model';
 import { Task } from '../../../core/models/task.model';
 import { TaskCategoryService } from '../../../core/services/task-category.service';
 import { StringUtils } from '../../../core/utils/string.utils';
-import { TaskService } from '../../services/task.service';
 import { TaskProjection } from '../../../core/models/task.projection';
+import { NgClass } from '@angular/common';
+import { QuickTaskCreateComponent } from '../quick-task-create/quick-task-create.component';
+import { TaskComponent } from '../task/task.component';
+import { TaskProjectionService } from '../../services/task-projection.service';
 
 @Component({
   selector: 'tm-task-list',
   templateUrl: './task-list.component.html',
-  styleUrls: ['./task-list.component.scss']
+  styleUrls: ['./task-list.component.scss'],
+  standalone: true,
+  imports: [
+    NgClass,
+    QuickTaskCreateComponent,
+    TaskComponent,
+  ]
 })
 export class TaskListComponent implements OnInit, OnDestroy {
 
@@ -24,7 +33,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
 
   public minimizeTasks = false;
 
-  private tasks: PagedResourceCollection<Task>;
+  private tasks: PagedResourceCollection<TaskProjection>;
 
   private subs: Array<Subscription> = [];
 
@@ -32,9 +41,11 @@ export class TaskListComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
-              private taskService: TaskService,
+              // private taskService: TaskService,
+              private taskProjectionService: TaskProjectionService,
               private taskCategoryService: TaskCategoryService,
-              private logger: NGXLogger) {
+              // private logger: NGXLogger,
+              ) {
   }
 
   public ngOnInit(): void {
@@ -61,9 +72,9 @@ export class TaskListComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onClickTask(task: Task): void {
-    this.router.navigate(['tasks/edit', `${ task.category.prefix }-${ task.number }`])
-      .catch(reason => this.logger.error(reason));
+  public onClickTask(task: TaskProjection): void {
+    this.router.navigate(['tasks/edit', `${ task.category.prefix }-${ task.number }`]);
+      // .catch(reason => this.logger.error(reason));
   }
 
   public ngOnDestroy(): void {
@@ -81,8 +92,8 @@ export class TaskListComponent implements OnInit, OnDestroy {
     this.loadAllUserTasks();
   }
 
-  public onRemoveTask(task: Task): void {
-    this.taskService.deleteResource(task).subscribe(() => {
+  public onRemoveTask(task: TaskProjection): void {
+    this.taskProjectionService.deleteResource(task).subscribe(() => {
       _.remove(this.viewTasks, (t: Task) => t.id === task.id);
     });
   }
@@ -110,7 +121,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
   private loadAllUserTasks(selectedTaskCategoriesIds?: string): void {
     if (selectedTaskCategoriesIds) {
       this.subs.push(
-        this.taskService.getFilteredUserTasksByCategories(selectedTaskCategoriesIds, this.taskPageSize)
+        this.taskProjectionService.getFilteredUserTasksByCategories(selectedTaskCategoriesIds, this.taskPageSize)
           .subscribe((value: PagedResourceCollection<Task>) => {
             this.viewTasks = value.resources;
             this.tasks = value;
@@ -118,8 +129,8 @@ export class TaskListComponent implements OnInit, OnDestroy {
       );
     } else {
       this.subs.push(
-        this.taskService.getAllUserTasks(this.taskPageSize)
-          .subscribe((value: PagedResourceCollection<Task>) => {
+        this.taskProjectionService.getAllUserTasks(this.taskPageSize)
+          .subscribe((value: PagedResourceCollection<TaskProjection>) => {
             this.viewTasks = value.resources;
             this.tasks = value;
           })

@@ -1,4 +1,4 @@
-@import "vars";
+@use "vars" as vars;
 
 .icon-list__icon_label {
   font-size: 0.7em;
@@ -10,7 +10,7 @@
 }
 
 .icon-list__icon:hover {
-  border-color: $gray;
+  border-color: vars.$gray;
 }
 
 .icon-list__header__close_button {

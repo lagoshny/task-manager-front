@@ -1,13 +1,14 @@
-@import "media-queries";
-@import "vars";
+@use "media-queries" as media;
+@use "vars" as vars;
+@use "sass:color";
 
 .header-page {
-  background-color: change_color($gray, $alpha: 0.82);
-  font-family: $h-font;
-  @include df-sm {
-    background-color: change_color($gray, $alpha: 0.92);
+  background-color: color.change(vars.$gray, $alpha: 0.82);
+  font-family: vars.$h-font;
+  @include media.df-sm {
+    background-color: color.change(vars.$gray, $alpha: 0.92);
   }
-  @include df-xs {
+  @include media.df-xs {
     height: 48px;
   }
 }

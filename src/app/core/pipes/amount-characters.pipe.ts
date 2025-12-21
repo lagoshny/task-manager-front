@@ -6,7 +6,8 @@ import { StringUtils } from '../utils/string.utils';
  * If string exceeds max characters passed to pipe then exceeded part of the string replace with ellipsis.
  */
 @Pipe({
-  name: 'amountCharacters'
+    name: 'amountCharacters',
+    standalone: true
 })
 export class AmountCharactersPipe implements PipeTransform {
 

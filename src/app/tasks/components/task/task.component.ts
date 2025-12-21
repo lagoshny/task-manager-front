@@ -1,26 +1,36 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import * as moment from 'moment';
 import { Subscription, timer } from 'rxjs';
 import { TaskStatus } from '../../../core/models/constants/task-status.items';
 import { TaskTimeStatus } from '../../../core/models/constants/task-time-status.const';
-import { Task } from '../../../core/models/task.model';
 import { DateUtils } from '../../../core/utils/date.utils';
+import { DateTime } from 'luxon';
+import { DatePipe, NgClass, UpperCasePipe } from '@angular/common';
+import { TimeIconComponent } from './time-icon/time-icon.component';
+import { TaskProjection } from '../../../core/models/task.projection';
 
 @Component({
   selector: 'tm-task',
   templateUrl: './task.component.html',
-  styleUrls: ['./task.component.scss']
+  styleUrls: ['./task.component.scss'],
+  standalone: true,
+  imports: [
+    NgClass,
+    UpperCasePipe,
+    DatePipe,
+    TimeIconComponent,
+  ]
 })
 export class TaskComponent implements OnInit, OnDestroy {
 
+  // TODO: task projection | task
   @Input()
-  public task: Task;
+  public task: TaskProjection;
 
   @Output()
-  public readonly clickTask = new EventEmitter<Task>();
+  public readonly clickTask = new EventEmitter<TaskProjection>();
 
   @Output()
-  public readonly removeTask = new EventEmitter<Task>();
+  public readonly removeTask = new EventEmitter<TaskProjection>();
 
   public totalMinutesAsString: string;
 
@@ -77,10 +87,12 @@ export class TaskComponent implements OnInit, OnDestroy {
     }
 
     if (this.task.autoReduce && TaskStatus.isProgress(this.task.status)) {
-      return Math.ceil(moment.duration(moment(this.task.startedDate)
-        .add(this.task.totalTime, 'minutes')
-        .diff(moment()))
-        .asMinutes());
+      const deadline =
+        DateTime.fromJSDate(this.task.startedDate)
+          .plus({minutes: this.task.totalTime});
+      return Math.ceil(
+        deadline.diff(DateTime.now(), 'minutes').minutes
+      );
     } else {
       return Math.trunc(this.task.totalTime - this.task.spentTime);
     }

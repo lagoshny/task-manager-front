@@ -1,4 +1,5 @@
-@import "vars";
+@use "vars" as vars;
+@use "sass:color";
 
 .quick_task_create {
   margin-bottom: 6px;
@@ -9,7 +10,7 @@
   height: 40px;
   padding-left: 15px;
   color: rgb(255, 255, 255);
-  background-color: $primary-blue;
+  background-color: vars.$primary-blue;
   border-radius: .25em 0 0 .25em;
   border: none;
   outline: none;
@@ -22,11 +23,11 @@
   text-align: center;
   color: rgb(255, 255, 255);
   font-size: 1.8em;
-  background-color: $primary-blue;
+  background-color: vars.$primary-blue;
   border-radius: 0 .25em .25em 0;
   cursor: pointer;
 }
 
 .quick_task_create_input_button:hover {
-  background-color: change_color($primary-blue, $lightness: 47%);
+  background-color: color.change(vars.$primary-blue, $lightness: 47%);
 }

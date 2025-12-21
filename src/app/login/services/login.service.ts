@@ -4,7 +4,9 @@ import { Observable } from 'rxjs';
 import { ServerApi } from '../../app.config';
 import { User } from '../../core/models/user.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class LoginService {
 
   constructor(private httpClient: HttpClient) {

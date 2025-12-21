@@ -8,7 +8,8 @@
             [formGroup]="categoryForm">
         <div class="row">
           <div class="col-6">
-            <mat-form-field class="w-100">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Name</mat-label>
               <input aria-label="Name"
                      formControlName="name"
                      matInput
@@ -19,7 +20,8 @@
             <ngx-validation-messages [for]="categoryForm.get('name')"></ngx-validation-messages>
           </div>
           <div class="col-6">
-            <mat-form-field class="w-100">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Prefix</mat-label>
               <input aria-label="Prefix"
                      formControlName="prefix"
                      matInput
@@ -32,13 +34,14 @@
         </div>
         <div class="row">
           <div class="col-12">
-            <mat-form-field class="w-100">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Description</mat-label>
                                     <textarea aria-label="Description"
                                               formControlName="description"
-                                              matAutosizeMaxRows="10"
-                                              matAutosizeMinRows="7"
+                                              cdkTextareaAutosize
+                                              cdkAutosizeMinRows="7"
+                                              cdkAutosizeMaxRows="10"
                                               matInput
-                                              matTextareaAutosize
                                               placeholder="Category description">
                                     </textarea>
             </mat-form-field>
@@ -49,11 +52,11 @@
         <div class="row">
           <div class="col-2">
             <span class="mr-2">Category icon</span>
-            <i [ngClass]="['category-form_preview_icon', 'fa', categoryForm.get('icon').value, 'fa-2x']"></i>
+            <i [ngClass]="iconClass"></i>
           </div>
           <div class="col-2">
             <button (click)="onShowIconList()"
-                    class="w-100"
+                    class="w-100 category-form_show_icon_list_button"
                     mat-raised-button
                     type="button">
               Change icon
@@ -66,7 +69,7 @@
             <button [disabled]="categoryForm.invalid"
                     class="w-100"
                     color="accent"
-                    mat-raised-button
+                    matButton="filled"
                     type="submit">
               {{buttonName}}
             </button>

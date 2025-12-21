@@ -5,14 +5,14 @@
 </h1>
 <div mat-dialog-content>
   <div class="row justify-content-center">
-    <ng-container *ngFor="let icon of icons">
+    @for (icon of icons; track icon) {
       <div (click)="onClickIcon(icon.css)"
-           class="col-4 col-sm-2 text-center p-2 icon-list__icon">
+        class="col-4 col-sm-2 text-center p-2 icon-list__icon">
         <i [ngClass]="['fa', icon.css]"></i>
         <div class="icon-list__icon_label">
           {{icon.label}}
         </div>
       </div>
-    </ng-container>
+    }
   </div>
 </div>

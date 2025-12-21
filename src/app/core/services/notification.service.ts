@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import * as _ from 'lodash';
 import { NotificationLayoutComponent } from '../components/notification/notification-layout.component';
 import { NotificationType } from '../models/notification-type.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class NotificationService {
 
   constructor(private snackBar: MatSnackBar) {

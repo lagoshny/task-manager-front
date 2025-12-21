@@ -5,7 +5,7 @@ import { TaskCategory } from '../models/task-category.model';
 /**
  * Service allows manage dependencies between tasks and categories.
  */
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class TaskCategoryService {
 
   public categoriesByFilter = new Subject<Array<TaskCategory>>();

@@ -1,22 +1,16 @@
 import { Injectable } from '@angular/core';
-import {
-  HateoasResourceOperation,
-  HateoasResourceService,
-  PagedResourceCollection
-} from '@lagoshny/ngx-hateoas-client';
+import { HateoasResourceOperation } from '@lagoshny/ngx-hateoas-client';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { ServerApi } from '../../app.config';
-import { TaskStatus } from '../../core/models/constants/task-status.items';
 import { Task } from '../../core/models/task.model';
 import { AuthService } from '../../core/services/auth.service';
-import { TaskProjection } from '../../core/models/task.projection';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class TaskService extends HateoasResourceOperation<Task> {
 
-  constructor(private authService: AuthService,
-              public resourceService: HateoasResourceService) {
+  constructor(private authService: AuthService) {
     super(Task);
   }
 
@@ -32,49 +26,7 @@ export class TaskService extends HateoasResourceOperation<Task> {
 
   public create(task: Task): Observable<Observable<never> | Task> {
     task.author = this.authService.getUser();
-    return super.createResource({body: task});
-  }
-
-  public getAllUserTasks(taskPageSize: number): Observable<PagedResourceCollection<TaskProjection>> {
-    return this.resourceService.searchPage(TaskProjection, ServerApi.TASKS.allByAuthor.query, {
-        pageParams: {
-          size: taskPageSize
-        },
-        params: {
-          [ServerApi.TASKS.allByAuthor.authorParam]: this.authService.getUser(),
-          [ServerApi.TASKS.projections.taskProjection.key]: ServerApi.TASKS.projections.taskProjection.value
-        }
-      }
-    )
-      .pipe(
-        tap((tasks: PagedResourceCollection<TaskProjection>) => {
-          tasks.resources.forEach((task: TaskProjection) => {
-            task.status = TaskStatus.getByCode(task.status).name;
-          });
-        })
-      );
-  }
-
-  public getFilteredUserTasksByCategories(categoriesIds: string,
-                                          taskPageSize: number): Observable<PagedResourceCollection<Task>> {
-    const author = this.authService.getUser();
-    return this.searchPage(ServerApi.TASKS.allByAuthorAndCategories.query,
-      {
-        pageParams: {
-          size: taskPageSize,
-        },
-        params: {
-          [ServerApi.TASKS.allByAuthorAndCategories.authorParam]: author.id,
-          [ServerApi.TASKS.allByAuthorAndCategories.categoriesIds]: categoriesIds,
-          [ServerApi.TASKS.projections.taskProjection.key]: ServerApi.TASKS.projections.taskProjection.value
-        }
-      })
-      .pipe(
-        tap((tasks: PagedResourceCollection<Task>) => {
-          tasks.resources.forEach((task: Task) => {
-            task.status = TaskStatus.getByCode(task.status).name;
-          });
-        }));
+    return super.createResource({ body: task });
   }
 
 }

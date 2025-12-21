@@ -1,12 +1,17 @@
 <div class="app_background container-fluid h-100">
 
-  <ng-container *ngIf="!router.isActive('login', false)">
+  @if (!router.isActive('login', {
+    paths: 'subset',
+    queryParams: 'ignored',
+    fragment: 'ignored',
+    matrixParams: 'ignored'
+  })) {
     <div class="row">
       <div class="w-100">
         <tm-header></tm-header>
       </div>
     </div>
-  </ng-container>
+  }
 
   <router-outlet></router-outlet>
 </div>

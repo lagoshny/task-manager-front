@@ -1,7 +1,7 @@
-import * as moment from 'moment';
 import { TaskStatus } from '../../core/models/constants/task-status.items';
 import { Task } from '../../core/models/task.model';
 import { TaskUtils } from './task.utils';
+import { DateTime } from 'luxon';
 
 describe('TaskUtils', () => {
 
@@ -54,7 +54,7 @@ describe('TaskUtils', () => {
   it('should return calculated task spentTime depends on task startedDate', () => {
     const taskToTest = new Task();
     taskToTest.totalTime = 20;
-    taskToTest.startedDate = moment().subtract('10', 'minutes').toDate();
+    taskToTest.startedDate = DateTime.now().minus({ minutes: 10 }).toJSDate();
     taskToTest.autoReduce = true;
     taskToTest.status = TaskStatus.IN_PROGRESS.code;
 
@@ -66,7 +66,7 @@ describe('TaskUtils', () => {
   it('should return task totalTime when task spent time is MORE that task total time', () => {
     const taskToTest = new Task();
     taskToTest.totalTime = 8;
-    taskToTest.startedDate = moment().subtract('10', 'minutes').toDate();
+    taskToTest.startedDate = DateTime.now().minus({ minutes: 10 }).toJSDate();
     taskToTest.autoReduce = true;
     taskToTest.status = TaskStatus.IN_PROGRESS.code;
 

@@ -6,7 +6,9 @@ import { TaskCategory } from '../../core/models/task-category.model';
 import { AuthService } from '../../core/services/auth.service';
 import { map } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class CategoryService extends HateoasResourceOperation<TaskCategory> {
 
   constructor(private authService: AuthService) {

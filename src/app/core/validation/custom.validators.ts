@@ -1,5 +1,5 @@
 import { AbstractControl, FormGroup, ValidatorFn } from '@angular/forms';
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 
 export class CustomValidators {
 
@@ -86,7 +86,8 @@ export class CustomValidators {
    * Check that date value less or equal current date.
    */
   public static notFeatureDate(c: AbstractControl): { [key: string]: boolean } {
-    if (!c || !c.value || moment().isAfter(moment(c.value)) || moment().isSame(moment(c.value))) {
+    const now = DateTime.now();
+    if (!c || !c.value || now > DateTime.fromJSDate(c.value) || now.equals(c.value)) {
       return undefined;
     }
 

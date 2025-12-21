@@ -1,7 +1,7 @@
-@import "vars";
+@use "vars" as vars;
 
 .login_header {
-  background-color: $primary-blue;
+  background-color: vars.$primary-blue;
   width: 100%;
   height: 70px;
   margin-bottom: 20px;
@@ -10,10 +10,11 @@
 
 .login_header_text {
   display: inline-block;
-  margin-top: 11px;
+  padding: 25px;
   color: rgb(255, 255, 255);
   font-size: 1.5em;
-  font-family: $h-font;
+  font-family: vars.$h-font;
+  text-transform: uppercase;
 }
 
 .login_controls {
@@ -26,13 +27,13 @@
   width: 100%;
   height: 30px;
   background: transparent;
-  font-family: $h-font;
+  font-family: vars.$h-font;
   z-index: 10;
 }
 
 .login_button {
   padding: .7em 1.5em;
-  font-family: $h-font;
+  font-family: vars.$h-font;
   text-decoration: none;
   outline: none;
 }

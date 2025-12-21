@@ -1,14 +1,14 @@
-@import "media-queries";
-@import "vars";
+@use "media-queries" as media;
+@use "vars" as vars;
 
 .menu-item {
   display: inline-block;
   padding: 0.94em;
-  @include df-sm {
+  @include media.df-sm {
     padding: 0.93em;
     font-size: 0.9em;
   }
-  @include df-xs {
+  @include media.df-xs {
     display: block;
   }
 }
@@ -18,5 +18,5 @@
 }
 
 .menu-item:hover {
-  background-color: $primary-blue;
+  background-color: vars.$primary-blue;
 }

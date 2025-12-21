@@ -1,15 +1,33 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { CategoryFormComponent } from './categories/components/category-form/category-form.component';
-import { AuthGuard } from './core/guards/auth.guard';
+import { authGuard } from './core/guards/auth.guard';
 import { HomeComponent } from './home/home.component';
 import { TaskFormComponent } from './tasks/components/task-form/task-form.component';
 import { UserFromComponent } from './users/components/user-from/user-from.component';
+import { LoginComponent } from './login/login.component';
+import { loginGuard } from './login/guards/login.guard';
+import { RegistrationFormComponent } from './login/components/registration-form/registration-form.component';
+import { LoginFormComponent } from './login/components/login-form/login-form.component';
 
 export const routes: Routes = [
   {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [loginGuard],
+    children: [
+      {
+        path: 'registration',
+        component: RegistrationFormComponent
+      },
+      {
+        path: '',
+        component: LoginFormComponent
+      }
+    ]
+  },
+  {
     path: '',
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
     children: [
       {
         path: 'home',
@@ -53,10 +71,3 @@ export const routes: Routes = [
     ]
   }
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true})],
-  exports: [RouterModule]
-})
-export class AppRoutingModule {
-}

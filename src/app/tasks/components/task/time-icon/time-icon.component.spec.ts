@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TaskStatus } from '../../../../core/models/constants/task-status.items';
 import { TimeIconComponent } from './time-icon.component';
 
@@ -6,18 +6,14 @@ describe('TimeIconComponent', () => {
   let fixture: ComponentFixture<TimeIconComponent>;
   let comp: TimeIconComponent;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        TimeIconComponent
-      ]
-    })
-      .compileComponents()
-      .then(() => {
-        fixture = TestBed.createComponent(TimeIconComponent);
-        comp = fixture.componentInstance;
-      });
-  }));
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [TimeIconComponent],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(TimeIconComponent);
+    comp = fixture.componentInstance;
+  });
 
   it('should create the comp', () => {
     expect(comp).toBeTruthy();
@@ -40,6 +36,7 @@ describe('TimeIconComponent', () => {
   });
 
   it('should be GREEN color for task with left time more than 80 percents', () => {
+    comp.status = TaskStatus.IN_PROGRESS.name;
     comp.totalTime = 100;
     comp.leftTime = 85;
 
@@ -49,6 +46,7 @@ describe('TimeIconComponent', () => {
   });
 
   it('should be GREEN color for task with left time between 80 and 50 percents', () => {
+    comp.status = TaskStatus.IN_PROGRESS.name;
     comp.totalTime = 100;
     comp.leftTime = 65;
 
@@ -58,6 +56,7 @@ describe('TimeIconComponent', () => {
   });
 
   it('should be ORANGE color for task with left time between 50 and 30 percents', () => {
+    comp.status = TaskStatus.IN_PROGRESS.name;
     comp.totalTime = 100;
     comp.leftTime = 35;
 
@@ -67,6 +66,7 @@ describe('TimeIconComponent', () => {
   });
 
   it('should be RED color for task with left time between 30 and 0 percents', () => {
+    comp.status = TaskStatus.IN_PROGRESS.name;
     comp.totalTime = 100;
     comp.leftTime = 10;
 
@@ -76,6 +76,7 @@ describe('TimeIconComponent', () => {
   });
 
   it('should be RED color for task with left time is over', () => {
+    comp.status = TaskStatus.IN_PROGRESS.name;
     comp.totalTime = 100;
     comp.leftTime = 0;
 

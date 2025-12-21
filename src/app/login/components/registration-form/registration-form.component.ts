@@ -1,14 +1,26 @@
 import { Component } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NGXLogger } from 'ngx-logger';
+// import { NGXLogger } from 'ngx-logger';
 import { User } from '../../../core/models/user.model';
 import { CustomValidators } from '../../../core/validation/custom.validators';
 import { UserService } from '../../../users/services/user.service';
+import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
+import { NgxValidationMessagesComponent } from '@lagoshny/ngx-validation-messages';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   templateUrl: './registration-form.component.html',
-  styleUrls: ['../../login.component.scss']
+  styleUrls: ['../../login.component.scss'],
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    MatFormField,
+    NgxValidationMessagesComponent,
+    MatInput,
+    MatButton,
+    MatLabel,
+  ]
 })
 export class RegistrationFormComponent {
 
@@ -17,7 +29,8 @@ export class RegistrationFormComponent {
   constructor(public router: Router,
               private formBuilder: UntypedFormBuilder,
               private userService: UserService,
-              private logger: NGXLogger) {
+              // private logger: NGXLogger,
+              ) {
     this.buildForm();
   }
 
@@ -27,11 +40,11 @@ export class RegistrationFormComponent {
 
     this.userService.createResource({body: user})
       .subscribe((/* u: User */) => {
-          this.router.navigate(['login'])
-            .catch(reason => this.logger.error(reason));
+          this.router.navigate(['login']);
+            // .catch(reason => this.logger.error(reason));
         },
         error => {
-          this.logger.error(error);
+          // this.logger.error(error);
         });
   }
 

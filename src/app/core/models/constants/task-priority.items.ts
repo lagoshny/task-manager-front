@@ -1,6 +1,6 @@
 import { CommonSelectItem } from './common-select-item.constant';
 
-export class TaskPriority extends CommonSelectItem<TaskPriority> {
+export class TaskPriority extends CommonSelectItem {
 
   public static HIGH = new TaskPriority('High', 'HIGH', '', 'red', 'fa-exclamation-circle');
   public static MIDDLE = new TaskPriority('Middle', 'MIDDLE', '', 'orange', 'fa-bolt');
